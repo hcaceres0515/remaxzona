@@ -1,0 +1,10 @@
+Steps
+
+- Delete a node_modules folder "rm -rf node_modules"
+- Delete package-lock.json "rm package-lock.json"
+- Install node modules without command "sudo" "npm install"
+- Install node sass package manually "npm i node-sass@4.8.1"
+- Delete ^ symbol from package json
+ 
+
+
