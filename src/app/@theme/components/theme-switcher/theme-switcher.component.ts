@@ -35,6 +35,7 @@ export class ThemeSwitcherComponent implements OnInit {
   }
 
   currentBoolTheme() {
+
     return this.themeToBool(this.theme);
   }
 
