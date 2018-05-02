@@ -11,6 +11,10 @@ import { getDeepFromObject } from '../../helpers';
 import { NbAuthService } from '../../services/auth.service';
 import { NbAuthResult } from '../../services/auth-result';
 
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {Auth} from "../../models/auth";
+
+
 @Component({
   selector: 'nb-login',
   template: `
@@ -35,15 +39,16 @@ import { NbAuthResult } from '../../services/auth-result';
         <div class="form-group">
           <label for="input-email" class="sr-only">Email address</label>
           <input name="email" [(ngModel)]="user.email" id="input-email" pattern=".+@.+\..+"
-                 class="form-control" placeholder="Email address" #email="ngModel"
+                 class="form-control" placeholder="email@remaxzona.com" #email="ngModel"
                  [class.form-control-danger]="email.invalid && email.touched" autofocus
-                 [required]="getConfigValue('forms.validation.email.required')">
+                 [required]="getConfigValue('forms.validation.email.required')"
+                 [disabled]="disabledInputs">
           <small class="form-text error" *ngIf="email.invalid && email.touched && email.errors?.required">
-            Email is required!
+            Email es requerido!
           </small>
           <small class="form-text error"
                  *ngIf="email.invalid && email.touched && email.errors?.pattern">
-            Email should be the real one!
+            Email debe ser una dirección válida
           </small>
         </div>
 
@@ -54,25 +59,43 @@ import { NbAuthResult } from '../../services/auth-result';
                  [class.form-control-danger]="password.invalid && password.touched"
                  [required]="getConfigValue('forms.validation.password.required')"
                  [minlength]="getConfigValue('forms.validation.password.minLength')"
-                 [maxlength]="getConfigValue('forms.validation.password.maxLength')">
+                 [maxlength]="getConfigValue('forms.validation.password.maxLength')"
+                  [disabled]="disabledInputs">
           <small class="form-text error" *ngIf="password.invalid && password.touched && password.errors?.required">
-            Password is required!
+            Password es requerido!
           </small>
           <small
-            class="form-text error"
-            *ngIf="password.invalid && password.touched && (password.errors?.minlength || password.errors?.maxlength)">
-            Password should contains
-            from {{ getConfigValue('forms.validation.password.minLength') }}
-            to {{ getConfigValue('forms.validation.password.maxLength') }}
-            characters
+            class="form-text error" 
+            *ngIf="password.invalid && password.touched && (password.errors?.minlength || password.errors?.maxlength)" >
+            Password debe contener
+            de {{ getConfigValue('forms.validation.password.minLength') }}
+            hasta {{ getConfigValue('forms.validation.password.maxLength') }}
+            caracteres
           </small>
         </div> 
+        
+        <div class="form-group" *ngIf="userRoles.length > 1">
+
+          <div class="form-group">
+            
+            <label>Rol</label>
+            <select name="roldId" class="form-control" [(ngModel)]="user.rolId">
+              <option  *ngFor="let item of userRoles" value="{{item.rol_id}}">{{item.description}}</option>              
+            </select>
+          </div>
+          
+        </div>
 
         <button [disabled]="submitted || !form.valid" class="btn btn-block btn-hero-success"
-                [class.btn-pulse]="submitted">
-          INGRESAR
-        </button>
+                [class.btn-pulse]="submitted" *ngIf="userRoles.length == 0">
+          INICIAR SESION
+        </button>      
+                
       </form>
+
+      <button (click)="enter()" *ngIf="userRoles.length > 1" class="btn btn-block btn-hero-success">
+        INGRESAR
+      </button>
 
       
     </nb-auth-block>
@@ -90,36 +113,89 @@ export class NbLoginComponent {
   submitted: boolean = false;
   socialLinks: NbAuthSocialLink[] = [];
 
+  userRoles: any = [];
+
+  disabledInputs: boolean = false;
+
+  auth: Auth;
+
   constructor(protected service: NbAuthService,
               @Inject(NB_AUTH_OPTIONS) protected config = {},
-              protected router: Router) {
+              protected router: Router,
+              private _http: HttpClient) {
 
     this.redirectDelay = this.getConfigValue('forms.login.redirectDelay');
     this.showMessages = this.getConfigValue('forms.login.showMessages');
     this.provider = this.getConfigValue('forms.login.provider');
     this.socialLinks = this.getConfigValue('forms.login.socialLinks');
+
+    if (this.service.isLogged()) {
+      this.router.navigateByUrl('/pages/dashboard');
+    }
+
   }
 
   login(): void {
     this.errors = this.messages = [];
     this.submitted = true;
 
-    this.service.authenticate(this.provider, this.user).subscribe((result: NbAuthResult) => {
-      this.submitted = false;
+    console.log(this.user);
 
-      if (result.isSuccess()) {
-        this.messages = result.getMessages();
-      } else {
-        this.errors = result.getErrors();
-      }
+    // this.service.authenticate(this.provider, this.user).subscribe((result: NbAuthResult) => {
+    //   this.submitted = false;
+    //
+    //   if (result.isSuccess()) {
+    //     this.messages = result.getMessages();
+    //   } else {
+    //     this.errors = result.getErrors();
+    //   }
+    //
+    //   const redirect = result.getRedirect();
+    //   if (redirect) {
+    //     setTimeout(() => {
+    //       return this.router.navigateByUrl(redirect);
+    //     }, this.redirectDelay);
+    //   }
+    // });
 
-      const redirect = result.getRedirect();
-      if (redirect) {
-        setTimeout(() => {
-          return this.router.navigateByUrl(redirect);
-        }, this.redirectDelay);
-      }
+    let headers = new HttpHeaders({ 'Client-Service': 'remaxzona-client', 'Auth-Key': 'remaxzonaapi', 'Content-Type': 'application/json' });
+    // let headers = new Headers({ 'Client-Service': 'remaxzona-client', 'Auth-Key': 'remaxzonaapi', 'Content-Type': 'application/json' });
+    // let options = new RequestOptions({ headers: headers, method: 'post'});
+    this.submitted = false;
+    this._http.post('http://localhost/remaxzona/index.php?d=api&c=auth&m=login', JSON.stringify(this.user), {headers: headers}).subscribe(data => {
+
+      let response: any = data;
+
+      this.auth = new Auth(response.id, response.office_id,0, response.token);
+      //localStorage.setItem('auth', JSON.stringify(auth));
+
+      this._http.get('http://localhost/remaxzona/index.php?d=api&c=user&m=get_user_rol&user_id=' + this.auth.user_id, {headers: headers}).subscribe(data => {
+
+        let response: any = data;
+
+        if (response.data.lenth == 1) {
+          this.auth.rol_id = response.data.rol_id;
+          this.enter();
+        } else {
+
+          this.userRoles = response.data;
+          this.user.rolId = this.userRoles[0].rol_id;
+          this.disabledInputs = true;
+
+        }
+
+      });
+
+
+
     });
+  }
+
+  enter() {
+
+   this.auth.rol_id = this.user.rolId;
+   localStorage.setItem('auth', JSON.stringify(this.auth));
+   this.router.navigateByUrl('/pages/dashboard');
   }
 
   getConfigValue(key: string): any {

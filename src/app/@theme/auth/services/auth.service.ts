@@ -15,6 +15,8 @@ import { NB_AUTH_PROVIDERS } from '../auth.options';
 import { NbAuthResult } from './auth-result';
 import { NbTokenService } from './token/token.service';
 import { NbAuthToken } from './token/token';
+import {Auth} from "../models/auth";
+import {Router} from "@angular/router";
 
 /**
  * Common authentication service.
@@ -26,6 +28,33 @@ export class NbAuthService {
   constructor(protected tokenService: NbTokenService,
               protected injector: Injector,
               @Optional() @Inject(NB_AUTH_PROVIDERS) protected providers = {}) {
+  }
+
+  isLogged() {
+    if (localStorage.getItem('auth') === null) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  getUserToken() {
+    let auth: any;
+    auth = localStorage.getItem('auth');
+    auth = JSON.parse(auth);
+    return auth.token;
+  }
+
+  getUserId() {
+    let auth: any;
+    auth = localStorage.getItem('auth');
+    auth = JSON.parse(auth);
+    return auth.user_id;
+  }
+
+  logoutApp() {
+    localStorage.removeItem('auth');
+
   }
 
   /**

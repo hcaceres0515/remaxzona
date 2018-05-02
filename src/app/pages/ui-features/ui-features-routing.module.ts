@@ -52,4 +52,10 @@ const routes: Routes = [{
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class UiFeaturesRoutingModule { }
+export class UiFeaturesRoutingModule {
+
+  constructor() {
+    console.log("Ui-features Routing");
+  }
+
+}

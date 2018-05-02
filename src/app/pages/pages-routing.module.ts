@@ -43,4 +43,9 @@ const routes: Routes = [{
   exports: [RouterModule],
 })
 export class PagesRoutingModule {
+
+  constructor() {
+    console.log("Pages Routing");
+  }
+
 }

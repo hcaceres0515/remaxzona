@@ -16,6 +16,7 @@ import { ThemeModule } from './@theme/theme.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {NbAuthModule} from "./@theme/auth/auth.module";
 import {NbEmailPassAuthProvider} from "./@theme/auth/providers/email-pass-auth.provider";
+import {AuthGuardService} from "./@core/utils/auth-guard.service";
 
 @NgModule({
   declarations: [AppComponent],
@@ -34,13 +35,15 @@ import {NbEmailPassAuthProvider} from "./@theme/auth/providers/email-pass-auth.p
         email: {
           service: NbEmailPassAuthProvider,
           config: {},
-        }
+        },
+
       }
     }),
   ],
   bootstrap: [AppComponent],
   providers: [
     { provide: APP_BASE_HREF, useValue: '/' },
+    AuthGuardService
   ],
 })
 export class AppModule {
