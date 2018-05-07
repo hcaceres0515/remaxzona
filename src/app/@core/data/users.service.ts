@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {PATHS} from "../../pages/config/constanst";
+import {NbAuthService} from "../../@theme/auth/services/auth.service";
 
 let counter = 0;
 
@@ -17,27 +20,47 @@ export class UserService {
   };
 
   private userArray: any[];
-  public userRoles = [
-      {
-        id: "1",
-        user_id: "2",
-        rol_id: "2",
-        status: "1",
-        name: "admin",
-        description: "Administrador"
-      },
-      {
-        id: "2",
-        user_id: "2",
-        rol_id: "3",
-        status: "1",
-        name: "agente",
-        description: "Agente"
-      }
-  ];
+  // public userRoles = [
+  //     {
+  //       id: "1",
+  //       user_id: "2",
+  //       rol_id: "2",
+  //       status: "1",
+  //       name: "admin",
+  //       description: "Administrador"
+  //     },
+  //     {
+  //       id: "2",
+  //       user_id: "2",
+  //       rol_id: "3",
+  //       status: "1",
+  //       name: "agente",
+  //       description: "Agente"
+  //     }
+  // ];
 
-  constructor() {
+  public userRoles: any = [];
+
+  constructor(private http: HttpClient, private AuthService: NbAuthService) {
     // this.userArray = Object.values(this.users);
+
+    console.log('init user service');
+    let userId = this.AuthService.getUserId();
+
+    let headers = new HttpHeaders({ 'Client-Service': 'remaxzona-client', 'Auth-Key': 'remaxzonaapi', 'Content-Type': 'application/json', 'Authorization': this.AuthService.getUserToken(),
+      'User-ID': this.AuthService.getUserId() });
+
+    this.http.get(PATHS.API + '&c=user&m=get_user_rol&user_id=' + userId, {headers: headers}).subscribe(
+      data => {
+        this.userRoles = data;
+        this.userRoles = this.userRoles.data
+      },
+      error => {},
+      () => {
+        console.log(this.userRoles);
+      }
+    );
+
   }
 
   getUserRoles(): Observable<any[]> {

@@ -13,6 +13,7 @@ import { NbAuthResult } from '../../services/auth-result';
 
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Auth} from "../../models/auth";
+import {PATHS} from "../../../../pages/config/constanst";
 
 
 @Component({
@@ -162,18 +163,18 @@ export class NbLoginComponent {
     // let headers = new Headers({ 'Client-Service': 'remaxzona-client', 'Auth-Key': 'remaxzonaapi', 'Content-Type': 'application/json' });
     // let options = new RequestOptions({ headers: headers, method: 'post'});
     this.submitted = false;
-    this._http.post('http://localhost/remaxzona/index.php?d=api&c=auth&m=login', JSON.stringify(this.user), {headers: headers}).subscribe(data => {
+    this._http.post(PATHS.API + '&c=auth&m=login', JSON.stringify(this.user), {headers: headers}).subscribe(data => {
 
       let response: any = data;
 
       this.auth = new Auth(response.id, response.office_id,0, response.token);
       //localStorage.setItem('auth', JSON.stringify(auth));
 
-      this._http.get('http://localhost/remaxzona/index.php?d=api&c=user&m=get_user_rol&user_id=' + this.auth.user_id, {headers: headers}).subscribe(data => {
+      this._http.get(PATHS.API + '&c=user&m=get_user_rol&user_id=' + this.auth.user_id, {headers: headers}).subscribe(data => {
 
         let response: any = data;
 
-        if (response.data.lenth == 1) {
+        if (response.data.length == 1) {
           this.auth.rol_id = response.data.rol_id;
           this.enter();
         } else {

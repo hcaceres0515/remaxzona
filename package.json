@@ -62,7 +62,7 @@
     "leaflet": "1.0.3",
     "nebular-icons": "1.0.6",
     "ng2-ckeditor": "1.1.9",
-    "ng2-smart-table": "1.1.0",
+    "ng2-smart-table": "1.2.2",
     "ng2-tree": "2.0.0-alpha.10",
     "ngx-echarts": "1.2.2",
     "node-sass": "^4.8.1",

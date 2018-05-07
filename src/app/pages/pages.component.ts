@@ -103,7 +103,7 @@ export class PagesComponent implements OnInit{
             Object(item.children).forEach((child) => {
               CHILD_MENU.push({
                 title: child.title,
-                link: item.path
+                link: child.path
               });
             });
 

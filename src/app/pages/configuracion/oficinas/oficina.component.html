@@ -1,0 +1,34 @@
+<nb-card>
+  <nb-card-header>
+    Oficinas
+  </nb-card-header>
+
+  <nb-card-body>
+
+    <!--<div class="row">-->
+
+      <!--<div class="container-btn">-->
+        <!--<button type="button" class="btn btn-success btn-with-icon">-->
+          <!--<i class="ion-plus-round"></i>-->
+          <!--<span>Agregar Oficina</span>-->
+        <!--</button>-->
+      <!--</div>-->
+
+    <!--</div>-->
+
+    <div class="row">
+      <div class="col-md-12">
+
+        <button class="btn btn-success btn-with-icon btn-tn" (click)="showLargeModal()">
+          <i class="ion-plus-round"></i>
+          <span>Agregar Oficina</span>
+        </button>
+
+      </div>
+    </div>
+    <br>
+
+    <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="onDeleteConfirm($event)">
+    </ng2-smart-table>
+  </nb-card-body>
+</nb-card>

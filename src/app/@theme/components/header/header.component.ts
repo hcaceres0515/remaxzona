@@ -37,7 +37,7 @@ export class HeaderComponent implements OnInit {
     this.userService.getUserRoles()
       .subscribe((usersRol: any[]) => {
         roles = usersRol;
-
+        console.log('Roles', roles);
         roles.forEach((item)=> {
           if (this.user.rol_name != item.name){
             this.userMenu.push({title: item.description, slug: item.name});
