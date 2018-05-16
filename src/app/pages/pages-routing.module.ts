@@ -15,10 +15,14 @@ const routes: Routes = [{
     path: 'configuracion',
     loadChildren: './configuracion/configuracion.module#ConfiguracionModule',
   },
-    {
-      path: 'usuarios',
-      loadChildren: './usuarios/usuarios.module#UsuariosModule',
-    },
+  {
+    path: 'usuarios',
+    loadChildren: './usuarios/usuarios.module#UsuariosModule',
+  },
+  {
+    path: 'clientes',
+    loadChildren: './clientes/clientes.module#ClientesModule',
+  },
     {
     path: 'ui-features',
     loadChildren: './ui-features/ui-features.module#UiFeaturesModule',

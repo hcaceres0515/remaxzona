@@ -1,4 +1,3 @@
-import {SmartTableService} from "../../@core/data/smart-table.service";
 import {ThemeModule} from "../../@theme/theme.module";
 import {UsuariosRoutingModule} from "./usuarios-routing.module";
 import {Ng2SmartTableModule} from "ng2-smart-table";

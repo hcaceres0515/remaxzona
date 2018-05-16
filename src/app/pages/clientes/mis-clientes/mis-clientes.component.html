@@ -1,0 +1,31 @@
+
+<nb-card>
+
+  <nb-card-header>
+    Mis Usuarios
+  </nb-card-header>
+
+
+
+  <nb-card-body>
+
+    <!--<toaster-container [toasterconfig]="config"></toaster-container>-->
+
+    <div class="row">
+      <div class="col-md-12">
+
+        <button class="btn btn-success btn-with-icon btn-tn" (click)="showAddCustomerModal()">
+          <i class="ion-plus-round"></i>
+          <span>Agregar Cliente</span>
+        </button>
+
+      </div>
+    </div>
+    <br>
+
+    <ng2-smart-table [settings]="settings" [source]="source">
+    </ng2-smart-table>
+
+  </nb-card-body>
+
+</nb-card>
