@@ -52,6 +52,20 @@ export class NbAuthService {
     return auth.user_id;
   }
 
+  getRolId() {
+    let auth: any;
+    auth = localStorage.getItem('auth');
+    auth = JSON.parse(auth);
+    return auth.rol_id;
+  }
+
+  getOfficeId() {
+    let auth: any;
+    auth = localStorage.getItem('auth');
+    auth = JSON.parse(auth);
+    return auth.office_id;
+  }
+
   logoutApp() {
     localStorage.removeItem('auth');
 

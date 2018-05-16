@@ -14,6 +14,7 @@ import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/withLatestFrom';
 import 'rxjs/add/operator/delay';
 
+
 // TODO: move layouts into the framework
 @Component({
   selector: 'ngx-sample-layout',
@@ -33,6 +34,9 @@ import 'rxjs/add/operator/delay';
       </nb-sidebar>
 
       <nb-layout-column class="main-content">
+        
+        <ngx-messages-notifications></ngx-messages-notifications>
+        
         <ng-content select="router-outlet"></ng-content>
       </nb-layout-column>
 
@@ -108,7 +112,7 @@ export class SampleLayoutComponent  implements OnDestroy {
   protected sidebarState$: Subscription;
   protected menuClick$: Subscription;
 
-  constructor(protected stateService: StateService,
+ constructor(protected stateService: StateService,
               protected menuService: NbMenuService,
               protected themeService: NbThemeService,
               protected bpService: NbMediaBreakpointsService,

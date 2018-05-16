@@ -34,6 +34,10 @@ import {
 } from './layouts';
 import { DEFAULT_THEME } from './styles/theme.default';
 import { COSMIC_THEME } from './styles/theme.cosmic';
+import {ToasterModule} from "angular2-toaster";
+import {NotificationMessageService} from "./components/message-notification/notification.service";
+import {  NotificationsMessagesComponent } from "./components/message-notification/notification.component";
+import {ConfirmationModalComponent} from "./components/confirmation-modal/confirmation-modal.component";
 
 const BASE_MODULES = [CommonModule, FormsModule, ReactiveFormsModule];
 
@@ -49,6 +53,7 @@ const NB_MODULES = [
   NbSidebarModule,
   NbCheckboxModule,
   NgbModule,
+  ToasterModule
 ];
 
 const COMPONENTS = [
@@ -62,6 +67,7 @@ const COMPONENTS = [
   SampleLayoutComponent,
   ThreeColumnsLayoutComponent,
   TwoColumnsLayoutComponent,
+  NotificationsMessagesComponent
 ];
 
 const PIPES = [
@@ -85,13 +91,14 @@ const NB_THEME_PROVIDERS = [
 @NgModule({
   imports: [...BASE_MODULES, ...NB_MODULES],
   exports: [...BASE_MODULES, ...NB_MODULES, ...COMPONENTS, ...PIPES],
-  declarations: [...COMPONENTS, ...PIPES],
+  declarations: [...COMPONENTS, ...PIPES, ConfirmationModalComponent],
+  entryComponents: [ConfirmationModalComponent]
 })
 export class ThemeModule {
   static forRoot(): ModuleWithProviders {
     return <ModuleWithProviders>{
       ngModule: ThemeModule,
-      providers: [...NB_THEME_PROVIDERS],
+      providers: [...NB_THEME_PROVIDERS, NotificationMessageService],
     };
   }
 }

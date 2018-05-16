@@ -6,7 +6,8 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {PATHS} from "../../config/constanst";
+import {PATHS} from "../../../@core/config/constanst";
+import {ServerResponse} from "../../../@core/utils/ServerResponse";
 
 @Injectable()
 
@@ -15,7 +16,7 @@ export class RolesService {
 
   constructor(private http: HttpClient) {}
 
-  getAllRoles(): Observable<any[]> {
+  getAllRoles(): Observable<ServerResponse> {
     return this.http.get(PATHS.API + '&c=rol&m=get_all_roles');
   }
 

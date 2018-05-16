@@ -18,7 +18,7 @@ export class HeaderComponent implements OnInit {
 
   user: any;
 
-  userMenu = [{ title: 'Perfil', slug: 'profile' }];
+  userMenu = [{ title: 'Perfil', slug: 'profile', rol_id:null }];
 
   constructor(private sidebarService: NbSidebarService,
               private menuService: NbMenuService,
@@ -29,27 +29,44 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userService.getUsers()
-      .subscribe((users: any) => this.user = users.nick);
+    // this.userService.getUsers()
+    //   .subscribe((users: any) => this.user = users.nick);
 
-    let roles = [];
+    this.userService.getUserInfo().subscribe(
+      response => {
+        this.user = response;
+        this.user = this.user.data;
+      },
+      error => {},
+      () => {
+        this.getRolInfo();
+      }
+    );
+  }
 
-    this.userService.getUserRoles()
-      .subscribe((usersRol: any[]) => {
-        roles = usersRol;
-        console.log('Roles', roles);
+  getRolInfo() {
+
+    let roles: any = [];
+
+    let roldId = this.AuthService.getRolId();
+
+    this.userService.getUserRoles().subscribe(
+      response => {
+        roles = response;
+        roles = roles.data;
+      },
+      error => {},
+      () => {
         roles.forEach((item)=> {
-          if (this.user.rol_name != item.name){
-            this.userMenu.push({title: item.description, slug: item.name});
+          if (roldId != item.rol_id){
+            this.userMenu.push({title: item.description, slug: item.name, rol_id: item.rol_id});
+          } else {
+            this.user.rol_description = item.description;
           }
         })
-
-        this.userMenu.push({title: 'Salir', slug: 'logout'});
-
-    });
-
-
-
+        this.userMenu.push({title: 'Salir', slug: 'logout', rol_id: null});
+      }
+    )
   }
 
   toggleSidebar(): boolean {
@@ -69,8 +86,19 @@ export class HeaderComponent implements OnInit {
   goTo($event) {
     console.log($event);
     if ($event.slug === 'logout') {
+
       this.AuthService.logoutApp();
       this.router.navigateByUrl('/auth/login');
+
+    } else if ($event.slug !== 'profile') {
+
+      let auth: any;
+      auth = JSON.parse(localStorage.getItem('auth'));
+      localStorage.removeItem('auth');
+      auth.rol_id = $event.rol_id;
+      localStorage.setItem('auth', JSON.stringify(auth));
+      window.location.reload();
+
     }
   }
 

@@ -78,14 +78,14 @@ import {OficinaService} from "./oficina.service";
         <div class="form-group row">
           <label for="inputManagerName" class="col-sm-3 col-form-label">Nombre del Administrador</label>
           <div class="col-sm-9">
-            <input type="email" class="form-control" id="inputManagerName"  name="manager_name" placeholder="Nombre del Administrador" [(ngModel)]="office.manager_name" [disabled]="isView">
+            <input type="text" class="form-control" id="inputManagerName"  name="manager_name" placeholder="Nombre del Administrador" [(ngModel)]="office.manager_name" [disabled]="isView">
           </div>
         </div>
 
         <div class="form-group row">
           <label for="inputManagerPhone" class="col-sm-3 col-form-label">Teléfono del Administrador</label>
           <div class="col-sm-9">
-            <input type="email" class="form-control" id="inputManagerPhone" name="manager_phone" placeholder="Teléfono del Administrador" [(ngModel)]="office.manager_phone" [disabled]="isView">
+            <input type="text" class="form-control" id="inputManagerPhone" name="manager_phone" placeholder="Teléfono del Administrador" [(ngModel)]="office.manager_phone" [disabled]="isView">
           </div>
         </div>
 

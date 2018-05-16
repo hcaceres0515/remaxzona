@@ -9,6 +9,7 @@ import {SmartTableService} from "../../../@core/data/smart-table.service";
 import {OficinaService} from "./oficina.service";
 import {AddOficinaModalComponent} from "./add-oficina-modal.component";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {ConfirmationModalComponent} from "../../../@theme/components/confirmation-modal/confirmation-modal.component";
 
 
 @Component({
@@ -17,7 +18,7 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
     <div style="display: flex">
       <button class="btn btn-info btn-icon btn-tn"  title="Ver" (click)="showViewModal()"><i class="ion-eye"></i></button>
       <button class="btn btn-success btn-icon btn-tn"  title="Editar" (click)="showEditModal()"><i class="ion-edit"></i></button>
-      <button class="btn btn-danger btn-icon btn-tn" title="Eliminar"><i class="ion-trash-a"></i></button>
+      <button class="btn btn-danger btn-icon btn-tn" title="Eliminar" (click)="showDeleteModal()"><i class="ion-trash-a"></i></button>
     </div>
   `,
 })
@@ -56,6 +57,15 @@ export class ActionsOficinaTable implements ViewCell, OnInit {
     activeModal.componentInstance.modalHeader = 'Ver Oficina';
     activeModal.componentInstance.isView = true;
     activeModal.componentInstance.loadNgModel(this.rowData);
+
+  }
+
+  showDeleteModal() {
+
+    const activeModal = this.modalService.open(ConfirmationModalComponent, { size: 'sm', container: 'nb-layout' });
+
+    activeModal.componentInstance.modalHeader = 'Confirmación';
+    activeModal.componentInstance.modalBodyMessage = 'esta oficina';
 
   }
 

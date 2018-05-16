@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 
 import { MENU_ITEMS } from './pages-menu';
 import {HttpClient} from "@angular/common/http";
-import {PATHS} from "./config/constanst";
+import {PATHS} from "../@core/config/constanst";
 import {PagesMenuService} from "./pages-menu.service";
 import {Auth} from "../@theme/auth/models/auth";
 

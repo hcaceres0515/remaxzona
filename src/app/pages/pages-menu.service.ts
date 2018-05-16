@@ -5,7 +5,7 @@
 
 import {Injectable} from "@angular/core";
 import {Http, Headers, RequestOptions} from "@angular/http";
-import {PATHS} from "./config/constanst";
+import {PATHS} from "../@core/config/constanst";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 

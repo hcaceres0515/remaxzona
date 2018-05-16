@@ -11,9 +11,9 @@ import { getDeepFromObject } from '../../helpers';
 import { NbAuthService } from '../../services/auth.service';
 import { NbAuthResult } from '../../services/auth-result';
 
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
 import {Auth} from "../../models/auth";
-import {PATHS} from "../../../../pages/config/constanst";
+import {PATHS} from "../../../../@core/config/constanst";
 
 
 @Component({
@@ -75,6 +75,10 @@ import {PATHS} from "../../../../pages/config/constanst";
           </small>
         </div> 
         
+        <div class="form-group">
+          <p class="text-danger">{{messageError}}</p>
+        </div>
+        
         <div class="form-group" *ngIf="userRoles.length > 1">
 
           <div class="form-group">
@@ -120,6 +124,8 @@ export class NbLoginComponent {
 
   auth: Auth;
 
+  messageError: string = "";
+
   constructor(protected service: NbAuthService,
               @Inject(NB_AUTH_OPTIONS) protected config = {},
               protected router: Router,
@@ -140,7 +146,8 @@ export class NbLoginComponent {
     this.errors = this.messages = [];
     this.submitted = true;
 
-    console.log(this.user);
+    this.messageError = "";
+    // console.log(this.user);
 
     // this.service.authenticate(this.provider, this.user).subscribe((result: NbAuthResult) => {
     //   this.submitted = false;
@@ -170,26 +177,32 @@ export class NbLoginComponent {
       this.auth = new Auth(response.id, response.office_id,0, response.token);
       //localStorage.setItem('auth', JSON.stringify(auth));
 
-      this._http.get(PATHS.API + '&c=user&m=get_user_rol&user_id=' + this.auth.user_id, {headers: headers}).subscribe(data => {
+      this._http.get(PATHS.API + '&c=user&m=get_user_rol&user_id=' + this.auth.user_id, {headers: headers}).subscribe(
 
-        let response: any = data;
+        data => {
+          let response: any = data;
 
-        if (response.data.length == 1) {
-          this.auth.rol_id = response.data.rol_id;
-          this.enter();
-        } else {
+          if (response.data.length == 1) {
+            this.auth.rol_id = response.data.rol_id;
+            this.enter();
+          } else {
 
-          this.userRoles = response.data;
-          this.user.rolId = this.userRoles[0].rol_id;
-          this.disabledInputs = true;
-
+            this.userRoles = response.data;
+            this.user.rolId = this.userRoles[0].rol_id;
+            this.disabledInputs = true;
+          }
         }
+      );
+    },
+    error => {
+      if (error instanceof HttpErrorResponse) {
 
-      });
-
-
-
-    });
+        if (error.status === 400 ){
+          this.messageError = error.error.message;
+        }
+      }
+    }
+    );
   }
 
   enter() {
