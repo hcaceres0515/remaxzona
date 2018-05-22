@@ -183,7 +183,7 @@ export class NbLoginComponent {
           let response: any = data;
 
           if (response.data.length == 1) {
-            this.auth.rol_id = response.data.rol_id;
+            this.user.rolId = response.data[0].rol_id;
             this.enter();
           } else {
 

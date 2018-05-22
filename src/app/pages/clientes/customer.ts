@@ -2,7 +2,7 @@
  * Created by harold on 5/15/18.
  */
 
-export class customer {
+export class Customer {
 
   public user_id: number;
   public office_id: number;
@@ -15,6 +15,9 @@ export class customer {
   public created_at: string;
   public customer_type: number;
   public status: number;
+
+  public office_name: string;
+  public user_name: string;
 
   constructor() {}
 

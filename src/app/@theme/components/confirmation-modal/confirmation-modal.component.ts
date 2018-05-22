@@ -8,6 +8,11 @@ import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'add-user-modal',
+  styles: [`
+    .modal-header, .modal-body, .modal-footer  { 
+      background: #ebeff5 ;
+    }
+    `],
   template: `
     <div class="modal-header">
       <span>{{ modalHeader }}</span>
@@ -16,7 +21,7 @@ import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
       </button>
     </div>
     <div class="modal-body">
-      <span> ¿Esta seguro de eliminar {{modalBodyMessage}}? </span>
+      <span> ¿Esta seguro de {{modalBodyMessage}}? </span>
     </div>
 
     <div class="modal-footer">

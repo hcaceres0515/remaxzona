@@ -12,7 +12,7 @@ import {
 import {AuthGuardService} from "./@core/utils/auth-guard.service";
 
 const routes: Routes = [
-  { path: 'pages', loadChildren: 'app/pages/pages.module#PagesModule', canActivate: [AuthGuardService] },
+  { path: 'pages', canActivate: [AuthGuardService], loadChildren: 'app/pages/pages.module#PagesModule' },
   {
     path: 'auth',
     component: NbAuthComponent,

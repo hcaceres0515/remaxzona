@@ -5,6 +5,7 @@ import {HttpClient} from "@angular/common/http";
 import {PATHS} from "../@core/config/constanst";
 import {PagesMenuService} from "./pages-menu.service";
 import {Auth} from "../@theme/auth/models/auth";
+import 'style-loader!angular2-toaster/toaster.css';
 
 @Component({
   selector: 'ngx-pages',
@@ -75,11 +76,12 @@ export class PagesComponent implements OnInit{
     // });
     let auth: Auth;
     auth = JSON.parse(localStorage.getItem("auth"));
-    console.log(auth.rol_id);
     this.getMenuByRol(auth.rol_id);
   }
 
   getMenuByRol(rolId) {
+
+    let PATH_MENU = [];
 
     this._pagesMenuService.getMenu(rolId).subscribe(
       data => this.menuData = (data),
@@ -96,11 +98,14 @@ export class PagesComponent implements OnInit{
 
           const item = this.menuData.data[value];
 
+          PATH_MENU.push(item.path);
+
           if (item.children !== undefined) {
 
             const CHILD_MENU = [];
 
             Object(item.children).forEach((child) => {
+              PATH_MENU.push(child.path);
               CHILD_MENU.push({
                 title: child.title,
                 link: child.path
@@ -123,6 +128,8 @@ export class PagesComponent implements OnInit{
         });
 
         this.menu = this.newMenu;
+
+        localStorage.setItem('menu', JSON.stringify(PATH_MENU));
 
       }
     )

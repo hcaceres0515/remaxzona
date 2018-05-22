@@ -10,8 +10,10 @@ import {OficinaService} from "../configuracion/oficinas/oficina.service";
 import {RolesService} from "../configuracion/roles/roles.service";
 import {ClientesComponent} from "./clientes.component";
 import {ClientesRoutingModule} from "./clientes-routing.module";
-import {MisClientesComponent} from "./mis-clientes/mis-clientes.component";
+import {ActionsClientesTable, MisClientesComponent} from "./mis-clientes/mis-clientes.component";
 import {AddClientesModalComponent} from "./mis-clientes/add-clientes-modal.component";
+import {ClientesService} from "./clientes.service";
+import {ToasterModule} from "angular2-toaster";
 /**
  * Created by harold on 5/12/18.
  */
@@ -23,17 +25,21 @@ import {AddClientesModalComponent} from "./mis-clientes/add-clientes-modal.compo
     ThemeModule,
     ClientesRoutingModule,
     Ng2SmartTableModule,
+    ToasterModule
   ],
   declarations: [
     ClientesComponent,
     MisClientesComponent,
-    AddClientesModalComponent
+    AddClientesModalComponent,
+    ActionsClientesTable
   ],
   entryComponents: [
-    AddClientesModalComponent
+    AddClientesModalComponent,
+    ActionsClientesTable
   ],
   providers: [
-    RolesService
+    RolesService,
+    ClientesService
   ]
 })
 

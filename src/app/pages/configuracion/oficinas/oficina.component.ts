@@ -65,7 +65,7 @@ export class ActionsOficinaTable implements ViewCell, OnInit {
     const activeModal = this.modalService.open(ConfirmationModalComponent, { size: 'sm', container: 'nb-layout' });
 
     activeModal.componentInstance.modalHeader = 'Confirmación';
-    activeModal.componentInstance.modalBodyMessage = 'esta oficina';
+    activeModal.componentInstance.modalBodyMessage = 'eliminar esta oficina';
 
   }
 

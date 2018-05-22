@@ -18,10 +18,26 @@ export class AuthGuardService implements CanActivate {
     | Promise<boolean>
     | boolean {
 
+    let menu = JSON.parse(localStorage.getItem('menu'));
+    // console.log('canActivate',menu);
+    // console.log(state.url);
+
+    console.log('AuthGuardService');
+
     if (!this.AuthService.isLogged()) {
       this.router.navigateByUrl('/auth/login');
       return false;
     }
+
+    if (state.url === '/pages/dashboard') {
+      return true;
+    }
+
+    if (menu.indexOf(state.url) === -1) {
+      console.log('You can not access to this page ' + state.url);
+      this.router.navigate(['/pages/dashboard']);
+    }
+
     return true;
   }
 

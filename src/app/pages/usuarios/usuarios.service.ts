@@ -7,6 +7,7 @@ import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {PATHS} from "../../@core/config/constanst";
+import {ServerResponse} from "../../@core/utils/ServerResponse";
 
 @Injectable()
 
@@ -30,9 +31,16 @@ export class UsuariosService {
     return this.http.post(PATHS.API + '&c=user&m=user_update', JSON.stringify(data));
   }
 
-  deleteUser(data): Observable<any>{
+  deleteUser(data): Observable<any> {
     return this.http.post(PATHS.API + '&c=user&m=user_delete', JSON.stringify(data));
   }
 
+  getUserRol(userId): Observable<ServerResponse> {
+    return this.http.get(PATHS.API + '&c=user&m=get_user_rol&user_id=' + userId);
+  }
+
+  resetPassword(userId): Observable<ServerResponse> {
+    return this.http.get(PATHS.API + '&c=user&m=send_new_password&user_id=' + userId);
+  }
 }
 

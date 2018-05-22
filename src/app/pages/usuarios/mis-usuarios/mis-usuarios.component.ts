@@ -8,7 +8,6 @@ import {AddUsuarioModalComponent} from "./add-usuario-modal.component";
  * Created by harold on 5/12/18.
  */
 
-import 'style-loader!angular2-toaster/toaster.css';
 import {NotificationMessageService} from "../../../@theme/components/message-notification/notification.service";
 import {ConfirmationModalComponent} from "../../../@theme/components/confirmation-modal/confirmation-modal.component";
 import {NbAuthService} from "../../../@theme/auth/services/auth.service";
@@ -60,6 +59,8 @@ export class ActionsMisUsuariosTable implements ViewCell, OnInit {
     activeModal.componentInstance.isView = true;
     activeModal.componentInstance.loadNgModel(this.rowData);
 
+    console.log(this.rowData);
+
   }
 
   showDeleteModal() {
@@ -67,7 +68,7 @@ export class ActionsMisUsuariosTable implements ViewCell, OnInit {
     const activeModal = this.modalService.open(ConfirmationModalComponent, { size: 'sm', container: 'nb-layout' });
 
     activeModal.componentInstance.modalHeader = 'Confirmación';
-    activeModal.componentInstance.modalBodyMessage = 'este usuario';
+    activeModal.componentInstance.modalBodyMessage = 'eliminar este usuario';
 
     activeModal.componentInstance.clickConfirm.subscribe(
       () => {
@@ -162,7 +163,7 @@ export class MisUsuariosComponent implements OnInit{
 
       this.userService.getAllUsers().subscribe(
         data => {
-          console.log(data);
+
           users = data;
           users = users.data;
           this.source.load(users);
@@ -177,6 +178,7 @@ export class MisUsuariosComponent implements OnInit{
         data => {
           users = data;
           users = users.data;
+          console.log(data);
           this.source.load(users);
         }
       );

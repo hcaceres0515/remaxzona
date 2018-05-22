@@ -1,5 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from "@angular/core";
-import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
+import {NgbActiveModal, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {User} from "../user";
 import {OficinaService} from "../../configuracion/oficinas/oficina.service";
 import {RolesService} from "../../configuracion/roles/roles.service";
@@ -7,6 +7,8 @@ import {UsuariosService} from "../usuarios.service";
 import {ROLES} from "../../../@core/config/rolesdb";
 import {ToasterService} from "angular2-toaster";
 import {NbAuthService} from "../../../@theme/auth/services/auth.service";
+import {NotificationMessageService} from "../../../@theme/components/message-notification/notification.service";
+import {ConfirmationModalComponent} from "../../../@theme/components/confirmation-modal/confirmation-modal.component";
 /**
  * Created by harold on 5/12/18.
  */
@@ -67,7 +69,7 @@ import {NbAuthService} from "../../../@theme/auth/services/auth.service";
         </div>
 
 
-        <div class="form-group row" *ngIf="this.sessionRolId === ROLES.SUPERADMIN">
+        <div class="form-group row" *ngIf="sessionRolId === ROLES.SUPERADMIN">
           <label for="officeId" class="col-sm-3 col-form-label">Oficina *</label>
           <div class="col-sm-9">
             
@@ -78,14 +80,32 @@ import {NbAuthService} from "../../../@theme/auth/services/auth.service";
           </div>
         </div>
 
-        <div class="form-group row">
+        
+
+        <div class="form-group row" *ngIf="isView || isEdit">
+          <label for="rolId" class="col-sm-3 col-form-label">Rol(es)</label>
+          <div class="col-sm-9">
+
+            <button class="btn btn-hero-secondary btn-demo" *ngFor="let item of user.roles">{{item.name}}</button>
+
+          </div>
+        </div>
+
+        <div class="form-group row" *ngIf="!isView">
           <label for="rolId" class="col-sm-3 col-form-label">Rol *</label>
           <div class="col-sm-9">
 
-            <select name="rolId" class="form-control" [(ngModel)]="user.rol_id" [disabled]="isView">
+            <select name="rolId" class="form-control" [(ngModel)]="user.rol_id" [disabled]="isView" required #rol="ngModel">
               <option  *ngFor="let item of roles" value="{{item.id}}">{{item.description}}</option>
             </select>
 
+          </div>
+        </div>
+
+        <div class="form-group row" *ngIf="isEdit">
+          <label for="rolId" class="col-sm-3 col-form-label">Acciones</label>
+          <div class="col-sm-9">
+            <button class="btn btn-warning btn-icon btn-tn"  title="Ver" (click)="resetPassword()"><i class="ion-loop"></i>  Generar Password</button>          
           </div>
         </div>
         
@@ -95,7 +115,7 @@ import {NbAuthService} from "../../../@theme/auth/services/auth.service";
 
     <div class="modal-footer">
       <button *ngIf="!isView && !isEdit" class="btn btn-success btn-with-icon btn-tn"  [disabled]="!userAddForm.form.valid" (click)="createUser()"><i class="fa fa-save"></i>Guardar</button>
-      <button *ngIf="isEdit" class="btn btn-success btn-with-icon btn-tn" (click)="updateUser()"> <i class="fa fa-save"></i>  Actualizar</button>
+      <button *ngIf="isEdit" class="btn btn-success btn-with-icon btn-tn" [disabled]="!userAddForm.form.valid" (click)="updateUser()"> <i class="fa fa-save"></i>  Actualizar</button>
       <button class="btn btn-danger btn-with-icon btn-tn" (click)="closeModal()"> <i class="fa fa-times-circle"></i> Cancelar</button>
     </div>
   `
@@ -125,7 +145,9 @@ export class AddUsuarioModalComponent implements OnInit{
               private userService: UsuariosService,
               private officeService: OficinaService,
               private rolesService: RolesService,
-              private toasterService: ToasterService) {
+              private modalService: NgbModal,
+              private notificationService: NotificationMessageService
+              ) {
 
   }
 
@@ -155,7 +177,25 @@ export class AddUsuarioModalComponent implements OnInit{
       response => {
 
         this.roles = response.data;
-        this.user.rol_id = this.roles[0].id;
+
+        if (this.sessionRolId == ROLES.ADMIN) {
+          let index = this.roles.map(function(e) { return e.id; }).indexOf(ROLES.SUPERADMIN);
+          this.roles.splice(index, 1);
+        }
+
+        // Solo cuando se crea uno nuevo se preselecciona la primera opcio
+        if (!this.isView && !this.isEdit) {
+          this.user.rol_id = this.roles[0].id;
+        }
+
+        if (this.isView || this.isEdit) {
+          this.userService.getUserRol(this.userId).subscribe(
+            response => {
+
+              this.user.roles = response.data;
+            }
+          );
+        }
 
       }
     )
@@ -195,6 +235,12 @@ export class AddUsuarioModalComponent implements OnInit{
 
   updateUser() {
 
+    if (this.user.rol_id == undefined) {
+      this.user.rol_id = -1;
+    } else {
+      this.user.roles = this.generateUserRol(this.user.rol_id);
+    }
+
     let data: any = {id: this.userId, data: this.user};
 
     this.userService.updateUser(data).subscribe(
@@ -208,9 +254,27 @@ export class AddUsuarioModalComponent implements OnInit{
 
   }
 
+  resetPassword() {
+    const activeModal = this.modalService.open(ConfirmationModalComponent, { size: 'sm', container: 'nb-layout' });
+
+    activeModal.componentInstance.modalHeader = 'Confirmación';
+    activeModal.componentInstance.modalBodyMessage = 'generar una nueva contraseña';
+
+    activeModal.componentInstance.clickConfirm.subscribe(
+      () => {
+        this.userService.resetPassword(this.userId).subscribe(
+          () => {
+            this.notificationService.showToast('success', 'Confirmación', 'La contraseña ha sido generada exitosamente');
+          }
+        );
+
+      }
+    )
+  }
+
   loadNgModel(data) {
 
-    if (this.isEdit) {
+    if (this.isEdit || this.isView) {
       this.userId = data.id;
     }
 

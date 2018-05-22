@@ -2,6 +2,7 @@ import {NgModule} from "@angular/core";
 import {RouterModule, Routes} from "@angular/router";
 import {UsuariosComponent} from "./usuarios.component";
 import {MisUsuariosComponent} from "./mis-usuarios/mis-usuarios.component";
+import {AuthGuardService} from "../../@core/utils/auth-guard.service";
 /**
  * Created by harold on 5/12/18.
  */
@@ -10,6 +11,7 @@ import {MisUsuariosComponent} from "./mis-usuarios/mis-usuarios.component";
 const routes: Routes = [{
   path: '',
   component: UsuariosComponent,
+  canActivate: [AuthGuardService],
   children: [{
     path: 'mis-usuarios',
     component: MisUsuariosComponent,
