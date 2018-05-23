@@ -10,6 +10,7 @@ import {OficinaService} from "./oficina.service";
 import {AddOficinaModalComponent} from "./add-oficina-modal.component";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ConfirmationModalComponent} from "../../../@theme/components/confirmation-modal/confirmation-modal.component";
+import {NotificationMessageService} from "../../../@theme/components/message-notification/notification.service";
 
 
 @Component({
@@ -31,7 +32,7 @@ export class ActionsOficinaTable implements ViewCell, OnInit {
   @Output() save: EventEmitter<any> = new EventEmitter();
   @Output() reloadOfficeTable: EventEmitter<any> = new EventEmitter();
 
-  constructor(private modalService: NgbModal){}
+  constructor(private modalService: NgbModal, private notificationService: NotificationMessageService, private  officeService: OficinaService){}
 
   ngOnInit() {
     this.renderValue = this.value.toString().toUpperCase();
@@ -46,6 +47,7 @@ export class ActionsOficinaTable implements ViewCell, OnInit {
 
     activeModal.componentInstance.clickUpdate.subscribe(() => {
       this.updateOffice();
+      this.notificationService.showToast('success', 'Confirmación', 'La oficina ha sido actualizada exitosamente');
     });
 
   }
@@ -66,6 +68,22 @@ export class ActionsOficinaTable implements ViewCell, OnInit {
 
     activeModal.componentInstance.modalHeader = 'Confirmación';
     activeModal.componentInstance.modalBodyMessage = 'eliminar esta oficina';
+
+    activeModal.componentInstance.clickConfirm.subscribe(
+      () => {
+        let data = {office_id: this.rowData.id};
+        this.officeService.deleteOffice(data).subscribe(
+          response => {},
+          error => {},
+          () => {
+            this.updateOffice();
+            this.notificationService.showToast('success', 'Confirmación', 'La oficina ha sido eliminada exitosamente');
+          }
+        )
+      }
+    );
+
+
 
   }
 
@@ -137,7 +155,7 @@ export class OficinaComponent{
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(private service: SmartTableService, private oficinaService: OficinaService, private modalService: NgbModal) {
+  constructor(private service: SmartTableService, private oficinaService: OficinaService, private modalService: NgbModal, private notificationService: NotificationMessageService) {
     // const data = this.service.getData();
 
     this.loadTable();
@@ -158,13 +176,14 @@ export class OficinaComponent{
     );
   }
 
-  showLargeModal() {
+  showAddOfficeModal() {
     const activeModal = this.modalService.open(AddOficinaModalComponent, { size: 'lg', container: 'nb-layout' });
 
     activeModal.componentInstance.modalHeader = 'Agregar Oficina';
 
     activeModal.componentInstance.clickSave.subscribe(() => {
       this.loadTable();
+      this.notificationService.showToast('success', 'Confirmación', 'La oficina ha sido creado exitosamente');
     });
   }
 

@@ -1,0 +1,88 @@
+<div class="modal-header">
+  <span>{{ modalHeader }}</span>
+  <button class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+
+  <form #userAddForm="ngForm" novalidate>
+
+    <div class="form-group row">
+      <label for="inputName" class="col-sm-3 col-form-label">Nombre *</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" id="inputName" name="name" placeholder="Nombre" [(ngModel)]="user.name" required #name="ngModel">
+
+        <small class="form-text error" *ngIf="name.errors && (name.dirty || name.touched)">
+          Campo Requerido
+        </small>
+
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="inputEmail" class="col-sm-3 col-form-label">E-mail *</label>
+      <div class="col-sm-9">
+        <input type="email" class="form-control" id="inputEmail" name="email" placeholder="E-mail"  [disabled]="true"
+               [(ngModel)]="user.email" required #email="ngModel">
+
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="inputPhone" class="col-sm-3 col-form-label">Teléfono *</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" id="inputPhone" name="phone" placeholder="Teléfono" [(ngModel)]="user.phone" required #phone="ngModel">
+
+        <small class="form-text error" *ngIf="phone.errors && (phone.dirty || phone.touched)">
+          Campo Requerido
+        </small>
+
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="inputFacebook" class="col-sm-3 col-form-label">Facebook </label>
+      <div class="col-sm-9">
+        <input type="type" class="form-control" id="inputFacebook" name="facebook" placeholder="Perfil de facebook" [(ngModel)]="user.facebook" required #facebook="ngModel">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-sm-3 col-form-label">Nueva Contraseña </label>
+      <div class="col-sm-1">
+        <!--<input type="type" class="form-control" id="inputNewPassword" name="newPassword" placeholder="Perfil de facebook" [(ngModel)]="user.password" required #facebook="ngModel">-->
+        <!--<input type="checkbox" id="inputNewPassword" name="inputNewPassword" [(ngModel)]="selectChangePassword" >-->
+        <!--<nb-checkbox [value]="selectChangePassword"></nb-checkbox>-->
+        <label class="custom-control custom-checkbox" >
+          <input type="checkbox" class="custom-control-input" name="checkPassword" [(ngModel)]="selectChangePassword">
+          <span class="custom-control-indicator"></span>
+        </label>
+
+      </div>
+
+      <div class="col-sm-8" *ngIf="selectChangePassword">
+
+        <input type="password" class="form-control" id="password" name="password" placeholder="Nueva Contraseña" [(ngModel)]="user.new_password" required #password="ngModel" minlength="6" maxlength="12">
+
+        <small class="form-text error" *ngIf="password.errors && (password.dirty || password.touched)">
+
+          <small class="form-text error" *ngIf="password.errors.minlength">
+            * Debe tener por lo menos 6 caracteres
+          </small>
+
+        </small>
+
+      </div>
+
+    </div>
+
+  </form>
+
+</div>
+
+<div class="modal-footer">
+  <!--<button *ngIf="!isView && !isEdit" class="btn btn-success btn-with-icon btn-tn"  [disabled]="!userAddForm.form.valid" (click)="createUser()"><i class="fa fa-save"></i>Guardar</button>-->
+  <button class="btn btn-success btn-with-icon btn-tn" [disabled]="!userAddForm.form.valid" (click)="updateUser()"> <i class="fa fa-save"></i>  Actualizar</button>
+  <button class="btn btn-danger btn-with-icon btn-tn" (click)="closeModal()"> <i class="fa fa-times-circle"></i> Cancelar</button>
+</div>

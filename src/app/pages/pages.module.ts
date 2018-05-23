@@ -7,6 +7,7 @@ import { ThemeModule } from '../@theme/theme.module';
 import {PagesMenuService} from "./pages-menu.service";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {HttpClientInterceptor} from "../@core/utils/httpclient-interceptor";
+import {UsuariosService} from "./usuarios/usuarios.service";
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -24,6 +25,7 @@ const PAGES_COMPONENTS = [
   ],
   providers: [
     PagesMenuService,
+    UsuariosService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpClientInterceptor,

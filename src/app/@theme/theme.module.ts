@@ -38,6 +38,8 @@ import {ToasterModule} from "angular2-toaster";
 import {NotificationMessageService} from "./components/message-notification/notification.service";
 import {  NotificationsMessagesComponent } from "./components/message-notification/notification.component";
 import {ConfirmationModalComponent} from "./components/confirmation-modal/confirmation-modal.component";
+import {ProfileModal} from "./components/profile/profile-modal.component";
+import {UsuariosService} from "../pages/usuarios/usuarios.service";
 
 const BASE_MODULES = [CommonModule, FormsModule, ReactiveFormsModule];
 
@@ -67,7 +69,8 @@ const COMPONENTS = [
   SampleLayoutComponent,
   ThreeColumnsLayoutComponent,
   TwoColumnsLayoutComponent,
-  NotificationsMessagesComponent
+  NotificationsMessagesComponent,
+  ProfileModal
 ];
 
 const PIPES = [
@@ -92,7 +95,7 @@ const NB_THEME_PROVIDERS = [
   imports: [...BASE_MODULES, ...NB_MODULES],
   exports: [...BASE_MODULES, ...NB_MODULES, ...COMPONENTS, ...PIPES],
   declarations: [...COMPONENTS, ...PIPES, ConfirmationModalComponent],
-  entryComponents: [ConfirmationModalComponent]
+  entryComponents: [ConfirmationModalComponent, ProfileModal]
 })
 export class ThemeModule {
   static forRoot(): ModuleWithProviders {

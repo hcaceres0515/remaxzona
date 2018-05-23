@@ -5,6 +5,7 @@
 import {Component} from "@angular/core";
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 import {RolesService} from "./roles.service";
+import {NotificationMessageService} from "../../../@theme/components/message-notification/notification.service";
 
 @Component({
   selector: 'asign-menu-modal',
@@ -53,7 +54,7 @@ export class AssignMenuModalComponent {
 
   rolMenu: any = [];
 
-  constructor(private activeModal: NgbActiveModal, private rolesService: RolesService) {
+  constructor(private activeModal: NgbActiveModal, private rolesService: RolesService, private notificationService: NotificationMessageService) {
 
     let response: any = [];
 
@@ -99,7 +100,7 @@ export class AssignMenuModalComponent {
 
             this.menu = newMenu;
 
-            console.log(this.menu);
+            // console.log(this.menu);
           }
         );
 
@@ -116,7 +117,7 @@ export class AssignMenuModalComponent {
       this.rolMenu.splice(i, 1);
     }
 
-    console.log(this.rolMenu);
+    // console.log(this.rolMenu);
 
   }
 
@@ -138,13 +139,13 @@ export class AssignMenuModalComponent {
 
     });
 
-    console.log(newRolMenu);
+    // console.log(newRolMenu);
 
     this.rolesService.updateRolMenu(newRolMenu).subscribe(
       data => {},
       error => {},
       () => {
-
+        this.notificationService.showToast('success', 'Confirmación', 'La funcionalidad asociada al rol ha sido creado exitosamente');
       }
     );
 

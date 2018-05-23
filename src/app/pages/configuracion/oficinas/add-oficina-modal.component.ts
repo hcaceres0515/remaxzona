@@ -92,8 +92,8 @@ import {OficinaService} from "./oficina.service";
       </form>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-md btn-success"  [disabled]="!officeAddForm.form.valid" (click)="createOffice()">Guardar</button>
-      <!--<button *ngIf="!isView && !isEdit" class="btn btn-success btn-with-icon btn-tn" (click)="createOffice()"> <i class="fa fa-save"></i>  Guardar</button>-->
+      <!--<button class="btn btn-md btn-success"  [disabled]="!officeAddForm.form.valid" (click)="createOffice()">Guardar</button>-->
+      <button *ngIf="!isView && !isEdit" class="btn btn-success btn-with-icon btn-tn" (click)="createOffice()"> <i class="fa fa-save"></i>  Guardar</button>
       <button *ngIf="isEdit" class="btn btn-success btn-with-icon btn-tn" [disabled]="!officeAddForm.form.valid" (click)="updateOffice()"> <i class="fa fa-save"></i>  Actualizar</button>
       <button class="btn btn-danger btn-with-icon btn-tn" (click)="closeModal()"> <i class="fa fa-times-circle"></i> Cancelar</button>
     </div>

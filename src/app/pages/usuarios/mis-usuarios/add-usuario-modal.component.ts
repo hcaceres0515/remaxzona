@@ -83,7 +83,7 @@ import {ConfirmationModalComponent} from "../../../@theme/components/confirmatio
         
 
         <div class="form-group row" *ngIf="isView || isEdit">
-          <label for="rolId" class="col-sm-3 col-form-label">Rol(es)</label>
+          <label class="col-sm-3 col-form-label">Rol(es)</label>
           <div class="col-sm-9">
 
             <button class="btn btn-hero-secondary btn-demo" *ngFor="let item of user.roles">{{item.name}}</button>
@@ -95,7 +95,7 @@ import {ConfirmationModalComponent} from "../../../@theme/components/confirmatio
           <label for="rolId" class="col-sm-3 col-form-label">Rol *</label>
           <div class="col-sm-9">
 
-            <select name="rolId" class="form-control" [(ngModel)]="user.rol_id" [disabled]="isView" required #rol="ngModel">
+            <select name="rolId" class="form-control" [(ngModel)]="user.rol_id" [disabled]="isView" #rol="ngModel">
               <option  *ngFor="let item of roles" value="{{item.id}}">{{item.description}}</option>
             </select>
 
@@ -103,7 +103,7 @@ import {ConfirmationModalComponent} from "../../../@theme/components/confirmatio
         </div>
 
         <div class="form-group row" *ngIf="isEdit">
-          <label for="rolId" class="col-sm-3 col-form-label">Acciones</label>
+          <label class="col-sm-3 col-form-label">Acciones</label>
           <div class="col-sm-9">
             <button class="btn btn-warning btn-icon btn-tn"  title="Ver" (click)="resetPassword()"><i class="ion-loop"></i>  Generar Password</button>          
           </div>
@@ -240,6 +240,8 @@ export class AddUsuarioModalComponent implements OnInit{
     } else {
       this.user.roles = this.generateUserRol(this.user.rol_id);
     }
+
+    this.user.facebook = '';
 
     let data: any = {id: this.userId, data: this.user};
 

@@ -11,6 +11,7 @@ export class User {
   public roles: any[];
   public name: string;
   public password: string;
+  public new_password: string;
   public email: string;
   public phone: string;
   public profile_photo: string;

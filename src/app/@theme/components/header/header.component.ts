@@ -5,6 +5,8 @@ import { UserService } from '../../../@core/data/users.service';
 import { AnalyticsService } from '../../../@core/utils/analytics.service';
 import {NbAuthService} from "../../auth/services/auth.service";
 import {Router} from "@angular/router";
+import {ProfileModal} from "../profile/profile-modal.component";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'ngx-header',
@@ -25,7 +27,8 @@ export class HeaderComponent implements OnInit {
               private userService: UserService,
               private analyticsService: AnalyticsService,
               private AuthService: NbAuthService,
-              public router: Router) {
+              public router: Router,
+              private modalService: NgbModal) {
   }
 
   ngOnInit() {
@@ -98,6 +101,13 @@ export class HeaderComponent implements OnInit {
       auth.rol_id = $event.rol_id;
       localStorage.setItem('auth', JSON.stringify(auth));
       window.location.reload();
+      this.router.navigateByUrl('/pages/dashboard');
+
+    } else if ($event.slug === 'profile') {
+
+      const activeModal = this.modalService.open(ProfileModal, { size: 'lg', container: 'nb-layout' });
+
+      activeModal.componentInstance.modalHeader = 'Editar Perfil';
 
     }
   }

@@ -28,4 +28,8 @@ export class OficinaService {
     return this.http.post(PATHS.API + '&c=office&m=office_update', JSON.stringify(data));
   }
 
+  deleteOffice(data): Observable<ServerResponse> {
+    return this.http.post(PATHS.API + '&c=office&m=office_delete', JSON.stringify(data));
+  }
+
 }

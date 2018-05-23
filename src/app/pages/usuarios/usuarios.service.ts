@@ -42,5 +42,9 @@ export class UsuariosService {
   resetPassword(userId): Observable<ServerResponse> {
     return this.http.get(PATHS.API + '&c=user&m=send_new_password&user_id=' + userId);
   }
+
+  getUserInfo(userId): Observable<ServerResponse> {
+    return this.http.get(PATHS.API + '&c=user&m=get_user_info&user_id=' + userId);
+  }
 }
 
