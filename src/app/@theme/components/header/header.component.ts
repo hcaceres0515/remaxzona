@@ -92,6 +92,7 @@ export class HeaderComponent implements OnInit {
 
       this.AuthService.logoutApp();
       this.router.navigateByUrl('/auth/login');
+      window.location.reload();
 
     } else if ($event.slug !== 'profile') {
 

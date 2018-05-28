@@ -30,7 +30,7 @@ export class UserService {
   constructor(private http: HttpClient, private AuthService: NbAuthService) {
     // this.userArray = Object.values(this.users);
 
-    console.log('init user service');
+    console.log('init user service', JSON.parse(localStorage.getItem('auth')));
     this.userId = this.AuthService.getUserId();
 
     this.headers = new HttpHeaders({ 'Client-Service': 'remaxzona-client', 'Auth-Key': 'remaxzonaapi', 'Content-Type': 'application/json', 'Authorization': this.AuthService.getUserToken(),

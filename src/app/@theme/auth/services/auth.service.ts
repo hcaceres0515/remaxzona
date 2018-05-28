@@ -25,9 +25,23 @@ import {Router} from "@angular/router";
 @Injectable()
 export class NbAuthService {
 
+  SESSION_TIME = 11; // Reset when storage is more than 11hours
+
   constructor(protected tokenService: NbTokenService,
               protected injector: Injector,
               @Optional() @Inject(NB_AUTH_PROVIDERS) protected providers = {}) {
+
+    if (this.isLogged()) {
+
+      let now = new Date().getTime();
+      let setupTime = JSON.parse(localStorage.getItem('auth')).expired;
+
+      if (now - setupTime > this.SESSION_TIME*60*60*1000) {
+        localStorage.clear();
+        localStorage.removeItem('auth');
+        localStorage.removeItem('menu');
+      }
+    }
   }
 
   isLogged() {
@@ -68,6 +82,7 @@ export class NbAuthService {
 
   logoutApp() {
     localStorage.removeItem('auth');
+    localStorage.removeItem('menu');
 
   }
 

@@ -9,7 +9,8 @@ export class Auth {
     public user_id: number,
     public office_id: number,
     public rol_id: number,
-    public token: string
+    public token: string,
+    public expired?: number,
   ){}
 
 

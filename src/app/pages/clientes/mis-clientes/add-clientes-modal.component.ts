@@ -25,7 +25,9 @@ import {NbAuthService} from "../../../@theme/auth/services/auth.service";
         <div class="form-group row">
           <label for="inputIdentityNumber" class="col-sm-3 col-form-label">Doc. Identidad *</label>
           <div class="col-sm-9">
-            <input type="text" class="form-control" id="inputIdentityNumber" name="identity_number" placeholder="Doc. Identidad" [(ngModel)]="customer.identity_number" required #identity_number="ngModel" [disabled]="isView">
+            <input type="text" class="form-control" id="inputIdentityNumber" name="identity_number" placeholder="Doc. Identidad" 
+                   [(ngModel)]="customer.identity_number" (ngModelChange)="changeInputs()" 
+                   required #identity_number="ngModel" [disabled]="isView">
 
             <small class="form-text error" *ngIf="identity_number.errors && (identity_number.dirty || identity_number.touched)">
               Campo Requerido
@@ -128,7 +130,7 @@ import {NbAuthService} from "../../../@theme/auth/services/auth.service";
     </div>
 
     <div class="modal-footer">
-      <button *ngIf="!isView && !isEdit" class="btn btn-success btn-with-icon btn-tn"  [disabled]="!customerAddForm.form.valid" (click)="createCustomer()"><i class="fa fa-save"></i>Guardar</button>
+      <button *ngIf="!isView && !isEdit" class="btn btn-success btn-with-icon btn-tn"  [disabled]="!customerAddForm.form.valid" (click)="createCustomer()"> <i class="fa fa-save"></i>  Guardar</button>
       <!--<button *ngIf="!isView && !isEdit" class="btn btn-success btn-with-icon btn-tn"  (click)="createCustomer()"><i class="fa fa-save"></i>Guardar</button>-->
       <button *ngIf="isEdit" class="btn btn-success btn-with-icon btn-tn" [disabled]="!customerAddForm.form.valid" (click)="updateCustomer()"> <i class="fa fa-save"></i>  Actualizar</button>
       <button class="btn btn-danger btn-with-icon btn-tn" (click)="closeModal()"> <i class="fa fa-times-circle"></i> Cancelar</button>
@@ -166,6 +168,10 @@ export class AddClientesModalComponent {
 
   closeModal() {
     this.activeModal.close();
+  }
+
+  changeInputs() {
+    this.isChecked = false;
   }
 
   checkCustomerExist(identityNumber, email) {

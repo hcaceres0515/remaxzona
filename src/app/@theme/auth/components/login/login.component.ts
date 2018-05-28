@@ -174,7 +174,9 @@ export class NbLoginComponent {
 
       let response: any = data;
 
-      this.auth = new Auth(response.id, response.office_id,0, response.token);
+      let now = new Date().getTime();
+      this.auth = new Auth(response.id, response.office_id,0, response.token, now);
+
       //localStorage.setItem('auth', JSON.stringify(auth));
 
       this._http.get(PATHS.API + '&c=user&m=get_user_rol&user_id=' + this.auth.user_id, {headers: headers}).subscribe(
