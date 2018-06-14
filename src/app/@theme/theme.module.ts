@@ -1,6 +1,6 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import {
@@ -39,7 +39,7 @@ import {NotificationMessageService} from "./components/message-notification/noti
 import {  NotificationsMessagesComponent } from "./components/message-notification/notification.component";
 import {ConfirmationModalComponent} from "./components/confirmation-modal/confirmation-modal.component";
 import {ProfileModal} from "./components/profile/profile-modal.component";
-import {UsuariosService} from "../pages/usuarios/usuarios.service";
+// import {ImageUploadModule} from "angular2-image-upload";
 
 const BASE_MODULES = [CommonModule, FormsModule, ReactiveFormsModule];
 

@@ -26,7 +26,7 @@ import {NbAuthService} from "../../../@theme/auth/services/auth.service";
           <label for="inputIdentityNumber" class="col-sm-3 col-form-label">Doc. Identidad *</label>
           <div class="col-sm-9">
             <input type="text" class="form-control" id="inputIdentityNumber" name="identity_number" placeholder="Doc. Identidad" 
-                   [(ngModel)]="customer.identity_number" (ngModelChange)="changeInputs()" 
+                   [(ngModel)]="customer.identity_number" (ngModelChange)="changeInputs()" (keypress)="onlyNumberKey($event)"
                    required #identity_number="ngModel" [disabled]="isView">
 
             <small class="form-text error" *ngIf="identity_number.errors && (identity_number.dirty || identity_number.touched)">
@@ -51,10 +51,15 @@ import {NbAuthService} from "../../../@theme/auth/services/auth.service";
         <div class="form-group row">
           <label for="inputEmail" class="col-sm-3 col-form-label">Email *</label>
           <div class="col-sm-9">
-            <input type="text" class="form-control" id="inputEmail" name="email" placeholder="Email" [(ngModel)]="customer.email" required #email="ngModel" [disabled]="isView">
+            <input type="text" class="form-control" id="inputEmail" name="email" placeholder="Email" [(ngModel)]="customer.email" required #email="ngModel" [disabled]="isView" pattern=".+@.+\..+$">
 
-            <small class="form-text error" *ngIf="email.errors && (email.dirty || email.touched)">
+            <small class="form-text error" *ngIf="email.invalid && email.touched && email?.errors?.required">
               Campo Requerido
+            </small>
+
+            <small class="form-text error"
+                   *ngIf="email.invalid && email.touched && email?.errors?.pattern">
+              Email debe ser una dirección válida
             </small>
 
           </div>
@@ -258,5 +263,9 @@ export class AddClientesModalComponent {
     this.customer.address = data.address;
     this.customer.created_at = data.created_at;
     this.customer.customer_type = data.customer_type;
+  }
+
+  onlyNumberKey(event) {
+    return (event.charCode === 8 || event.charCode === 0) ? null : event.charCode >= 48 && event.charCode <= 57;
   }
 }

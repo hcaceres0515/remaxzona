@@ -146,7 +146,8 @@ export class MisUsuariosComponent implements OnInit{
 
   sessionRolId: any;
 
-  constructor(private userService: UsuariosService, private modalService: NgbModal, private notificationService: NotificationMessageService, private authService: NbAuthService){}
+  constructor(private userService: UsuariosService, private modalService: NgbModal,
+              private notificationService: NotificationMessageService, private authService: NbAuthService){}
 
   ngOnInit() {
 

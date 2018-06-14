@@ -24,6 +24,10 @@ const routes: Routes = [{
     path: 'clientes',
     loadChildren: './clientes/clientes.module#ClientesModule',
   },
+  {
+    path: 'propiedades',
+    loadChildren: './propiedades/propiedades.module#PropiedadesModule',
+  },
     {
     path: 'ui-features',
     loadChildren: './ui-features/ui-features.module#UiFeaturesModule',

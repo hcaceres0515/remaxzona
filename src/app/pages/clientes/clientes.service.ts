@@ -50,6 +50,10 @@ export class ClientesService {
       {
         id: '2',
         name: 'Comprador'
+      },
+      {
+        id: '3',
+        name: 'Comprador y Vendedor'
       }
     ];
 

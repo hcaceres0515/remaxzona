@@ -8,6 +8,20 @@
 
   <form #userAddForm="ngForm" novalidate>
 
+    <div class="form-group text-center">
+      <img [src]="user.profile_photo" *ngIf="user.profile_photo != ''" class="img-thumbnail img-center" width="304" height="236">
+    </div>
+
+    <div class="form-group text-center">
+
+      <input style="display: none" type="file" (change)="onFileSelected($event)" #fileInput>
+
+      <button class="btn btn-default btn-tn" (click)="fileInput.click()">Seleccionar Imagen</button>
+
+      <button class="btn btn-info btn-tn" (click)="onUpload()"> <i class="fa fa-upload"></i>  Subir</button>
+
+    </div>
+
     <div class="form-group row">
       <label for="inputName" class="col-sm-3 col-form-label">Nombre *</label>
       <div class="col-sm-9">
@@ -44,7 +58,7 @@
     <div class="form-group row">
       <label for="inputFacebook" class="col-sm-3 col-form-label">Facebook </label>
       <div class="col-sm-9">
-        <input type="type" class="form-control" id="inputFacebook" name="facebook" placeholder="Perfil de facebook" [(ngModel)]="user.facebook" required #facebook="ngModel">
+        <input type="type" class="form-control" id="inputFacebook" name="facebook" placeholder="Perfil de facebook" [(ngModel)]="user.facebook" #facebook="ngModel">
       </div>
     </div>
 
@@ -67,7 +81,7 @@
 
         <small class="form-text error" *ngIf="password.errors && (password.dirty || password.touched)">
 
-          <small class="form-text error" *ngIf="password.errors.minlength">
+          <small class="form-text error" *ngIf="password?.errors.minlength">
             * Debe tener por lo menos 6 caracteres
           </small>
 

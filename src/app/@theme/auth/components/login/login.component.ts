@@ -44,11 +44,11 @@ import {PATHS} from "../../../../@core/config/constanst";
                  [class.form-control-danger]="email.invalid && email.touched" autofocus
                  [required]="getConfigValue('forms.validation.email.required')"
                  [disabled]="disabledInputs">
-          <small class="form-text error" *ngIf="email.invalid && email.touched && email.errors?.required">
+          <small class="form-text error" *ngIf="email.invalid && email.touched && email?.errors?.required">
             Email es requerido!
           </small>
           <small class="form-text error"
-                 *ngIf="email.invalid && email.touched && email.errors?.pattern">
+                 *ngIf="email.invalid && email.touched && email?.errors?.pattern">
             Email debe ser una dirección válida
           </small>
         </div>
@@ -62,12 +62,12 @@ import {PATHS} from "../../../../@core/config/constanst";
                  [minlength]="getConfigValue('forms.validation.password.minLength')"
                  [maxlength]="getConfigValue('forms.validation.password.maxLength')"
                   [disabled]="disabledInputs">
-          <small class="form-text error" *ngIf="password.invalid && password.touched && password.errors?.required">
+          <small class="form-text error" *ngIf="password.invalid && password.touched && password?.errors?.required">
             Password es requerido!
           </small>
           <small
             class="form-text error" 
-            *ngIf="password.invalid && password.touched && (password.errors?.minlength || password.errors?.maxlength)" >
+            *ngIf="password.invalid && password.touched && (password?.errors?.minlength || password?.errors?.maxlength)" >
             Password debe contener
             de {{ getConfigValue('forms.validation.password.minLength') }}
             hasta {{ getConfigValue('forms.validation.password.maxLength') }}

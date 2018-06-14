@@ -1,0 +1,86 @@
+import {HttpClient} from "@angular/common/http";
+import {Observable} from "rxjs";
+import {ServerResponse} from "../../@core/utils/ServerResponse";
+import {Injectable} from "@angular/core";
+import {PATHS} from "../../@core/config/constanst";
+/**
+ * Created by harold on 6/3/18.
+ */
+
+@Injectable()
+export class PropertyService {
+
+  constructor(private http: HttpClient) {}
+
+  getDepartments(): Observable<ServerResponse> {
+    return this.http.get(PATHS.API + '&c=property&m=get_departments');
+  }
+
+  getProvinceByDepartment(depaId): Observable<ServerResponse> {
+    return this.http.get(PATHS.API + '&c=property&m=get_provinces_by_department&department_id=' + depaId);
+  }
+
+  getDistrictByProvince(proId): Observable<ServerResponse> {
+    return this.http.get(PATHS.API + '&c=property&m=get_districts_by_province&province_id=' + proId);
+  }
+
+  getPropertyType(): Observable<ServerResponse> {
+    return this.http.get(PATHS.API + '&c=property&m=get_property_type');
+  }
+
+  getPropertySubType(propertyType): Observable<ServerResponse> {
+    return this.http.get(PATHS.API + '&c=property&m=get_property_sub_type&property_type_id=' + propertyType);
+  }
+
+  getPropertyStatus(): Observable<ServerResponse> {
+    return this.http.get(PATHS.API + '&c=property&m=get_property_status');
+  }
+
+  getPropertyContract(): Observable<ServerResponse> {
+    return this.http.get(PATHS.API + '&c=property&m=get_property_contract');
+  }
+
+  getPropertyCoin(): Observable<ServerResponse> {
+    return this.http.get(PATHS.API + '&c=property&m=get_property_coin');
+  }
+
+  getPropertyTypeFeatures(propertyType): Observable<ServerResponse> {
+    return this.http.get(PATHS.API + '&c=property&m=get_property_type_feature&property_type_id=' + propertyType);
+  }
+
+  propertyCreate(propertyData): Observable<ServerResponse> {
+    return this.http.post(PATHS.API + '', JSON.stringify(propertyData));
+  }
+
+  propertyUpdate() {
+
+  }
+
+  propertyImagesUpdate() {
+
+  }
+
+  propertyFilesUpdate() {
+
+  }
+
+  getAreaMeasurement() {
+
+    let obj = [
+      {
+        id: '1',
+        name: 'ha'
+      },
+      {
+        id: '2',
+        name: 'ft'
+      },
+      {
+        id: '3',
+        name: 'm2'
+      }
+    ];
+
+    return obj;
+  }
+}

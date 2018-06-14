@@ -45,11 +45,11 @@ import {ConfirmationModalComponent} from "../../../@theme/components/confirmatio
             <input type="email" class="form-control" id="inputEmail" name="email" placeholder="E-mail"  pattern=".+@.+\..+"
                    [(ngModel)]="user.email" required #email="ngModel" [disabled]="isView">
 
-            <small class="form-text error" *ngIf="email.invalid && email.touched && email.errors?.required">
+            <small class="form-text error" *ngIf="email.invalid && email.touched && email?.errors?.required">
               Email es requerido!
             </small>
             <small class="form-text error"
-                   *ngIf="email.invalid && email.touched && email.errors?.pattern">
+                   *ngIf="email.invalid && email.touched && email?.errors?.pattern">
               Email debe ser una dirección válida
             </small>
 

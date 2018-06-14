@@ -19,15 +19,27 @@ export class HttpClientInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    request = request.clone({
-      setHeaders: {
-        'Client-Service': 'remaxzona-client',
-        'Auth-Key': 'remaxzonaapi',
-        'Content-Type': 'aplication/json',
-        'Authorization': this.AuthService.getUserToken(),
-        'User-ID': this.AuthService.getUserId()
-      }
-    });
+    // if (!request.headers.has('Content-Type')) {
+    //   request.clone({
+    //     setHeaders: {
+    //       'Content-Type': 'application/json',
+    //     }
+    //   });
+    // }
+
+    if (!request.headers.has('Content-Type')) {
+      request = request.clone({
+        setHeaders: {
+          'Client-Service': 'remaxzona-client',
+          'Auth-Key': 'remaxzonaapi',
+          // 'Content-Type': 'application/json',
+          'Authorization': this.AuthService.getUserToken(),
+          'User-ID': this.AuthService.getUserId()
+        }
+      });
+    }
+
+    console.log(request.headers);
 
     return next.handle(request).do((event: HttpEvent<any>) => {
       if (event instanceof HttpResponse){
@@ -37,6 +49,7 @@ export class HttpClientInterceptor implements HttpInterceptor {
       if (err instanceof HttpErrorResponse) {
         if (err.status === 401) {
           this.router.navigateByUrl('/auth/login');
+          window.location.reload();
         }
       }
     });
