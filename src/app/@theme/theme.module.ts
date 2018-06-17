@@ -39,6 +39,7 @@ import {NotificationMessageService} from "./components/message-notification/noti
 import {  NotificationsMessagesComponent } from "./components/message-notification/notification.component";
 import {ConfirmationModalComponent} from "./components/confirmation-modal/confirmation-modal.component";
 import {ProfileModal} from "./components/profile/profile-modal.component";
+import {AddClientesModalComponent} from "../pages/clientes/mis-clientes/add-clientes-modal.component";
 // import {ImageUploadModule} from "angular2-image-upload";
 
 const BASE_MODULES = [CommonModule, FormsModule, ReactiveFormsModule];
@@ -94,8 +95,8 @@ const NB_THEME_PROVIDERS = [
 @NgModule({
   imports: [...BASE_MODULES, ...NB_MODULES],
   exports: [...BASE_MODULES, ...NB_MODULES, ...COMPONENTS, ...PIPES],
-  declarations: [...COMPONENTS, ...PIPES, ConfirmationModalComponent],
-  entryComponents: [ConfirmationModalComponent, ProfileModal]
+  declarations: [...COMPONENTS, ...PIPES, ConfirmationModalComponent, AddClientesModalComponent],
+  entryComponents: [ConfirmationModalComponent, ProfileModal, AddClientesModalComponent]
 })
 export class ThemeModule {
   static forRoot(): ModuleWithProviders {

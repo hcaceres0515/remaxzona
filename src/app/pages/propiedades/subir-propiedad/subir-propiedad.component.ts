@@ -2,7 +2,7 @@
  * Created by harold on 6/4/18.
  */
 import {Component, ElementRef, OnInit, ViewChild, NgZone} from "@angular/core";
-import {PropertyService} from "../propiedades.service";
+import {PROPERTY_TYPE, PropertyService} from "../propiedades.service";
 import {PATHS} from "../../../@core/config/constanst";
 import {Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
@@ -12,6 +12,10 @@ import {FormControl} from "@angular/forms";
 import {MapsAPILoader} from "@agm/core";
 import {} from "googlemaps";
 import {Property} from "../property";
+import {NbAuthService} from "../../../@theme/auth/services/auth.service";
+import {propertyType} from "@angular/language-service/src/html_info";
+import {GeolocationService} from "../../../@core/utils/geolocation/geolocation.service";
+import {NotificationMessageService} from "../../../@theme/components/message-notification/notification.service";
 
 @Component({
   selector: 'add-property',
@@ -23,16 +27,21 @@ export class SubirPropiedadComponent implements OnInit {
 
   public latitude: number;
   public longitude: number;
+  public lat: number;
+  public lng: number;
   public searchControl: FormControl;
   public zoom: number;
+  public marker: string = PATHS.SERVER + 'resources_dev/tools/marker_map.png';
 
   @ViewChild("search")
   public searchElementRef: ElementRef;
 
-  // lat = 51.678418;
-  // lng = 7.809007;
+  public validationMessages:any = [];
+
+  PROPERTY_TYPE = PROPERTY_TYPE;
 
   propertyData: Property = new Property();
+  propertyId: number = 2;
 
   departments: any[];
   provinces: any[];
@@ -48,10 +57,14 @@ export class SubirPropiedadComponent implements OnInit {
 
   selectedAttachFilePreview: any[] = [];
   selectedImageFilePreview: any[] = [];
+  selectedImages: any = [];
+  selectedAttachFile: any = [];
 
   selectedDepartment: any;
   selectedProvince: any;
   selectedDistrict: any;
+
+  selectedCustomer: any = {name:'', email:'', phone:''};
 
   selectedPropertyType: any = {name: ''};
   selectedPropertyStatus: any;
@@ -61,8 +74,9 @@ export class SubirPropiedadComponent implements OnInit {
   notificationsConfig: boolean = false;
 
   constructor(private propertyService: PropertyService, private _http: HttpClient, private modalService: NgbModal,
-              private mapsAPILoader: MapsAPILoader,
-              private ngZone: NgZone) {}
+              private mapsAPILoader: MapsAPILoader, private authService: NbAuthService,
+              private ngZone: NgZone, private geolocationService: GeolocationService,
+              private notificationService: NotificationMessageService) {}
 
   ngOnInit() {
 
@@ -75,12 +89,30 @@ export class SubirPropiedadComponent implements OnInit {
     this.areaType = this.propertyService.getAreaMeasurement();
     this.areaBuiltType = this.propertyService.getAreaMeasurement();
 
-    this.zoom = 4;
-    this.latitude = 39.8282;
-    this.longitude = -98.5795;
+    this.propertyData.area_built_type = this.areaBuiltType[0];
+    this.propertyData.area_type = this.areaType[0];
+
+    this.zoom = 12;
+    // this.latitude = -16.443976600000003;
+    // this.longitude = -71.5171359;
+
+    // this.lat = 39.9;
+    // this.lng = -98.6;
+
+    // this.lat = -16.443976600000003;
+    // this.lng = -71.5171359;
 
     //create search FormControl
     this.searchControl = new FormControl();
+
+    this.geolocationService.getLocation().subscribe(
+      position => {
+        this.latitude = +position.latitude;
+        this.longitude = +position.longitude;
+        this.lat = +position.latitude;
+        this.lng = +position.longitude;
+      }
+    );
 
     //load Places Autocomplete
     this.mapsAPILoader.load().then(() => {
@@ -104,6 +136,14 @@ export class SubirPropiedadComponent implements OnInit {
         });
       });
     });
+  }
+
+  mapClick(event) {
+    console.log(event);
+    this.lat = event.coords.lat;
+    this.lng = event.coords.lng;
+    this.propertyData.lat = (this.lat) + '';
+    this.propertyData.lng = (this.lng) + '';
   }
 
   getDepartments() {
@@ -199,30 +239,125 @@ export class SubirPropiedadComponent implements OnInit {
       response => {this.propertyCoin = response.data},
       error => {},
       () => {
-
+        this.selectedPropertyCoin = this.propertyCoin[0];
       }
     );
   }
 
   createProperty(form) {
 
-    if (form.valid) {
-      console.log('valid');
-    } else {
-      console.log('no valid');
-    }
+    this.validationMessages = [];
 
+    // if (!form.valid) {
+    //   this.validationMessages.push('Ingrese los todos datos obligatorios');
+    // }
+    //
+    // if (this.selectedImages.length == 0) {
+    //   this.validationMessages.push('Ingrese por lo menos una imagen');
+    // }
+    //
+    // if (this.propertyData.customer_id == 0 || this.propertyData.customer_id == null) {
+    //   this.validationMessages.push('Ingrese el propietario');
+    // }
+    //
+    // if (this.latitude == this.lat) {
+    //   this.validationMessages.push('Seleccione una ubicación de referencia en el mapa');
+    // }
+
+
+    // if (form.valid) {
+    //   console.log('valid');
+    // } else {
+    //   console.log('no valid');
+    // }
+    // this.propertyData.user_id = this.authService.getUserId();
+    // this.propertyData.office_id = this.authService.getOfficeId();
     // this.propertyData.title = this.propertyData.title.toUpperCase();
-    // this.propertyData.property_type_id = this.selectedPropertyType.id;
+    this.propertyData.property_type_id = this.selectedPropertyType.id;
     // this.propertyData.property_status_id = this.selectedPropertyStatus.id;
     // this.propertyData.property_contract_id = this.selectedPropertyContract.id;
     // this.propertyData.department_id = this.selectedDepartment.id;
     // this.propertyData.province_id = this.selectedProvince.id;
     // this.propertyData.district_id = this.selectedDistrict.id;
     // this.propertyData.property_coin_id = this.selectedPropertyCoin.id;
+    //
 
-    console.log(this.propertyData);
+    let fd: FormData = new FormData();
 
+    let images = this.selectedImages;
+
+    for (let item of images) {
+      fd.append('image[]', item, item.name);
+    }
+
+    let files = this.selectedAttachFile;
+
+    for (let item of files) {
+      fd.append('file[]', item, item.name);
+    }
+
+    fd.append('property_data', JSON.stringify(this.propertyData));
+
+    console.log(this.propertyData, fd);
+    //
+    this.propertyService.propertyCreate(fd).subscribe(
+      response => {},
+      error => {},
+      () => {
+
+      }
+    );
+
+  }
+
+  propertyImagesUpload() {
+
+    let fd: FormData = new FormData();
+
+    let files = this.selectedImages;
+
+    for (let item of files) {
+      fd.append('file[]', item, item.name);
+    }
+
+    fd.append('property_id', this.propertyId.toString());
+
+    this.propertyService.propertyImagesUpdate(fd).subscribe(
+      response => {},
+      error => {},
+      () => {}
+    );
+  }
+
+  propertyFilesUpload() {
+
+    let fd: FormData = new FormData();
+
+    let files = this.selectedAttachFile;
+
+    for (let item of files) {
+      fd.append('file[]', item, item.name);
+    }
+
+    fd.append('property_id', this.propertyId.toString());
+
+    this.propertyService.propertyFilesUpdate(fd).subscribe(
+      response => {},
+      error => {},
+      () => {}
+    );
+
+  }
+
+  selectPropertyFeatures(value, event) {
+    if (event.target.checked) {
+      this.propertyData.features.push(value);
+    } else {
+      let i = this.propertyData.features.indexOf(value);
+      this.propertyData.features.splice(i, 1);
+    }
+
+    console.log(this.propertyData.features);
   }
 
   observableSource = (keyword: any): Observable<any[]> => {
@@ -242,13 +377,19 @@ export class SubirPropiedadComponent implements OnInit {
 
   showAddCustomerrModal() {
 
-    const activeModal = this.modalService.open(AddClientesModalComponent, { size: 'lg', container: 'nb-layout' });
+    const activeModal = this.modalService.open(AddClientesModalComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
 
     activeModal.componentInstance.modalHeader = 'Agregar Cliente';
 
-    // activeModal.componentInstance.clickSave.subscribe(() => {
-    //   this.notificationService.showToast('success', 'Confirmación', 'El usuario ha sido creado exitosamente');
-    // });
+    activeModal.componentInstance.clickSave.subscribe((customer) => {
+      this.selectedCustomer.name = customer.name;
+      this.selectedCustomer.email = customer.email;
+      this.selectedCustomer.phone = customer.first_phone;
+      this.propertyData.customer_id = customer.id;
+
+      this.notificationService.showToast('success', 'Confirmación', 'El cliente ha sido creado exitosamente');
+
+    });
 
   }
 
@@ -264,6 +405,8 @@ export class SubirPropiedadComponent implements OnInit {
 
   onImageFileSelected(event): void {
     let files = event.target.files;
+
+    this.selectedImages = event.target.files;
 
     if (files) {
       for (let file of files) {
@@ -282,7 +425,7 @@ export class SubirPropiedadComponent implements OnInit {
   onAttachFileSelected(event) {
 
     let files = event.target.files;
-    // this.selectedAttachFilePreview = event.target.files;
+    this.selectedAttachFile = event.target.files;
 
     console.log(event.target.files);
 

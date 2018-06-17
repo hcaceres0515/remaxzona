@@ -49,19 +49,19 @@ export class PropertyService {
   }
 
   propertyCreate(propertyData): Observable<ServerResponse> {
-    return this.http.post(PATHS.API + '', JSON.stringify(propertyData));
+    return this.http.post(PATHS.API + '&c=property&m=property_create', propertyData);
   }
 
   propertyUpdate() {
 
   }
 
-  propertyImagesUpdate() {
-
+  propertyImagesUpdate(images): Observable<ServerResponse> {
+    return this.http.post(PATHS.API + '&c=property&m=upload_image', images);
   }
 
-  propertyFilesUpdate() {
-
+  propertyFilesUpdate(files) {
+    return this.http.post(PATHS.API + '&c=property&m=upload_file', files);
   }
 
   getAreaMeasurement() {
@@ -83,4 +83,13 @@ export class PropertyService {
 
     return obj;
   }
+}
+
+
+export const PROPERTY_TYPE = {
+
+  DEPARTAMENTO: '1',
+  CASA: '2',
+  TERRENO: '3'
+
 }

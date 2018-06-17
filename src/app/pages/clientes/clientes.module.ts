@@ -30,11 +30,9 @@ import {ToasterModule} from "angular2-toaster";
   declarations: [
     ClientesComponent,
     MisClientesComponent,
-    AddClientesModalComponent,
     ActionsClientesTable
   ],
   entryComponents: [
-    AddClientesModalComponent,
     ActionsClientesTable
   ],
   providers: [

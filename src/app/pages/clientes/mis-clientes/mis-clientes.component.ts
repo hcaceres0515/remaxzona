@@ -39,7 +39,7 @@ export class ActionsClientesTable implements ViewCell, OnInit {
   }
 
   showEditModal() {
-    const activeModal = this.modalService.open(AddClientesModalComponent, { size: 'lg', container: 'nb-layout' });
+    const activeModal = this.modalService.open(AddClientesModalComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
 
     activeModal.componentInstance.modalHeader = 'Editar Usuario';
     activeModal.componentInstance.isEdit = true;
@@ -54,7 +54,7 @@ export class ActionsClientesTable implements ViewCell, OnInit {
 
   showViewModal() {
 
-    const activeModal = this.modalService.open(AddClientesModalComponent, { size: 'lg', container: 'nb-layout' });
+    const activeModal = this.modalService.open(AddClientesModalComponent, { size: 'lg', container: 'nb-layout'});
 
     activeModal.componentInstance.modalHeader = 'Ver Cliente';
     activeModal.componentInstance.isView = true;
@@ -236,7 +236,7 @@ export class MisClientesComponent implements OnInit{
 
   showAddCustomerModal() {
 
-    const activeModal = this.modalService.open(AddClientesModalComponent, { size: 'lg', container: 'nb-layout' });
+    const activeModal = this.modalService.open(AddClientesModalComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static'});
 
     activeModal.componentInstance.modalHeader = 'Agregar Cliente';
 

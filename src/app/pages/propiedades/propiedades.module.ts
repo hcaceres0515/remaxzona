@@ -12,6 +12,10 @@ import {PropertyService} from "./propiedades.service";
 import {NguiAutoCompleteModule} from "@ngui/auto-complete";
 import {AddClientesModalComponent} from "../clientes/mis-clientes/add-clientes-modal.component";
 import {ClientesService} from "../clientes/clientes.service";
+import {EditPropertyModalComponent} from "./edit-property-modal.component";
+import {MisPropiedadesComponent} from "./mis-propiedades/mis-propiedades.component";
+import {GeolocationService} from "../../@core/utils/geolocation/geolocation.service";
+import {PropiedadesDesactivadasComponent} from "./desactivadas/propiedades-desactivadas.component";
 /**
  * Created by harold on 6/3/18.
  */
@@ -31,17 +35,19 @@ import {ClientesService} from "../clientes/clientes.service";
   ],
   declarations: [
     PropiedadesComponent,
+    MisPropiedadesComponent,
     SubirPropiedadComponent,
-    AddClientesModalComponent
+    PropiedadesDesactivadasComponent,
+    EditPropertyModalComponent
   ],
   entryComponents: [
-    AddClientesModalComponent
   ],
   providers: [
     OficinaService,
     RolesService,
     PropertyService,
-    ClientesService
+    ClientesService,
+    GeolocationService
   ]
 })
 

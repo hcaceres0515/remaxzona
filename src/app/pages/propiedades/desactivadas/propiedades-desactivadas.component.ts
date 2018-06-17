@@ -4,11 +4,11 @@ import {Component, OnInit} from "@angular/core";
  */
 
 @Component({
-	selector: 'ngx-mis-propiedades',
-  	templateUrl: './mis-propiedades.component.html'
+	selector: 'ngx-propiedades-desactivadas',
+  	templateUrl: './propiedades-desactivadas.component.html'
 })
 
-export class MisPropiedadesComponent implements OnInit {
+export class PropiedadesDesactivadasComponent implements OnInit {
 
 	private properties;
 

@@ -51,14 +51,16 @@ export class Property {
   public report_visits: number;
   public report_days: string;
   public report_date: string;
-  public video_ulr: string;
+  public video_url: string;
   public status: number;
   public images: PropertyImage[];
   public files: PropertyFile[];
   public features: PropertyFeatures[];
 
   constructor(
-  ){}
+  ){
+    this.features = [];
+  }
 
 }
 

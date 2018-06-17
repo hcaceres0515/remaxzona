@@ -37,7 +37,7 @@ import {NbAuthService} from "../../../@theme/auth/services/auth.service";
         </div>
 
         <div class="form-group row">
-          <label for="inputName" class="col-sm-3 col-form-label">Nombre *</label>
+          <label for="inputName" class="col-sm-3 col-form-label">Nombre y Apellidos *</label>
           <div class="col-sm-9">
             <input type="text" class="form-control" id="inputName" name="name" placeholder="Nombre" [(ngModel)]="customer.name" required #name="ngModel" [disabled]="isView">
 
@@ -215,12 +215,15 @@ export class AddClientesModalComponent {
       this.checkCustomerExist(this.customer.identity_number, this.customer.email);
 
     } else {
+      let customer;
       this.customerService.createCustomer(this.customer).subscribe(
-        response => {},
+        response => {
+          customer = response.data;
+        },
         error => {},
         () => {
           this.closeModal();
-          this.clickSave.emit();
+          this.clickSave.emit(customer);
         }
       );
     }

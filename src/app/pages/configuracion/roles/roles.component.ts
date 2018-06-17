@@ -36,7 +36,7 @@ export class ActionsRolesTable implements ViewCell, OnInit {
   }
 
   onClick() {
-    const activeModal = this.modalService.open(AssignMenuModalComponent, { size: 'lg', container: 'nb-layout' });
+    const activeModal = this.modalService.open(AssignMenuModalComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
 
     activeModal.componentInstance.modalHeader = 'Asignar Funcionalidad - Rol ' + this.rowData.description;
     activeModal.componentInstance.rolId = this.rowData.id;

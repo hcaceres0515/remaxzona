@@ -28,7 +28,7 @@ import {ConfirmationModalComponent} from "../../../@theme/components/confirmatio
       <form #userAddForm="ngForm" novalidate>
         
         <div class="form-group row">
-          <label for="inputName" class="col-sm-3 col-form-label">Nombre *</label>
+          <label for="inputName" class="col-sm-3 col-form-label">Nombre y Apellidos *</label>
           <div class="col-sm-9">
             <input type="text" class="form-control" id="inputName" name="name" placeholder="Nombre" [(ngModel)]="user.name" required #name="ngModel" [disabled]="isView">
 

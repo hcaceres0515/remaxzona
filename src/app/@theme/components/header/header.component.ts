@@ -105,7 +105,7 @@ export class HeaderComponent implements OnInit {
 
     } else if ($event.slug === 'profile') {
 
-      const activeModal = this.modalService.open(ProfileModal, { size: 'lg', container: 'nb-layout' });
+      const activeModal = this.modalService.open(ProfileModal, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
 
       activeModal.componentInstance.modalHeader = 'Editar Perfil';
 

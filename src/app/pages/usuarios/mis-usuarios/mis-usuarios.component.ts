@@ -38,7 +38,7 @@ export class ActionsMisUsuariosTable implements ViewCell, OnInit {
   }
 
   showEditModal() {
-    const activeModal = this.modalService.open(AddUsuarioModalComponent, { size: 'lg', container: 'nb-layout' });
+    const activeModal = this.modalService.open(AddUsuarioModalComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static'});
 
     activeModal.componentInstance.modalHeader = 'Editar Usuario';
     activeModal.componentInstance.isEdit = true;
@@ -191,7 +191,7 @@ export class MisUsuariosComponent implements OnInit{
 
   showAddUserModal() {
 
-    const activeModal = this.modalService.open(AddUsuarioModalComponent, { size: 'lg', container: 'nb-layout' });
+    const activeModal = this.modalService.open(AddUsuarioModalComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
 
     activeModal.componentInstance.modalHeader = 'Agregar Usuario';
 
