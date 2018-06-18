@@ -1,23 +1,47 @@
-	<div class="modal-header">
-      <span>{{ modalHeader }}</span>
-      <button class="close" aria-label="Close" (click)="closeModal()">
-        <span aria-hidden="true">&times;</span>
-      </button>
+
+<nb-card>
+
+  <nb-card-header>
+    Subir Propiedad
+  </nb-card-header>
+
+  <nb-card-body>
+
+    <div class="row">
+
+      <div class="col-md-10"></div>
+
+      <div class="col-md-2">
+        <br>
+        <button class="btn btn-success btn-tn" (click)="createProperty(propertyAddForm)"> <i class="fa fa-save"></i>  Guardar</button>
+      </div>
     </div>
 
-    <div class="modal-body">
+    <div class="row">
 
-    	<div class="row">
-      		<div class="col-md-12">
+      <div class="col-md-12">
+        <br>
+        <div class="alert alert-danger" role="alert" *ngFor="let item of validationMessages">
+          <strong>Error!!!</strong> {{item}}
+        </div>
 
-      			<nb-card size="extra-large">
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <div class="col-md-12">
+
+        <nb-card size="extra-large">
+
           <nb-tabset fullWidth>
 
             <nb-tab tabTitle="Datos Principales">
 
               <form #propertyAddForm="ngForm" novalidate>
 
-                <div class="form-group row ">
+                <div class="form-group row">
 
                   <label class="col-sm-2 col-form-label">Situación *</label>
                   <div class="col-sm-2">
@@ -98,7 +122,7 @@
                   </div>
                 </div>
 
-                <div class="form-group row ">
+                <div class="form-group row">
 
                   <label class="col-sm-2 col-form-label">Tipo de Propiedad</label>
                   <div class="col-sm-2">
@@ -107,13 +131,15 @@
                       <option *ngFor="let item of propertyType" [ngValue]="item">{{item.name}}</option>
                     </select>
 
-                    <small class="form-text error" *ngIf="property_type.invalid && property_type.touched">
+                    <!--<pre>Invalid? {{ property_type.invalid }}</pre>-->
+
+                    <small class="form-text error" *ngIf="!property_type.dirty">
                       Campo Requerido
                     </small>
 
                   </div>
 
-                  <label class="col-sm-2 col-form-label">Tipo de </label>
+                  <label class="col-sm-2 col-form-label">Tipo de {{selectedPropertyType.name}}</label>
                   <div class="col-sm-2">
                     <select class="form-control" id="propertySubType" name="propertySubType">
                       <option *ngFor="let item of propertySubType" [ngValue]="item">{{item.name}}</option>
@@ -180,21 +206,31 @@
 
                   <label class="col-sm-2 col-form-label">Area - Terreno</label>
                   <div class="col-sm-2">
-                    <input type="text" class="form-control" name="area" id="inputArea" placeholder="Area" [(ngModel)]="propertyData.area">
+                    <input type="text" class="form-control" name="area" id="inputArea" placeholder="Area" [(ngModel)]="propertyData.area" required #area="ngModel">
+
+                    <small class="form-text error" *ngIf="area.invalid">
+                      Campo Requerido
+                    </small>
+
                   </div>
-                  <div class="col-sm-1">
-                    <select name="selectDepartment" class="form-control" [(ngModel)]="propertyData.area_type">
-                      <option *ngFor="let item of areaType">{{item.name}}</option>
+                  <div class="col-sm-2">
+                    <select name="area_type" class="form-control" [(ngModel)]="propertyData.area_type" required #area_type="ngModel">
+                      <option *ngFor="let item of areaType" [ngValue]="item.name">{{item.name}}</option>
                     </select>
+
+                    <small class="form-text error" *ngIf="area_type.invalid">
+                      Campo Requerido
+                    </small>
+
                   </div>
 
-                  <label class="col-sm-2 col-form-label offset-md-2">Area Construida</label>
+                  <label class="col-sm-2 col-form-label">Area Construida</label>
                   <div class="col-sm-2">
                     <input type="text" class="form-control" name="areaBuilt" id="inputBuildArea" placeholder="Area" [(ngModel)]="propertyData.area_built">
                   </div>
-                  <div class="col-sm-1">
+                  <div class="col-sm-2">
                     <select name="areaBuildType" class="form-control" [(ngModel)]="propertyData.area_built_type">
-                      <option *ngFor="let item of areaBuiltType">{{item.name}}</option>
+                      <option *ngFor="let item of areaBuiltType" [ngValue]="item.name">{{item.name}}</option>
                     </select>
                   </div>
 
@@ -219,22 +255,22 @@
 
                   <label class="col-sm-2 col-form-label">Habitaciones</label>
                   <div class="col-sm-1">
-                    <input type="number" class="form-control" name="bedrooms" min="0" [(ngModel)]="propertyData.bedrooms">
+                    <input type="number" class="form-control" name="bedrooms" min="0" [(ngModel)]="propertyData.bedrooms" [disabled]="selectedPropertyType.id == PROPERTY_TYPE.TERRENO">
                   </div>
 
                   <label class="col-sm-1 col-form-label">Baños</label>
                   <div class="col-sm-1">
-                    <input type="number" class="form-control" name="bathrooms" min="0" [(ngModel)]="propertyData.bathrooms">
+                    <input type="number" class="form-control" name="bathrooms" min="0" [(ngModel)]="propertyData.bathrooms" [disabled]="selectedPropertyType.id == PROPERTY_TYPE.TERRENO">
                   </div>
 
                   <label class="col-sm-1 col-form-label">Pisos</label>
                   <div class="col-sm-1">
-                    <input type="number" class="form-control" name="floors" min="0" [(ngModel)]="propertyData.floors">
+                    <input type="number" class="form-control" name="floors" min="0" [(ngModel)]="propertyData.floors" [disabled]="selectedPropertyType.id == PROPERTY_TYPE.TERRENO">
                   </div>
 
                   <label class="col-sm-2 col-form-label">Estacionamientos</label>
                   <div class="col-sm-1">
-                    <input type="number" class="form-control" name="parkings" min="0" [(ngModel)]="propertyData.parkings">
+                    <input type="number" class="form-control" name="parkings" min="0" [(ngModel)]="propertyData.parkings" [disabled]="selectedPropertyType.id == PROPERTY_TYPE.TERRENO">
                   </div>
 
                 </div>
@@ -272,18 +308,18 @@
                 <hr>
 
                 <div class="form-group text-center">
-                  <h5>Caracteristicas de la propiedad</h5>
+                  <h5>Caracteristicas de la propiedad - {{selectedPropertyType.name}}</h5>
                 </div>
 
                 <div class="form-group row">
 
-                  <nb-checkbox class="col-sm-3" [value]="false" *ngFor="let item of propertyTypeFeatures">{{item.name}}</nb-checkbox>
+                  <nb-checkbox class="col-sm-3" [value]="false" *ngFor="let item of propertyTypeFeatures" (change)="selectPropertyFeatures(item, $event)">{{item.name}}</nb-checkbox>
 
                 </div>
 
                 <hr>
 
-                <button class="btn btn-success btn-tn pull-right" [disabled]="propertyAddForm.invalid" (click)="createProperty(propertyAddForm)"> <i class="fa fa-save"></i>  Guardar</button>
+                <!--<button class="btn btn-success btn-tn pull-right" [disabled]="propertyAddForm.invalid" (click)="createProperty(propertyAddForm)"> <i class="fa fa-save"></i>  Guardar</button>-->
 
               </form>
 
@@ -297,12 +333,12 @@
 
                 <button class="btn btn-info btn-tn" (click)="fileInputImage.click()"><i class="fa fa-image"></i> Seleccionar Imagen</button>
 
-                <button class="btn btn-success btn-tn pull-right" [disabled]="selectedImageFilePreview.length == 0"> <i class="fa fa-upload"></i>  Subir Imagenes</button>
+                <!--<button class="btn btn-success btn-tn pull-right" [disabled]="selectedImageFilePreview.length == 0" (click)="propertyImagesUpload()"> <i class="fa fa-upload"></i>  Subir Imagenes</button>-->
 
               </div>
 
-              <div style="margin: 15px; display: inline-block; position: relative"  *ngFor="let url of selectedImageFilePreview; let i = index">
-                <img  [src]="url" class="rounded mb-3" width="180" height="180">
+              <div style="margin: 8px; display: inline-block; position: relative"  *ngFor="let url of selectedImageFilePreview; let i = index">
+                <img  [src]="url" class="rounded mb-3" width="360" height="250">
 
                 <button class="btn btn-danger btn-tn del_photo" (click)="deletePropertyImage(i)"><i class="fa fa-trash"></i></button>
               </div>
@@ -317,14 +353,18 @@
 
                   <div class="form-group row">
 
-                    <!--<div class="col-sm-6">-->
-                    <!--&lt;!&ndash;<span class="input-group-addon success"><i class="fa fa-search"></i></span>&ndash;&gt;-->
-                    <!--<input ngui-auto-complete type="text" class="form-control" placeholder="Buscar Cliente"-->
-                    <!--[source]="observableSource.bind(this)"-->
-                    <!--list-formatter="name"-->
-                    <!--no-match-found-text="No hay resultados"-->
-                    <!--/>-->
-                    <!--</div>-->
+                    <label class="col-sm-2 col-form-label">Buscar</label>
+
+                    <div class="col-sm-10">
+                      <!--<span class="input-group-addon success"><i class="fa fa-search"></i></span>-->
+                      <input ngui-auto-complete type="text" class="form-control" placeholder="Buscar Cliente"
+                          [source]="observableSource.bind(this)"
+                          list-formatter="name"
+                          no-match-found-text="No hay resultados"
+                          (valueChanged)="onCustomerSelected($event)"
+                      />
+                    </div>
+
 
                   </div>
 
@@ -332,7 +372,7 @@
 
                     <label class="col-sm-2 col-form-label">Nombre</label>
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputCustomerName" placeholder="Nombre Cliente" disabled>
+                      <input type="text" class="form-control" id="inputCustomerName" placeholder="Nombre Cliente" [(ngModel)]="selectedCustomer.name" disabled>
                     </div>
 
                   </div>
@@ -341,7 +381,7 @@
 
                     <label class="col-sm-2 col-form-label">Email</label>
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputCustomerEmail" placeholder="Email Cliente" disabled>
+                      <input type="text" class="form-control" id="inputCustomerEmail" placeholder="Email Cliente" [(ngModel)]="selectedCustomer.email" disabled>
                     </div>
 
                   </div>
@@ -350,7 +390,7 @@
 
                     <label class="col-sm-2 col-form-label">Telefono</label>
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputCustomerPhone" placeholder="Telefono Cliente" disabled>
+                      <input type="text" class="form-control" id="inputCustomerPhone" placeholder="Telefono Cliente" [(ngModel)]="selectedCustomer.first_phone" disabled>
                     </div>
 
                   </div>
@@ -360,7 +400,7 @@
                 <div class="col-sm-6">
 
                   <div class="form-group row">
-                    <button class="btn btn-success btn-tn pull-right" (click)="showAddCustomerrModal()">
+                    <button class="btn btn-info btn-tn pull-right" (click)="showAddCustomerrModal()">
                       <i class="ion-plus-round"></i>
                       <span>Agregar Cliente</span>
                     </button>
@@ -370,30 +410,33 @@
 
                     <label class="col-sm-5 col-form-label">Configurar notificaciones</label>
 
-                    <!--<div class="col-md-3">-->
-                      <!--<label class="radio-inline custom-radio nowrap">-->
-                        <!--<input type="radio" name="notifications" id="ntfTrue" [value]="1" [(ngModel)]="propertyData.report_visits" (ngModelChange)="handleChangeNotifications($event)">-->
-                        <!--<span>Si</span>-->
-                      <!--</label>-->
-                    <!--</div>-->
-                    <!--<div class="col-md-3">-->
-                      <!--<label class="radio-inline custom-radio nowrap">-->
-                        <!--<input type="radio" name="notifications" id="ntfFalse" [value]="0" [(ngModel)]="propertyData.report_visits" (ngModelChange)="handleChangeNotifications($event)">-->
-                        <!--<span>No</span>-->
-                      <!--</label>-->
-                    <!--</div>-->
-
                     <div class="demo-radio col-sm-4">
                       <label class="custom-control custom-radio">
-                        <input type="radio" class="custom-control-input" name="customRadio" checked>
+                        <input type="radio" class="custom-control-input" name="customRadio" [value]="0" [(ngModel)]="propertyData.report_visits">
                         <span class="custom-control-indicator"></span>
                         <span class="custom-control-description">No</span>
                       </label>
                       <label class="custom-control custom-radio">
-                        <input type="radio" class="custom-control-input" name="customRadio" >
+                        <input type="radio" class="custom-control-input" name="customRadio" [value]="1" [(ngModel)]="propertyData.report_visits">
                         <span class="custom-control-indicator"></span>
                         <span class="custom-control-description">Si</span>
                       </label>
+                    </div>
+
+                  </div>
+
+                  <div class="form-group row" *ngIf="this.propertyData.report_visits == 1">
+
+                    <label class="col-sm-5 form-control-label" for="timePeriod">Periodo de días:</label>
+                    <div class="col-sm-7">
+                      <select class="form-control" name="timePeriod" id="timePeriod" [(ngModel)]="propertyData.report_days" required #timePeriod="ngModel">
+                        <option value="7">7 - cada semana</option>
+                        <option value="15">15 - cada 2 semanas</option>
+                        <option value="22">22 - cada 3 semanas</option>
+                        <option value="30">30 - cada mes</option>
+                        <option value="45">45 - cada mes y medio</option>
+                        <option value="60">60 - cada 2 meses </option>
+                      </select>
                     </div>
 
                   </div>
@@ -411,8 +454,8 @@
                 <input placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search [formControl]="searchControl">
               </div>
 
-              <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
-                <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
+              <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" (mapClick)="mapClick($event)">
+                <agm-marker [latitude]="lat" [longitude]="lng" [iconUrl]="marker"></agm-marker>
               </agm-map>
 
             </nb-tab>
@@ -425,7 +468,7 @@
 
                 <button class="btn btn-info btn-tn" (click)="fileInputAttach.click()"><i class="fa fa-file"></i> Seleccionar Archivo</button>
 
-                <button class="btn btn-success btn-tn pull-right" [disabled]="selectedAttachFilePreview.length == 0"> <i class="fa fa-upload"></i>  Subir Archivos</button>
+                <!--<button class="btn btn-success btn-tn pull-right" [disabled]="selectedAttachFilePreview.length == 0" (click)="propertyFilesUpload()"> <i class="fa fa-upload"></i>  Subir Archivos</button>-->
 
               </div>
 
@@ -439,32 +482,32 @@
 
             </nb-tab>
 
-            <nb-tab tabTitle="Videos">
+            <nb-tab tabTitle="Video">
 
               <div class="form-group row">
                 <label for="inputVideoUrl" class="col-sm-2 col-form-label">Dirección URL</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="inputVideoUrl" placeholder="Dirección URL">
+                  <input type="text" class="form-control" id="inputVideoUrl" name="videoUrl" placeholder="Dirección URL" [(ngModel)]="propertyData.video_url">
                 </div>
               </div>
 
-              <div class="col-sm-12">
+              <!--<div class="col-sm-12">-->
 
-                <iframe width="1050" height="480" src="https://www.youtube.com/embed/GbBD47TF6Cw?list=PLVyy6A62zGMRRjyISDWN5zhf9rsNOqUa9" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                <!--<iframe width="1050" height="480" src="https://www.youtube.com/embed/GbBD47TF6Cw?list=PLVyy6A62zGMRRjyISDWN5zhf9rsNOqUa9" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>-->
 
-              </div>
+              <!--</div>-->
 
             </nb-tab>
 
           </nb-tabset>
+
         </nb-card>
 
-      		</div>
-      	</div>
-
+      </div>
     </div>
+    <br>
 
-    <div class="modal-footer">
-      <button *ngIf="isEdit" class="btn btn-success btn-with-icon btn-tn" (click)="updateProperty()"> <i class="fa fa-save"></i>  Actualizar</button>
-      <button class="btn btn-danger btn-with-icon btn-tn" (click)="closeModal()"> <i class="fa fa-times-circle"></i> Cancelar</button>
-    </div>
+
+  </nb-card-body>
+
+</nb-card>

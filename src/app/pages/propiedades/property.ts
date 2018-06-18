@@ -19,6 +19,7 @@ export class Property {
   public property_coin_id: number;
   public customer_name: string;
   public customer_email: string;
+  public customer_first_phone: string;
   public department_name: string;
   public province_name: string;
   public district_name: string;

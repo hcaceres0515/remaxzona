@@ -53,6 +53,14 @@ export class PropertyService {
   }
 
   propertyUpdate() {
+    return this.http.post(PATHS.API + '&c=property&m=property_update', propertyData);
+  }
+
+  propertyImageDelete(imageId): Observale<ServerResponse> {
+
+  }
+
+  propertyFileDelete(fileId): Observale<ServerResponse>{
 
   }
 
@@ -68,6 +76,17 @@ export class PropertyService {
     return this.http.get(PATHS.API + '&c=property&m=get_properties_by_user&user_id=' + userId);
   }
 
+  getPropertyDetail(propertyId): Observable<ServerResponse> {
+    return this.http.get(PATHS.API + '&c=property&m=get_properties_by_user&property_id=' + propertyId);
+  }
+
+  getPropertyVisitsByUser(propertyId, userId): Observable<ServerResponse> {
+    return this.http.get(PATHS.API + '&c=property&m=get_properties_by_user&property_id=' + propertyId);
+  }
+
+  propertyVisitCreate() {
+
+  }
 
   getAreaMeasurement() {
 

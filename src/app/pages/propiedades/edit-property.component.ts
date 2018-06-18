@@ -20,11 +20,7 @@ import {AddClientesModalComponent} from "../clientes/mis-clientes/add-clientes-m
   templateUrl: 'edit-property-modal.component.html',
 })
 
-export class EditPropertyModalComponent {
-
-  modalHeader: string;
-
-  @Output() clickUpdate: EventEmitter<any> = new EventEmitter();
+export class EditPropertyComponent {
 
   public latitude: number;
   public longitude: number;

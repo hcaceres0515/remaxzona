@@ -19,136 +19,91 @@
 
                 <div class="form-group row ">
 
-                  <label class="col-sm-2 col-form-label">Situación *</label>
-                  <div class="col-sm-2">
+                  <label class="col-sm-2 col-form-label">Situación: </label>
+                  <label class="col-sm-2 col-form-label">{{propertyData.contract_name}}</label>
+               
+                  <label class="col-sm-1 col-form-label">Exclusiva: </label>
+                  <label class="col-sm-2 col-form-label">{{propertyData.exclusivity_name}}</label>
 
-                  </div>
-
-                  <label class="col-sm-1 col-form-label">Exclusiva</label>
-                  <div class="col-sm-2">
-
-                  </div>
-
-                  <label class="col-sm-2 col-form-label">Termino Contrato</label>
-                  <div class="col-sm-3">
-                  </div>
+                  <label class="col-sm-2 col-form-label">Termino Contrato: </label>
+                  <label class="col-sm-3 col-form-label">{{propertyData.expirationAt}}</label>
 
                 </div>
 
                 <div class="form-group row">
 
-                  <label class="col-sm-2 col-form-label">Departamento</label>
-                  <div class="col-sm-2">
+                  <label class="col-sm-2 col-form-label">Departamento: </label>
+                  <label class="col-sm-2 col-form-label">{{propertyData.department_name}}</label>
+                  
+                  <label class="col-sm-1 col-form-label">Provincia: </label>
+                  <label class="col-sm-3 col-form-label">{{propertyData.department_name}}</label>
 
-                  </div>
-
-                  <label class="col-sm-1 col-form-label">Provincia</label>
-                  <div class="col-sm-3">
-
-                  </div>
-
-                  <label class="col-sm-1 col-form-label">Distrito</label>
-                  <div class="col-sm-3">
-
-                  </div>
-
+                  <label class="col-sm-1 col-form-label">Distrito: </label>
+                  <label class="col-sm-3 col-form-label">{{propertyData.district_name}}</label>
+                  
                 </div>
 
                 <div class="form-group row">
-                  <label class="col-sm-2 col-form-label">Dirección</label>
-                  <div class="col-sm-10">
-                  </div>
+                  <label class="col-sm-2 col-form-label">Dirección: </label>
+                  <label class="col-sm-10 col-form-label">{{propertyData.address}}</label>                  
                 </div>
 
                 <div class="form-group row ">
 
-                  <label class="col-sm-2 col-form-label">Tipo de Propiedad</label>
-                  <div class="col-sm-2">
+                  <label class="col-sm-2 col-form-label">Tipo de Propiedad: </label>
+                  <label class="col-sm-2 col-form-label">{{propertyData.property_type_name}}</label>
+                  
+                  <label class="col-sm-2 col-form-label">Tipo de {{propertyData.property_type_name}}</label>
+                  <label class="col-sm-2 col-form-label">{{propertyData.property_subtype_name}}</label>                  
 
-                  </div>
+                  <label class="col-sm-2 col-form-label">Estado: </label>
+                  <label class="col-sm-2 col-form-label">{{propertyData.property_status_name}}</label>
+                  
+                </div>
 
-                  <label class="col-sm-2 col-form-label">Tipo de </label>
-                  <div class="col-sm-2">
+                <div class="form-group row">
 
-                  </div>
+                  <label class="col-sm-2 col-form-label">Precio: </label>
+                  <label class="col-sm-3 col-form-label">{{propertyData.property_coin_symbol}} {{propertyData.price}}</label>                
 
-                  <label class="col-sm-2 col-form-label">Estado</label>
-                  <div class="col-sm-2">
-
-                  </div>
+                  <label class="col-sm-2 col-form-label offset-md-1">Comisión (%): </label>
+                  <label class="col-sm-2 col-form-label">{{propertyData.percentage}}</label>
 
                 </div>
 
                 <div class="form-group row">
 
-                  <label class="col-sm-2 col-form-label">Precio</label>
-
-                  <div class="col-sm-2">
-
-                  </div>
-
-                  <div class="col-sm-2">
-
-                  </div>
-
-                  <label class="col-sm-2 col-form-label offset-md-1">Comisión (%)</label>
-
-                  <div class="col-sm-2">
-
-                  </div>
-
-                </div>
-
-                <div class="form-group row">
-
-                  <label class="col-sm-2 col-form-label">Area - Terreno</label>
-                  <div class="col-sm-2">
-                  </div>
-                  <div class="col-sm-1">
-
-                  </div>
+                  <label class="col-sm-2 col-form-label">Area - Terreno: </label>
+                  <label class="col-sm-3 col-form-label">{{propertyData.area}}</label>                  
 
                   <label class="col-sm-2 col-form-label offset-md-2">Area Construida</label>
-                  <div class="col-sm-2">
-                  </div>
-                  <div class="col-sm-1">
-
-                  </div>
+                  <label class="col-sm-2 col-form-label">{{propertyData.area_built}}</label>
 
                 </div>
 
                 <div class="form-group row">
 
                   <label class="col-sm-2 col-form-label">Año construcción</label>
-                  <div class="col-sm-2">
-
-                  </div>
-
+                  <label class="col-sm-2 col-form-label">{{propertyData.years}}</label>                  
 
                   <label class="col-sm-2 col-form-label offset-md-3">Antiguedad</label>
-                  <div class="col-sm-2">
-
-                  </div>
-
+                  <label class="col-sm-2 col-form-label">{{propertyData.antiquity}}</label>                  
+                  
                 </div>
 
                 <div class="form-group row">
 
                   <label class="col-sm-2 col-form-label">Habitaciones</label>
-                  <div class="col-sm-1">
-                  </div>
+                  <label class="col-sm-1">{{propertyData.bedrooms}}</label>
 
                   <label class="col-sm-1 col-form-label">Baños</label>
-                  <div class="col-sm-1">
-                  </div>
+                  <label class="col-sm-1 col-form-label">{{propertyData.bathrooms}}</label>                  
 
                   <label class="col-sm-1 col-form-label">Pisos</label>
-                  <div class="col-sm-1">
-                  </div>
+                  <label class="col-sm-1 col-form-label">{{propertyData.floors}}</label>                
 
                   <label class="col-sm-2 col-form-label">Estacionamientos</label>
-                  <div class="col-sm-1">
-                  </div>
+                  <label class="col-sm-1 col-form-label">{{propertyData.parkings}}</label>                                  
 
                 </div>
 
@@ -159,9 +114,7 @@
 
                   <label class="col-sm-2 col-form-label">Título</label>
 
-                  <div class="col-sm-10">
-
-                  </div>
+                  <label class="col-sm-10">{{propertyData.title}}</label>                  
 
                 </div>
 
@@ -169,8 +122,7 @@
 
                   <label class="col-sm-2 col-form-label">Descripción</label>
 
-                  <div class="col-sm-10">
-                  </div>
+                  <label class="col-sm-10">{{propertyData.description}}</label>                  
 
                 </div>
 
@@ -183,6 +135,7 @@
 
                 <div class="form-group row">
 
+                  <label class="col-sm-3" *ngFor="let item of features">{{item.name}}</label>
 
                 </div>
 
@@ -192,11 +145,11 @@
 
             <nb-tab tabTitle="Imagenes">
 
-              <!--<div style="margin: 15px; display: inline-block; position: relative"  *ngFor="let url of selectedImageFilePreview; let i = index">-->
+<!--               <div style="margin: 15px; display: inline-block; position: relative"  *ngFor="let item of property.images; let i = index">
 
-                <!--<img  [src]="url" class="rounded mb-3" width="180" height="180">-->
+                <img  [src]="item.url" class="rounded mb-3" width="180" height="180">
 
-              <!--</div>-->
+              </div> -->
 
             </nb-tab>
 
@@ -213,27 +166,21 @@
                   <div class="form-group row">
 
                     <label class="col-sm-2 col-form-label">Nombre</label>
-                    <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputCustomerName" placeholder="Nombre Cliente" disabled>
-                    </div>
+                    <label class="col-sm-10 col-form-label">{{propertyData.customer_name}}</label>
 
                   </div>
 
                   <div class="form-group row">
 
                     <label class="col-sm-2 col-form-label">Email</label>
-                    <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputCustomerEmail" placeholder="Email Cliente" disabled>
-                    </div>
+                    <label class="col-sm-10 col-form-label">{{propertyData.customer_email}}</label>
 
                   </div>
 
                   <div class="form-group row">
 
                     <label class="col-sm-2 col-form-label">Telefono</label>
-                    <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputCustomerPhone" placeholder="Telefono Cliente" disabled>
-                    </div>
+                    <label class="col-sm-10 col-form-label">{{propertyData.first_phone}}</label>
 
                   </div>
 
@@ -241,14 +188,11 @@
 
                 <div class="col-sm-6">
 
-                  <div class="form-group row">
+                  <div class="form-group row" *ngIf="propertyData.report_visits">
 
-                    <label class="col-sm-5 col-form-label">Configurar notificaciones</label>
+                    <label class="col-sm-5 col-form-label">Notificaciones</label>
 
-
-                    <div class="demo-radio col-sm-4">
-
-                    </div>
+                    <label class="col-sm-5 col-form-label">cada {{propertyData.report_days}}</label>
 
                   </div>
 
@@ -283,13 +227,12 @@
 
               <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Dirección URL</label>
-                <div class="col-sm-10">
-                </div>
+                <label class="col-sm-10 col-form-label">{{propertyData.video_url}}</label>
               </div>
 
               <div class="col-sm-12">
 
-                <iframe width="1050" height="480" src="" allowfullscreen></iframe>
+                <iframe width="1050" height="480" src="{{propertyData.video_url}}" allowfullscreen></iframe>
 
               </div>
 
