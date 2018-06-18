@@ -19,6 +19,9 @@
   @include ngx-pace-theme();
 };
 
+html {
+  font-size: 14px!important;
+}
 
 .nb-theme-default .form-control:disabled {
   background: #dadfe67a;

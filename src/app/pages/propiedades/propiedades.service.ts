@@ -64,6 +64,11 @@ export class PropertyService {
     return this.http.post(PATHS.API + '&c=property&m=upload_file', files);
   }
 
+  getPropertiesByUser(userId): Observable<ServerResponse> {
+    return this.http.get(PATHS.API + '&c=property&m=get_properties_by_user&user_id=' + userId);
+  }
+
+
   getAreaMeasurement() {
 
     let obj = [

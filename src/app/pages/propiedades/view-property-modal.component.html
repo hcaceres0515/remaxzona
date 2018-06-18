@@ -9,7 +9,7 @@
 
     	<div class="row">
       		<div class="col-md-12">
-      			
+
       			<nb-card size="extra-large">
           <nb-tabset fullWidth>
 
@@ -20,12 +20,12 @@
                 <div class="form-group row ">
 
                   <label class="col-sm-2 col-form-label">Situación *</label>
-                  <div class="col-sm-2">                    
+                  <div class="col-sm-2">
 
                   </div>
 
                   <label class="col-sm-1 col-form-label">Exclusiva</label>
-                  <div class="col-sm-2">                    
+                  <div class="col-sm-2">
 
                   </div>
 
@@ -39,25 +39,24 @@
 
                   <label class="col-sm-2 col-form-label">Departamento</label>
                   <div class="col-sm-2">
-                    
+
                   </div>
 
                   <label class="col-sm-1 col-form-label">Provincia</label>
                   <div class="col-sm-3">
-                   
+
                   </div>
 
                   <label class="col-sm-1 col-form-label">Distrito</label>
                   <div class="col-sm-3">
-                    
+
                   </div>
 
                 </div>
 
                 <div class="form-group row">
-                  <label for="inputAddress" class="col-sm-2 col-form-label">Dirección</label>
+                  <label class="col-sm-2 col-form-label">Dirección</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" name="address" id="inputAddress" [(ngModel)]="propertyData.address" disabled>
                   </div>
                 </div>
 
@@ -65,12 +64,12 @@
 
                   <label class="col-sm-2 col-form-label">Tipo de Propiedad</label>
                   <div class="col-sm-2">
-                    
+
                   </div>
 
                   <label class="col-sm-2 col-form-label">Tipo de </label>
                   <div class="col-sm-2">
-                    
+
                   </div>
 
                   <label class="col-sm-2 col-form-label">Estado</label>
@@ -85,22 +84,16 @@
                   <label class="col-sm-2 col-form-label">Precio</label>
 
                   <div class="col-sm-2">
-                    
+
                   </div>
 
                   <div class="col-sm-2">
-
-                    <input type="text" class="form-control"  name="price" id="inputPrice" placeholder="Precio" [(ngModel)]="propertyData.price"
-                    required #price="ngModel" disabled>
 
                   </div>
 
                   <label class="col-sm-2 col-form-label offset-md-1">Comisión (%)</label>
 
                   <div class="col-sm-2">
-                    <input type="number" class="form-control" name="commission_percentage" id="inputComission"
-                           placeholder="Comisión" [(ngModel)]="propertyData.commission_percentage"
-                           required>
 
                   </div>
 
@@ -110,18 +103,16 @@
 
                   <label class="col-sm-2 col-form-label">Area - Terreno</label>
                   <div class="col-sm-2">
-                    <input type="text" class="form-control" name="area" id="inputArea" placeholder="Area" [(ngModel)]="propertyData.area">
                   </div>
                   <div class="col-sm-1">
-                    
+
                   </div>
 
                   <label class="col-sm-2 col-form-label offset-md-2">Area Construida</label>
                   <div class="col-sm-2">
-                    <input type="text" class="form-control" name="areaBuilt" id="inputBuildArea" placeholder="Area" [(ngModel)]="propertyData.area_built">
                   </div>
                   <div class="col-sm-1">
-                    
+
                   </div>
 
                 </div>
@@ -130,13 +121,13 @@
 
                   <label class="col-sm-2 col-form-label">Año construcción</label>
                   <div class="col-sm-2">
-                    <input type="text" class="form-control" name="years" placeholder="Año construcción" [(ngModel)]="propertyData.years" disabled>
+
                   </div>
 
 
                   <label class="col-sm-2 col-form-label offset-md-3">Antiguedad</label>
                   <div class="col-sm-2">
-                    <input type="text" class="form-control" name="antiquity" placeholder="Antiguedad" [(ngModel)]="propertyData.antiquity" disabled>
+
                   </div>
 
                 </div>
@@ -145,22 +136,18 @@
 
                   <label class="col-sm-2 col-form-label">Habitaciones</label>
                   <div class="col-sm-1">
-                    <input type="number" class="form-control" name="bedrooms" min="0" [(ngModel)]="propertyData.bedrooms" disabled>
                   </div>
 
                   <label class="col-sm-1 col-form-label">Baños</label>
                   <div class="col-sm-1">
-                    <input type="number" class="form-control" name="bathrooms" min="0" [(ngModel)]="propertyData.bathrooms" disabled>
                   </div>
 
                   <label class="col-sm-1 col-form-label">Pisos</label>
                   <div class="col-sm-1">
-                    <input type="number" class="form-control" name="floors" min="0" [(ngModel)]="propertyData.floors" disabled>
                   </div>
 
                   <label class="col-sm-2 col-form-label">Estacionamientos</label>
                   <div class="col-sm-1">
-                    <input type="number" class="form-control" name="parkings" min="0" [(ngModel)]="propertyData.parkings" disabled>
                   </div>
 
                 </div>
@@ -173,8 +160,6 @@
                   <label class="col-sm-2 col-form-label">Título</label>
 
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" name="title" placeholder="Título" [(ngModel)]="propertyData.title"
-                    required disabled>
 
                   </div>
 
@@ -185,7 +170,6 @@
                   <label class="col-sm-2 col-form-label">Descripción</label>
 
                   <div class="col-sm-10">
-                    <textarea class="form-control" name="description" [(ngModel)]="propertyData.description" disabled></textarea>
                   </div>
 
                 </div>
@@ -199,7 +183,6 @@
 
                 <div class="form-group row">
 
-                  <nb-checkbox class="col-sm-3" [value]="false" *ngFor="let item of propertyTypeFeatures">{{item.name}}</nb-checkbox>
 
                 </div>
 
@@ -209,11 +192,11 @@
 
             <nb-tab tabTitle="Imagenes">
 
-              <div style="margin: 15px; display: inline-block; position: relative"  *ngFor="let url of selectedImageFilePreview; let i = index">
+              <!--<div style="margin: 15px; display: inline-block; position: relative"  *ngFor="let url of selectedImageFilePreview; let i = index">-->
 
-                <img  [src]="url" class="rounded mb-3" width="180" height="180">
+                <!--<img  [src]="url" class="rounded mb-3" width="180" height="180">-->
 
-              </div>
+              <!--</div>-->
 
             </nb-tab>
 
@@ -262,30 +245,9 @@
 
                     <label class="col-sm-5 col-form-label">Configurar notificaciones</label>
 
-                    <!--<div class="col-md-3">-->
-                      <!--<label class="radio-inline custom-radio nowrap">-->
-                        <!--<input type="radio" name="notifications" id="ntfTrue" [value]="1" [(ngModel)]="propertyData.report_visits" (ngModelChange)="handleChangeNotifications($event)">-->
-                        <!--<span>Si</span>-->
-                      <!--</label>-->
-                    <!--</div>-->
-                    <!--<div class="col-md-3">-->
-                      <!--<label class="radio-inline custom-radio nowrap">-->
-                        <!--<input type="radio" name="notifications" id="ntfFalse" [value]="0" [(ngModel)]="propertyData.report_visits" (ngModelChange)="handleChangeNotifications($event)">-->
-                        <!--<span>No</span>-->
-                      <!--</label>-->
-                    <!--</div>-->
 
                     <div class="demo-radio col-sm-4">
-                      <label class="custom-control custom-radio">
-                        <input type="radio" class="custom-control-input" name="customRadio" checked>
-                        <span class="custom-control-indicator"></span>
-                        <span class="custom-control-description">No</span>
-                      </label>
-                      <label class="custom-control custom-radio">
-                        <input type="radio" class="custom-control-input" name="customRadio" >
-                        <span class="custom-control-indicator"></span>
-                        <span class="custom-control-description">Si</span>
-                      </label>
+
                     </div>
 
                   </div>
@@ -299,30 +261,29 @@
 
             <nb-tab tabTitle="Mapa de Ubicación">
 
-              <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
-                <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
-              </agm-map>
+              <!--<agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">-->
+                <!--<agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>-->
+              <!--</agm-map>-->
 
             </nb-tab>
 
             <nb-tab tabTitle="Archivos">
 
-              <div class="form-group">
-                <br>
-                <ul>
-                  <li *ngFor="let item of selectedAttachFilePreview; let i = index"><p>{{item.name}}  &nbsp;&nbsp;&nbsp; <i class="fa fa-trash"></i></p></li>
-                </ul>
-                <br>
-              </div>
+              <!--<div class="form-group">-->
+                <!--<br>-->
+                <!--<ul>-->
+                  <!--<li *ngFor="let item of selectedAttachFilePreview; let i = index"><p>{{item.name}}  &nbsp;&nbsp;&nbsp; <i class="fa fa-trash"></i></p></li>-->
+                <!--</ul>-->
+                <!--<br>-->
+              <!--</div>-->
 
             </nb-tab>
 
-            <nb-tab tabTitle="Videos">
+            <nb-tab tabTitle="Video">
 
               <div class="form-group row">
-                <label for="inputVideoUrl" class="col-sm-2 col-form-label">Dirección URL</label>
+                <label class="col-sm-2 col-form-label">Dirección URL</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="inputVideoUrl" placeholder="Dirección URL">
                 </div>
               </div>
 

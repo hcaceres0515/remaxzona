@@ -16,6 +16,7 @@ import {NbAuthService} from "../../../@theme/auth/services/auth.service";
 import {propertyType} from "@angular/language-service/src/html_info";
 import {GeolocationService} from "../../../@core/utils/geolocation/geolocation.service";
 import {NotificationMessageService} from "../../../@theme/components/message-notification/notification.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'add-property',
@@ -66,7 +67,7 @@ export class SubirPropiedadComponent implements OnInit {
 
   selectedCustomer: any = {name:'', email:'', phone:''};
 
-  selectedPropertyType: any = {name: ''};
+  selectedPropertyType: any = [];
   selectedPropertyStatus: any;
   selectedPropertyContract: any;
   selectedPropertyCoin: any;
@@ -76,7 +77,7 @@ export class SubirPropiedadComponent implements OnInit {
   constructor(private propertyService: PropertyService, private _http: HttpClient, private modalService: NgbModal,
               private mapsAPILoader: MapsAPILoader, private authService: NbAuthService,
               private ngZone: NgZone, private geolocationService: GeolocationService,
-              private notificationService: NotificationMessageService) {}
+              private notificationService: NotificationMessageService, private router: Router) {}
 
   ngOnInit() {
 
@@ -89,18 +90,14 @@ export class SubirPropiedadComponent implements OnInit {
     this.areaType = this.propertyService.getAreaMeasurement();
     this.areaBuiltType = this.propertyService.getAreaMeasurement();
 
-    this.propertyData.area_built_type = this.areaBuiltType[0];
-    this.propertyData.area_type = this.areaType[0];
+    // this.propertyData.area_built_type = this.areaBuiltType[0];
+    // this.propertyData.area_type = this.areaType[0];
+
+    this.propertyData.report_days = '7'; //Default value
+
+    this.propertyData.report_visits = 0;
 
     this.zoom = 12;
-    // this.latitude = -16.443976600000003;
-    // this.longitude = -71.5171359;
-
-    // this.lat = 39.9;
-    // this.lng = -98.6;
-
-    // this.lat = -16.443976600000003;
-    // this.lng = -71.5171359;
 
     //create search FormControl
     this.searchControl = new FormControl();
@@ -139,7 +136,6 @@ export class SubirPropiedadComponent implements OnInit {
   }
 
   mapClick(event) {
-    console.log(event);
     this.lat = event.coords.lat;
     this.lng = event.coords.lng;
     this.propertyData.lat = (this.lat) + '';
@@ -157,11 +153,13 @@ export class SubirPropiedadComponent implements OnInit {
   }
 
   onChangeDepartment(department) {
+    console.log(department);
     this.propertyService.getProvinceByDepartment(department.id).subscribe(
       response => {this.provinces = response.data},
       error => {},
       () => {
-
+        this.selectedProvince = this.provinces[0];
+        this.onChangeProvince(this.selectedProvince);
       }
     );
   }
@@ -171,7 +169,7 @@ export class SubirPropiedadComponent implements OnInit {
       response => {this.districts = response.data},
       error => {},
       () => {
-
+        this.selectedDistrict = this.districts[0];
       }
     );
   }
@@ -246,67 +244,67 @@ export class SubirPropiedadComponent implements OnInit {
 
   createProperty(form) {
 
+    // console.log(this.propertyData);
+
     this.validationMessages = [];
 
-    // if (!form.valid) {
-    //   this.validationMessages.push('Ingrese los todos datos obligatorios');
-    // }
-    //
-    // if (this.selectedImages.length == 0) {
-    //   this.validationMessages.push('Ingrese por lo menos una imagen');
-    // }
-    //
-    // if (this.propertyData.customer_id == 0 || this.propertyData.customer_id == null) {
-    //   this.validationMessages.push('Ingrese el propietario');
-    // }
-    //
-    // if (this.latitude == this.lat) {
-    //   this.validationMessages.push('Seleccione una ubicación de referencia en el mapa');
-    // }
-
-
-    // if (form.valid) {
-    //   console.log('valid');
-    // } else {
-    //   console.log('no valid');
-    // }
-    // this.propertyData.user_id = this.authService.getUserId();
-    // this.propertyData.office_id = this.authService.getOfficeId();
-    // this.propertyData.title = this.propertyData.title.toUpperCase();
-    this.propertyData.property_type_id = this.selectedPropertyType.id;
-    // this.propertyData.property_status_id = this.selectedPropertyStatus.id;
-    // this.propertyData.property_contract_id = this.selectedPropertyContract.id;
-    // this.propertyData.department_id = this.selectedDepartment.id;
-    // this.propertyData.province_id = this.selectedProvince.id;
-    // this.propertyData.district_id = this.selectedDistrict.id;
-    // this.propertyData.property_coin_id = this.selectedPropertyCoin.id;
-    //
-
-    let fd: FormData = new FormData();
-
-    let images = this.selectedImages;
-
-    for (let item of images) {
-      fd.append('image[]', item, item.name);
+    if (!form.valid) {
+      this.validationMessages.push('Ingrese los todos datos obligatorios');
     }
 
-    let files = this.selectedAttachFile;
-
-    for (let item of files) {
-      fd.append('file[]', item, item.name);
+    if (this.selectedImages.length == 0) {
+      this.validationMessages.push('Ingrese por lo menos una imagen');
     }
 
-    fd.append('property_data', JSON.stringify(this.propertyData));
+    if (this.propertyData.customer_id == 0 || this.propertyData.customer_id == null) {
+      this.validationMessages.push('Ingrese el propietario');
+    }
 
-    console.log(this.propertyData, fd);
-    //
-    this.propertyService.propertyCreate(fd).subscribe(
-      response => {},
-      error => {},
-      () => {
+    if (this.latitude == this.lat) {
+      this.validationMessages.push('Seleccione una ubicación de referencia en el mapa');
+    }
 
+    if (this.validationMessages.length == 0) {
+
+      this.propertyData.user_id = this.authService.getUserId();
+      this.propertyData.office_id = this.authService.getOfficeId();
+      this.propertyData.title = this.propertyData.title.toUpperCase();
+      this.propertyData.property_type_id = this.selectedPropertyType.id;
+      this.propertyData.property_status_id = this.selectedPropertyStatus.id;
+      this.propertyData.property_contract_id = this.selectedPropertyContract.id;
+      this.propertyData.department_id = this.selectedDepartment.id;
+      this.propertyData.province_id = this.selectedProvince.id;
+      this.propertyData.district_id = this.selectedDistrict.id;
+      this.propertyData.property_coin_id = this.selectedPropertyCoin.id;
+
+      let fd: FormData = new FormData();
+
+      let images = this.selectedImages;
+
+      for (let item of images) {
+        fd.append('image[]', item, item.name);
       }
-    );
+
+      let files = this.selectedAttachFile;
+
+      for (let item of files) {
+        fd.append('file[]', item, item.name);
+      }
+
+      fd.append('property_data', JSON.stringify(this.propertyData));
+
+      console.log(this.propertyData, fd);
+
+      this.propertyService.propertyCreate(fd).subscribe(
+        response => {},
+        error => {},
+        () => {
+          this.notificationService.showToast('success', 'Confirmación', 'La propiedad ha sido creada exitosamente');
+          this.router.navigate(['/pages/propiedades/mis-propiedades']);
+        }
+      );
+
+    }
 
   }
 
@@ -375,6 +373,12 @@ export class SubirPropiedadComponent implements OnInit {
     }
   }
 
+  onCustomerSelected(customer) {
+    this.selectedCustomer = customer;
+    this.propertyData.customer_id = customer.id;
+
+  }
+
   showAddCustomerrModal() {
 
     const activeModal = this.modalService.open(AddClientesModalComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
@@ -384,7 +388,7 @@ export class SubirPropiedadComponent implements OnInit {
     activeModal.componentInstance.clickSave.subscribe((customer) => {
       this.selectedCustomer.name = customer.name;
       this.selectedCustomer.email = customer.email;
-      this.selectedCustomer.phone = customer.first_phone;
+      this.selectedCustomer.first_phone = customer.first_phone;
       this.propertyData.customer_id = customer.id;
 
       this.notificationService.showToast('success', 'Confirmación', 'El cliente ha sido creado exitosamente');
