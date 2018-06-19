@@ -107,6 +107,30 @@ export class PropertyService {
 
     return obj;
   }
+
+  getVisitCalification() {
+
+    let obj = [
+      {
+        id: '1',
+        name: 'Muy Malo'
+      },
+      {
+        id: '2',
+        name: 'Malo'
+      },
+      {
+        id: '3',
+        name: 'Regular'
+      },
+      {
+        id: '4',
+        name: 'Bueno'
+      }
+    ];
+
+    return obj;
+  }
 }
 
 
