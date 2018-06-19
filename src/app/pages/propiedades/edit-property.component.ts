@@ -17,7 +17,7 @@ import {AddClientesModalComponent} from "../clientes/mis-clientes/add-clientes-m
 
 @Component({
   selector: 'edit-property-modal',
-  templateUrl: 'edit-property-modal.component.html',
+  templateUrl: 'edit-property.component.html',
 })
 
 export class EditPropertyComponent {

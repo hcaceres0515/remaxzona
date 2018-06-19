@@ -57,6 +57,7 @@ export class ActionsPropiedadesTable implements ViewCell, OnInit {
 
     activeModal.componentInstance.modalHeader = 'Ver Propiedad';
     // activeModal.componentInstance.loadNgModel(this.rowData);
+    activeModal.componentInstance.propertyId = this.rowData.id;
 
   }
 

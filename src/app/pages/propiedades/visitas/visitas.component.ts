@@ -1,3 +1,4 @@
+import {Component} from "@angular/core";
 
 @Component({
 	selector: 'visitas',
@@ -6,7 +7,7 @@
 
 export class VisitasComponent {
 
-	
+
 	constructor() {}
 
 }

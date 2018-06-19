@@ -1,4 +1,5 @@
-
+import {Component, EventEmitter, Output} from "@angular/core";
+import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
 	selector: 'add-visitas-modal',
@@ -7,7 +8,7 @@
 
 export class AddVisitasModalComponent {
 
-	modalHeader: string,
+	modalHeader: string;
 	isView: boolean = false;
 	isEdit: boolean = false;
 
@@ -18,5 +19,6 @@ export class AddVisitasModalComponent {
 
 	closeModal() {
     	this.activeModal.close();
-  	}
+  }
+
 }

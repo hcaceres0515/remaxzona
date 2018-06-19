@@ -12,11 +12,13 @@ import {PropertyService} from "./propiedades.service";
 import {NguiAutoCompleteModule} from "@ngui/auto-complete";
 import {AddClientesModalComponent} from "../clientes/mis-clientes/add-clientes-modal.component";
 import {ClientesService} from "../clientes/clientes.service";
-import {EditPropertyComponent} from "./edit-property-modal.component";
 import {ActionsPropiedadesTable, MisPropiedadesComponent} from "./mis-propiedades/mis-propiedades.component";
 import {GeolocationService} from "../../@core/utils/geolocation/geolocation.service";
 import {PropiedadesDesactivadasComponent} from "./desactivadas/propiedades-desactivadas.component";
 import {ViewPropertyModalComponent} from "./view-property-modal.component";
+import {EditPropertyComponent} from "./edit-property.component";
+import {AddVisitasModalComponent} from "./visitas/add-visitas-modal.component";
+import {VisitasComponent} from "./visitas/visitas.component";
 /**
  * Created by harold on 6/3/18.
  */
@@ -41,11 +43,14 @@ import {ViewPropertyModalComponent} from "./view-property-modal.component";
     PropiedadesDesactivadasComponent,
     EditPropertyComponent,
     ActionsPropiedadesTable,
-    ViewPropertyModalComponent,    
+    ViewPropertyModalComponent,
+    VisitasComponent,
+    AddVisitasModalComponent
   ],
   entryComponents: [
     ActionsPropiedadesTable,
-    ViewPropertyModalComponent
+    ViewPropertyModalComponent,
+    AddVisitasModalComponent
   ],
   providers: [
     OficinaService,
