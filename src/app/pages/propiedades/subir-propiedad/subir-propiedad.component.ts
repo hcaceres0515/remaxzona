@@ -65,7 +65,7 @@ export class SubirPropiedadComponent implements OnInit {
   selectedProvince: any;
   selectedDistrict: any;
 
-  selectedCustomer: any = {name:'', email:'', phone:''};
+  selectedCustomer: any = {name:'', email:'', first_phone:''};
 
   selectedPropertyType: any = [];
   selectedPropertyStatus: any;

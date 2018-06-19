@@ -24,16 +24,19 @@ export class EditPropertyComponent {
 
   public latitude: number;
   public longitude: number;
+  public lat: number;
+  public lng: number;
   public searchControl: FormControl;
   public zoom: number;
 
   @ViewChild("search")
   public searchElementRef: ElementRef;
 
-  // lat = 51.678418;
-  // lng = 7.809007;
+  loadedData: boolean = false;
 
-  propertyData: Property = new Property();
+  // propertyData: Property = new Property();
+
+  propertyData: any = [];
 
   departments: any[];
   provinces: any[];
@@ -49,10 +52,14 @@ export class EditPropertyComponent {
 
   selectedAttachFilePreview: any[] = [];
   selectedImageFilePreview: any[] = [];
+  selectedImages: any = [];
+  selectedAttachFile: any = [];
 
   selectedDepartment: any;
   selectedProvince: any;
   selectedDistrict: any;
+
+  selectedCustomer: any = {name:'', email:'', first_phone:''};
 
   selectedPropertyType: any = {name: ''};
   selectedPropertyStatus: any;
@@ -64,16 +71,42 @@ export class EditPropertyComponent {
   constructor(private activeModal: NgbActiveModal, private authService: NbAuthService,
               private propertyService: PropertyService, private _http: HttpClient, private modalService: NgbModal,
               private mapsAPILoader: MapsAPILoader,
-              private ngZone: NgZone) {}
+              private ngZone: NgZone, private router: Router) {}
 
   ngOnInit() {
 
-    this.getDepartments();
-    this.getPropertyType();
-    this.getPropertyStatus();
-    this.getPropertyContract();
-    this.getPropertyCoin();
+    this.propertyService.getPropertyDetail(22).subscribe(
+      response => {
+        this.propertyData = response.data;
+      },
+      error => {},
+      () => {
+        
+        if (this.propertyData.user_id !== this.authService.getUserId) {
+        
+          this.router.navigate(['/pages/properties']);
+        
+        } else {
 
+           this.loadedData = true;
+           this.selectedCustomer.id = this.propertyData.customer_id;
+          this.selectedCustomer.name = this.propertyData.customer_name;
+          this.selectedCustomer.email = this.propertyData.customer_email;
+          this.latitude = +this.propertyData.lat;
+          this.longitude = +this.propertyData.lng;
+          this.lat = this.latitude;
+          this.lng = this.longitude;
+
+          this.getDepartments();
+          this.getPropertyType();
+          this.getPropertyStatus();
+          this.getPropertyContract();
+          this.getPropertyCoin();
+
+        }
+      }
+    );
+        
     this.areaType = this.propertyService.getAreaMeasurement();
     this.areaBuiltType = this.propertyService.getAreaMeasurement();
 
@@ -113,7 +146,9 @@ export class EditPropertyComponent {
       response => {this.departments = response.data},
       error => {},
       () => {
-
+        let index = this.departments.map(function(e) { return e.id; }).indexOf(this.propertyData.department_id);
+        this.selectedDepartment = this.departments[index];
+        this.onChangeDepartment(this.selectedDepartment);
       }
     );
   }
@@ -123,7 +158,13 @@ export class EditPropertyComponent {
       response => {this.provinces = response.data},
       error => {},
       () => {
-
+        if (this.loadedData) {
+          let index = this.provinces.map(function(e) { return e.id; }).indexOf(this.propertyData.province_id);
+          this.selectedProvince = this.provinces[index];
+        } else {
+          this.selectedProvince = this.provinces[0];
+        }
+        this.onChangeProvince(this.selectedProvince);
       }
     );
   }
@@ -133,7 +174,13 @@ export class EditPropertyComponent {
       response => {this.districts = response.data},
       error => {},
       () => {
-
+        if (this.loadedData) {
+          let index = this.districts.map(function(e) { return e.id; }).indexOf(this.propertyData.district_id);
+          this.selectedDistrict = this.districts[index];
+        } else {
+         this.selectedDistrict = this.districts[0];
+        }
+        this.loadedData = false;
       }
     );
   }
@@ -143,7 +190,8 @@ export class EditPropertyComponent {
       response => {this.propertyType = response.data},
       error => {},
       () => {
-
+        let index = this.propertyType.map(function(e) { return e.id; }).indexOf(this.propertyData.property_type_id);
+        this.selectedPropertyType = this.propertyType[index];
       }
     );
   }
@@ -153,7 +201,8 @@ export class EditPropertyComponent {
       response => {this.propertyStatus = response.data},
       error => {},
       () => {
-
+         let index = this.propertyStatus.map(function(e) { return e.id; }).indexOf(this.propertyData.property_status_id);
+         this.selectedPropertyStatus = this.propertyStatus[index];
       }
     );
   }
@@ -163,7 +212,8 @@ export class EditPropertyComponent {
       response => {this.propertyContract = response.data},
       error => {},
       () => {
-
+           let index = this.propertyContract.map(function(e) { return e.id; }).indexOf(this.propertyData.property_contract_id);
+          this.selectedPropertyContract = this.propertyContract[index];
       }
     );
   }
@@ -201,29 +251,73 @@ export class EditPropertyComponent {
       response => {this.propertyCoin = response.data},
       error => {},
       () => {
-
+          let index = this.propertyCoin.map(function(e) { return e.id; }).indexOf(this.propertyData.property_coin_id);
+          this.selectedPropertyCoin = this.propertyCoin[index];
       }
     );
   }
 
   updateProperty(form) {
 
-    if (form.valid) {
-      console.log('valid');
-    } else {
-      console.log('no valid');
+    this.validationMessages = [];
+
+    if (!form.valid) {
+      this.validationMessages.push('Ingrese los todos datos obligatorios');
     }
 
-    // this.propertyData.title = this.propertyData.title.toUpperCase();
-    // this.propertyData.property_type_id = this.selectedPropertyType.id;
-    // this.propertyData.property_status_id = this.selectedPropertyStatus.id;
-    // this.propertyData.property_contract_id = this.selectedPropertyContract.id;
-    // this.propertyData.department_id = this.selectedDepartment.id;
-    // this.propertyData.province_id = this.selectedProvince.id;
-    // this.propertyData.district_id = this.selectedDistrict.id;
-    // this.propertyData.property_coin_id = this.selectedPropertyCoin.id;
+    if (this.selectedImages.length == 0) {
+      this.validationMessages.push('Ingrese por lo menos una imagen');
+    }
 
-    console.log(this.propertyData);
+    if (this.propertyData.customer_id == 0 || this.propertyData.customer_id == null) {
+      this.validationMessages.push('Ingrese el propietario');
+    }
+
+    if (this.latitude == this.lat) {
+      this.validationMessages.push('Seleccione una ubicación de referencia en el mapa');
+    }
+
+    if (this.validationMessages.length == 0) {
+
+      this.propertyData.user_id = this.authService.getUserId();
+      this.propertyData.office_id = this.authService.getOfficeId();
+      this.propertyData.title = this.propertyData.title.toUpperCase();
+      this.propertyData.property_type_id = this.selectedPropertyType.id;
+      this.propertyData.property_status_id = this.selectedPropertyStatus.id;
+      this.propertyData.property_contract_id = this.selectedPropertyContract.id;
+      this.propertyData.department_id = this.selectedDepartment.id;
+      this.propertyData.province_id = this.selectedProvince.id;
+      this.propertyData.district_id = this.selectedDistrict.id;
+      this.propertyData.property_coin_id = this.selectedPropertyCoin.id;
+
+      let fd: FormData = new FormData();
+
+      let images = this.selectedImages;
+
+      for (let item of images) {
+        fd.append('image[]', item, item.name);
+      }
+
+      let files = this.selectedAttachFile;
+
+      for (let item of files) {
+        fd.append('file[]', item, item.name);
+      }
+
+      fd.append('property_data', JSON.stringify(this.propertyData));
+
+      console.log(this.propertyData, fd);
+
+      this.propertyService.propertyCreate(fd).subscribe(
+        response => {},
+        error => {},
+        () => {
+          this.notificationService.showToast('success', 'Confirmación', 'La propiedad ha sido actualizada exitosamente');
+          this.router.navigate(['/pages/propiedades/mis-propiedades']);
+        }
+      );
+
+    }
 
   }
 
@@ -296,11 +390,27 @@ export class EditPropertyComponent {
 
   }
 
-  deletePropertyImage(index) {
+  deletePropertyImage(imageId) {
+    
+    this.propertyService.propertyImageDelete(imageId).subscribe(
+      response => {},
+      error => {},
+      () => {
+
+      }
+      );
+
+  }
+
+  deletePropertyImagePreview(index) {
     this.selectedImageFilePreview.splice(index, 1);
   }
 
-  deleteAttachFile(index) {
+  deleteAttachFile(fileId) {
+
+  }
+
+  deleteAttachFilePreview(index) {
     this.selectedAttachFilePreview.splice(index, 1);
   }
 

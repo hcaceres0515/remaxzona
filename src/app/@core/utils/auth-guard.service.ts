@@ -33,6 +33,10 @@ export class AuthGuardService implements CanActivate {
       return true;
     }
 
+    if (state.url === '/pages/propierties/editar-propiedad') {
+      return true;
+    }
+
     if (menu.indexOf(state.url) === -1) {
       console.log('You can not access to this page ' + state.url);
       this.router.navigate(['/pages/dashboard']);

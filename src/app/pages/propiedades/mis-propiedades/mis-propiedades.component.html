@@ -10,6 +10,59 @@
     <div class="row">
       <div class="col-md-12">
 
+        <div class="form-group row ">
+
+          <label class="col-sm-2 col-form-label font-weight-bold">Oficina</label>
+          <div class="col-sm-2">
+            
+            <select class="form-control" name='offices' [(ngModel)]="selectedOffice" (ngModelChange)="onChangeOffice($event)">
+              <option *ngFor="let item of offices"  [ngValue]="item"> {{item.name}} </option>
+            </select>           
+
+          </div>
+
+          <label class="col-sm-2 col-form-label font-weight-bold">Agente</label>
+          <div class="col-sm-2">
+            
+            <select class="form-control" name='users' [(ngModel)]="selectedUsers" (ngModelChange)="onChangeUser($event)">
+              <option *ngFor="let item of agents"  [ngValue]="item"> {{item.name}} </option>
+            </select>           
+
+          </div>
+
+        </div>
+
+        <div class="form-group row">
+
+          <label class="col-sm-2 col-form-label font-weight-bold">Departamento</label>
+          <div class="col-sm-2">
+            
+            <select class="form-control" name='department' id="department" [(ngModel)]="selectedDepartment" (ngModelChange)="onChangeDepartment($event)">
+              <option *ngFor="let item of departments"  [ngValue]="item"> {{item.name}} </option>
+            </select>           
+
+          </div>
+
+          <label class="col-sm-1 col-form-label font-weight-bold ">Provincia</label>
+          <div class="col-sm-3">
+
+            <select class="form-control" name="province" id="province" [(ngModel)]="selectedProvince" (ngModelChange)="onChangeProvince($event)">
+              <option *ngFor="let item of provinces" [ngValue]="item">{{item.name}}</option>
+            </select>
+          
+          </div>
+
+          <label class="col-sm-2 col-form-label font-weight-bold">Distrito</label>
+          <div class="col-sm-3">
+
+            <select class="form-control" name="district"  id="district" [(ngModel)]="selectedDistrict" required #district="ngModel">
+              <option *ngFor="let item of districts" [ngValue]="item">{{item.name}}</option>
+            </select>
+          
+          </div>
+
+        </div>
+
       </div>
     </div>
     <br>

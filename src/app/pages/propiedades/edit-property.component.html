@@ -2,7 +2,7 @@
 <nb-card>
 
   <nb-card-header>
-    Subir Propiedad
+    Editar Propiedad
   </nb-card-header>
 
   <nb-card-body>
@@ -13,7 +13,7 @@
 
       <div class="col-md-2">
         <br>
-        <button class="btn btn-success btn-tn" (click)="createProperty(propertyAddForm)"> <i class="fa fa-save"></i>  Guardar</button>
+        <button class="btn btn-success btn-tn" (click)="createProperty(propertyAddForm)"> <i class="fa fa-save"></i>  Actualizar</button>
       </div>
     </div>
 
@@ -336,11 +336,19 @@
                 <!--<button class="btn btn-success btn-tn pull-right" [disabled]="selectedImageFilePreview.length == 0" (click)="propertyImagesUpload()"> <i class="fa fa-upload"></i>  Subir Imagenes</button>-->
 
               </div>
-
+              
               <div style="margin: 8px; display: inline-block; position: relative"  *ngFor="let url of selectedImageFilePreview; let i = index">
                 <img  [src]="url" class="rounded mb-3" width="360" height="250">
 
-                <button class="btn btn-danger btn-tn del_photo" (click)="deletePropertyImage(i)"><i class="fa fa-trash"></i></button>
+                <button class="btn btn-danger btn-tn del_photo" (click)="deletePropertyImagePreview(i)"><i class="fa fa-trash"></i></button>
+              </div>
+
+              <hr>
+
+              <div style="margin: 8px; display: inline-block; position: relative"  *ngFor="let item of property.images">
+                <img  [src]="item.src" class="rounded mb-3" width="360" height="250">
+
+                <button class="btn btn-danger btn-tn del_photo" (click)="deletePropertyImage(item.id)"><i class="fa fa-trash"></i></button>
               </div>
 
             </nb-tab>
@@ -475,8 +483,15 @@
               <div class="form-group">
                 <br>
                 <ul>
-                  <li *ngFor="let item of selectedAttachFilePreview; let i = index"><p>{{item.name}}  &nbsp;&nbsp;&nbsp; <i class="fa fa-trash" (click)="deleteAttachFile(i)"></i></p></li>
+                  <li *ngFor="let item of selectedAttachFilePreview; let i = index"><p>{{item.name}}  &nbsp;&nbsp;&nbsp; <i class="fa fa-trash" (click)="deleteAttachFilePreview(i)"></i></p></li>
                 </ul>
+                
+                <hr>
+                
+                <ul>
+                  <li *ngFor="let item of propertyData.files"><p>{{item.file_name}}  &nbsp;&nbsp;&nbsp; <i class="fa fa-trash" (click)="deleteAttachFile(item.id)"></i></p></li>
+                </ul>
+
                 <br>
               </div>
 

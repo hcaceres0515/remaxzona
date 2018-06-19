@@ -5,6 +5,7 @@ import {NgModule} from "@angular/core";
 import {SubirPropiedadComponent} from "./subir-propiedad/subir-propiedad.component";
 import {MisPropiedadesComponent} from "./mis-propiedades/mis-propiedades.component";
 import {PropiedadesDesactivadasComponent} from "./desactivadas/propiedades-desactivadas.component";
+import {EditPropertyComponent} from "./edit-property.component";
 /**
  * Created by harold on 6/3/18.
  */
@@ -24,6 +25,10 @@ const routes: Routes = [{
   {
     path: 'desactivadas',
     component: PropiedadesDesactivadasComponent,
+  },
+  {
+    path: 'editar-propiedad',
+    component: EditPropertyComponent,
   }
   ]
 

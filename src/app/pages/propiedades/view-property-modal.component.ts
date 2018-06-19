@@ -28,7 +28,7 @@ export class ViewPropertyModalComponent implements  OnInit{
       () => {}
     );
   }
-
+  
   closeModal() {
     this.activeModal.close();
   }
