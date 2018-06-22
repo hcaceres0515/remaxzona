@@ -24,7 +24,7 @@
           <label class="col-sm-2 col-form-label">Agente</label>
           <div class="col-sm-2">
 
-            <select class="form-control" name='users' [(ngModel)]="selectedUsers" (ngModelChange)="onChangeUser($event)">
+            <select class="form-control" name='users' [(ngModel)]="selectedUser" (ngModelChange)="onChangeUser($event)">
               <option *ngFor="let item of agents"  [ngValue]="item"> {{item.name}} </option>
             </select>
 

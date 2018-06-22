@@ -76,6 +76,8 @@ export class MisPropiedadesComponent implements OnInit {
 	private properties;
 	private userId;
 
+	offices: any[];
+	agents: any[];
   departments: any[];
   provinces: any[];
   districts: any[];
@@ -84,6 +86,8 @@ export class MisPropiedadesComponent implements OnInit {
   selectedProvince: any;
   selectedDistrict: any;
 
+  selectedOffice: any;
+  selectedUser: any;
 
 	settings = {
     noDataMessage: 'No se encontraron registros.',
@@ -157,6 +161,14 @@ export class MisPropiedadesComponent implements OnInit {
 	  this.userId = this.authService.getUserId();
 	  this.getPropertiesByUser(this.userId);
 	  this.getDepartments();
+
+  }
+
+  onChangeUser() {
+
+  }
+
+  onChangeOffice() {
 
   }
 

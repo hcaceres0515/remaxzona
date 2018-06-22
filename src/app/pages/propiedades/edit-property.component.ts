@@ -386,6 +386,12 @@ export class EditPropertyComponent {
     }
   }
 
+  onCustomerSelected(customer) {
+    this.selectedCustomer = customer;
+    this.propertyData.customer_id = customer.id;
+
+  }
+
   showAddCustomerrModal() {
 
     const activeModal = this.modalService.open(AddClientesModalComponent, { size: 'lg', container: 'nb-layout' });

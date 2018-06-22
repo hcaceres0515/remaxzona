@@ -11,6 +11,8 @@ import {Property} from "./property";
 
 export class ViewPropertyModalComponent implements  OnInit{
 
+  modalHeader: string;
+
   propertyData: any = [];
   propertyId;
 
