@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Output} from "@angular/core";
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
+import {PropertyService} from "../propiedades.service";
 
 @Component({
 	selector: 'add-visitas-modal',
@@ -56,7 +57,7 @@ import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
           <label class="col-sm-6 col-form-label">Calificacion </label>
           <div class="col-sm-2">
 
-            <select name="coin" id="coin" class="form-control">
+            <select name="calification" id="calification" class="form-control">
               <option *ngFor="let item of visitCalification" [ngValue]="item">{{item.symbol}}</option>
             </select>
 
@@ -68,7 +69,7 @@ import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
           <label for="inputName" class="col-sm-3 col-form-label">Observaciones </label>
           <div class="col-sm-9">
 
-            <textarea/>
+            
 
           </div>
         </div>           
@@ -122,7 +123,7 @@ export class AddVisitasModalComponent {
     }
 
     updtateCalification() {
-      
+
     }
 
 	closeModal() {

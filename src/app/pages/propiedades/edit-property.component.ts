@@ -7,17 +7,20 @@ import {FormControl} from "@angular/forms";
 import {MapsAPILoader} from "@agm/core";
 import {} from "googlemaps";
 import {Property} from "./property";
-import {PropertyService} from "./propiedades.service";
+import {PROPERTY_TYPE, PropertyService} from "./propiedades.service";
 import {NbAuthService} from "../../@theme/auth/services/auth.service";
 import {PATHS} from "../../@core/config/constanst";
 import {AddClientesModalComponent} from "../clientes/mis-clientes/add-clientes-modal.component";
+import {ActivatedRoute, Router} from "@angular/router";
+import {NotificationMessageService} from "../../@theme/components/message-notification/notification.service";
 /**
  * Created by harold on 6/13/18.
  */
 
 @Component({
   selector: 'edit-property-modal',
-  templateUrl: 'edit-property.component.html',
+  styleUrls: ['./subir-propiedad/subir-propiedad.scss'],
+  templateUrl: './edit-property.component.html',
 })
 
 export class EditPropertyComponent {
@@ -34,8 +37,13 @@ export class EditPropertyComponent {
 
   loadedData: boolean = false;
 
-  // propertyData: Property = new Property();
+  public validationMessages:any = [];
 
+  PROPERTY_TYPE = PROPERTY_TYPE;
+
+  // propertyData: Property = new Property();
+  public sub;
+  public propertyId: number;
   propertyData: any = [];
 
   departments: any[];
@@ -68,28 +76,36 @@ export class EditPropertyComponent {
 
   notificationsConfig: boolean = false;
 
-  constructor(private activeModal: NgbActiveModal, private authService: NbAuthService,
+  constructor(private authService: NbAuthService, private activeRoute: ActivatedRoute,
               private propertyService: PropertyService, private _http: HttpClient, private modalService: NgbModal,
-              private mapsAPILoader: MapsAPILoader,
+              private mapsAPILoader: MapsAPILoader, private notificationService: NotificationMessageService,
               private ngZone: NgZone, private router: Router) {}
 
   ngOnInit() {
 
-    this.propertyService.getPropertyDetail(22).subscribe(
+    this.sub = this.activeRoute.params.subscribe(params => {
+      this.propertyId = +params['property_id']; // (+) converts string 'id' to a number
+    });
+
+
+    this.propertyService.getPropertyDetail(this.propertyId).subscribe(
       response => {
         this.propertyData = response.data;
       },
       error => {},
       () => {
-        
-        if (this.propertyData.user_id !== this.authService.getUserId) {
-        
-          this.router.navigate(['/pages/properties']);
-        
+
+        console.log(this.propertyData);
+
+        if (this.propertyData.user_id != this.authService.getUserId()) {
+
+          // this.router.navigate(['/pages/properties']);
+          alert('Diferent');
+
         } else {
 
-           this.loadedData = true;
-           this.selectedCustomer.id = this.propertyData.customer_id;
+          this.loadedData = true;
+          this.selectedCustomer.id = this.propertyData.customer_id;
           this.selectedCustomer.name = this.propertyData.customer_name;
           this.selectedCustomer.email = this.propertyData.customer_email;
           this.latitude = +this.propertyData.lat;
@@ -106,7 +122,7 @@ export class EditPropertyComponent {
         }
       }
     );
-        
+
     this.areaType = this.propertyService.getAreaMeasurement();
     this.areaBuiltType = this.propertyService.getAreaMeasurement();
 
@@ -146,6 +162,7 @@ export class EditPropertyComponent {
       response => {this.departments = response.data},
       error => {},
       () => {
+        console.log(this.departments);
         let index = this.departments.map(function(e) { return e.id; }).indexOf(this.propertyData.department_id);
         this.selectedDepartment = this.departments[index];
         this.onChangeDepartment(this.selectedDepartment);
@@ -178,7 +195,7 @@ export class EditPropertyComponent {
           let index = this.districts.map(function(e) { return e.id; }).indexOf(this.propertyData.district_id);
           this.selectedDistrict = this.districts[index];
         } else {
-         this.selectedDistrict = this.districts[0];
+          this.selectedDistrict = this.districts[0];
         }
         this.loadedData = false;
       }
@@ -192,6 +209,8 @@ export class EditPropertyComponent {
       () => {
         let index = this.propertyType.map(function(e) { return e.id; }).indexOf(this.propertyData.property_type_id);
         this.selectedPropertyType = this.propertyType[index];
+        this.getPropertySubType(this.selectedPropertyType.id);
+        this.getPropertyTypeFeatures(this.selectedPropertyType.id);
       }
     );
   }
@@ -201,8 +220,8 @@ export class EditPropertyComponent {
       response => {this.propertyStatus = response.data},
       error => {},
       () => {
-         let index = this.propertyStatus.map(function(e) { return e.id; }).indexOf(this.propertyData.property_status_id);
-         this.selectedPropertyStatus = this.propertyStatus[index];
+        let index = this.propertyStatus.map(function(e) { return e.id; }).indexOf(this.propertyData.property_status_id);
+        this.selectedPropertyStatus = this.propertyStatus[index];
       }
     );
   }
@@ -212,8 +231,8 @@ export class EditPropertyComponent {
       response => {this.propertyContract = response.data},
       error => {},
       () => {
-           let index = this.propertyContract.map(function(e) { return e.id; }).indexOf(this.propertyData.property_contract_id);
-          this.selectedPropertyContract = this.propertyContract[index];
+        let index = this.propertyContract.map(function(e) { return e.id; }).indexOf(this.propertyData.property_contract_id);
+        this.selectedPropertyContract = this.propertyContract[index];
       }
     );
   }
@@ -230,7 +249,24 @@ export class EditPropertyComponent {
       response => {this.propertyTypeFeatures = response.data},
       error => {},
       () => {
-        console.log(this.propertyTypeFeatures);
+
+        if (typeId == this.propertyData.property_type_id) {
+
+          (this.propertyTypeFeatures).forEach((item)=> {
+            // item.checked = false;
+            let feature = this.propertyData.features.find(x => x.property_type_feature_id === item.id);
+
+            if (feature !== undefined) {
+              item.checked = true;
+            } else {
+              item.checked = false;
+            }
+
+          });
+          console.log('PropertyFeatures', this.propertyTypeFeatures);
+
+        }
+
       }
     );
   }
@@ -251,10 +287,21 @@ export class EditPropertyComponent {
       response => {this.propertyCoin = response.data},
       error => {},
       () => {
-          let index = this.propertyCoin.map(function(e) { return e.id; }).indexOf(this.propertyData.property_coin_id);
-          this.selectedPropertyCoin = this.propertyCoin[index];
+        let index = this.propertyCoin.map(function(e) { return e.id; }).indexOf(this.propertyData.property_coin_id);
+        this.selectedPropertyCoin = this.propertyCoin[index];
       }
     );
+  }
+
+  selectPropertyFeatures(value, event) {
+    if (event.target.checked) {
+      this.propertyData.features.push(value);
+    } else {
+      let i = this.propertyData.features.indexOf(value);
+      this.propertyData.features.splice(i, 1);
+    }
+
+    console.log(this.propertyData.features);
   }
 
   updateProperty(form) {
@@ -265,16 +312,12 @@ export class EditPropertyComponent {
       this.validationMessages.push('Ingrese los todos datos obligatorios');
     }
 
-    if (this.selectedImages.length == 0) {
+    if (this.selectedImages.length == 0 && this.propertyData.images.length == 0) {
       this.validationMessages.push('Ingrese por lo menos una imagen');
     }
 
     if (this.propertyData.customer_id == 0 || this.propertyData.customer_id == null) {
       this.validationMessages.push('Ingrese el propietario');
-    }
-
-    if (this.latitude == this.lat) {
-      this.validationMessages.push('Seleccione una ubicación de referencia en el mapa');
     }
 
     if (this.validationMessages.length == 0) {
@@ -308,7 +351,7 @@ export class EditPropertyComponent {
 
       console.log(this.propertyData, fd);
 
-      this.propertyService.propertyCreate(fd).subscribe(
+      this.propertyService.propertyUpdate(fd).subscribe(
         response => {},
         error => {},
         () => {
@@ -319,6 +362,13 @@ export class EditPropertyComponent {
 
     }
 
+  }
+
+  mapClick(event) {
+    this.lat = event.coords.lat;
+    this.lng = event.coords.lng;
+    this.propertyData.lat = (this.lat) + '';
+    this.propertyData.lng = (this.lng) + '';
   }
 
   observableSource = (keyword: any): Observable<any[]> => {
@@ -342,9 +392,9 @@ export class EditPropertyComponent {
 
     activeModal.componentInstance.modalHeader = 'Agregar Cliente';
 
-    // activeModal.componentInstance.clickSave.subscribe(() => {
-    //   this.notificationService.showToast('success', 'Confirmación', 'El usuario ha sido creado exitosamente');
-    // });
+    activeModal.componentInstance.clickSave.subscribe(() => {
+      this.notificationService.showToast('success', 'Confirmación', 'El usuario ha sido creado exitosamente');
+    });
 
   }
 
@@ -358,8 +408,12 @@ export class EditPropertyComponent {
     }
   }
 
+
+
   onImageFileSelected(event): void {
     let files = event.target.files;
+
+    this.selectedImages = event.target.files;
 
     if (files) {
       for (let file of files) {
@@ -378,7 +432,7 @@ export class EditPropertyComponent {
   onAttachFileSelected(event) {
 
     let files = event.target.files;
-    // this.selectedAttachFilePreview = event.target.files;
+    this.selectedAttachFile = event.target.files;
 
     console.log(event.target.files);
 
@@ -390,15 +444,17 @@ export class EditPropertyComponent {
 
   }
 
-  deletePropertyImage(imageId) {
-    
+  deletePropertyImage(imageId, index) {
+
+    console.log(index);
+
     this.propertyService.propertyImageDelete(imageId).subscribe(
       response => {},
       error => {},
       () => {
-
+        this.propertyData.images.splice(index, 1);
       }
-      );
+    );
 
   }
 
@@ -406,7 +462,15 @@ export class EditPropertyComponent {
     this.selectedImageFilePreview.splice(index, 1);
   }
 
-  deleteAttachFile(fileId) {
+  deleteAttachFile(fileId, index) {
+
+    this.propertyService.propertyFileDelete(fileId).subscribe(
+      response => {},
+      error => {},
+      () => {
+        this.propertyData.files.splice(index, 1);
+      }
+    );
 
   }
 
@@ -414,8 +478,6 @@ export class EditPropertyComponent {
     this.selectedAttachFilePreview.splice(index, 1);
   }
 
-  closeModal() {
-    this.activeModal.close();
-  }
+
 
 }

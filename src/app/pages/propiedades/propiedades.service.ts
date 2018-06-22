@@ -57,11 +57,11 @@ export class PropertyService {
   }
 
   propertyImageDelete(imageId): Observable<ServerResponse> {
-    return this.http.get(PATHS.API + '&c=property&m=get_property_type_feature&property_type_id=' + imageId);
+    return this.http.post(PATHS.API + '&c=property&m=delete_property_image', JSON.stringify({'image_id': imageId}));
   }
 
   propertyFileDelete(fileId): Observable<ServerResponse>{
-    return this.http.get(PATHS.API + '&c=property&m=get_property_type_feature&property_type_id=' + fileId);
+    return this.http.post(PATHS.API + '&c=property&m=delete_property_file', JSON.stringify({'file_id': fileId}));
   }
 
   propertyImagesUpdate(images): Observable<ServerResponse> {

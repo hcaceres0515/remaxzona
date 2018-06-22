@@ -15,7 +15,9 @@ import {ViewPropertyModalComponent} from "../view-property-modal.component";
   template: `
     <div style="display: flex">
       <button class="btn btn-info btn-icon btn-tn"  title="Ver" (click)="showViewModal()"><i class="ion-eye"></i></button>
-      <button class="btn btn-success btn-icon btn-tn"  title="Editar" (click)="showEditModal()" *ngIf="sessionRolId === ROLES.AGENTE"><i class="ion-edit"></i></button>
+      <button class="btn btn-success btn-icon btn-tn"  title="Editar" *ngIf="sessionRolId === ROLES.AGENTE"
+              [routerLink]="['/pages/propiedades/editar-propiedad', rowData.id]">
+      <i class="ion-edit"></i></button>
     </div>
   `,
 })
@@ -73,6 +75,15 @@ export class MisPropiedadesComponent implements OnInit {
 
 	private properties;
 	private userId;
+
+  departments: any[];
+  provinces: any[];
+  districts: any[];
+
+  selectedDepartment: any;
+  selectedProvince: any;
+  selectedDistrict: any;
+
 
 	settings = {
     noDataMessage: 'No se encontraron registros.',
@@ -145,6 +156,7 @@ export class MisPropiedadesComponent implements OnInit {
 
 	  this.userId = this.authService.getUserId();
 	  this.getPropertiesByUser(this.userId);
+	  this.getDepartments();
 
   }
 
@@ -154,6 +166,40 @@ export class MisPropiedadesComponent implements OnInit {
       error => {},
       () => {
         this.source.load(this.properties);
+      }
+    );
+  }
+
+
+  getDepartments() {
+    this.propertyService.getDepartments().subscribe(
+      response => {this.departments = response.data},
+      error => {},
+      () => {
+
+      }
+    );
+  }
+
+  onChangeDepartment(department) {
+    console.log(department);
+    this.propertyService.getProvinceByDepartment(department.id).subscribe(
+      response => {this.provinces = response.data},
+      error => {},
+      () => {
+        this.provinces.unshift({id: 0, name: 'TODOS'});
+        this.selectedProvince = this.provinces[0];
+      }
+    );
+  }
+
+  onChangeProvince(province) {
+    this.propertyService.getDistrictByProvince(province.id).subscribe(
+      response => {this.districts = response.data},
+      error => {},
+      () => {
+        this.districts.unshift({id: 0, name: 'TODOS'});
+        this.selectedDistrict = this.districts[0];
       }
     );
   }

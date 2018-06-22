@@ -22,7 +22,7 @@ export class AuthGuardService implements CanActivate {
     // console.log('canActivate',menu);
     // console.log(state.url);
 
-    console.log('AuthGuardService');
+    console.log('AuthGuardService', state);
 
     if (!this.AuthService.isLogged()) {
       this.router.navigateByUrl('/auth/login');
@@ -33,7 +33,7 @@ export class AuthGuardService implements CanActivate {
       return true;
     }
 
-    if (state.url === '/pages/propierties/editar-propiedad') {
+    if (state.url === '/pages/propiedades/editar-propiedad') {
       return true;
     }
 

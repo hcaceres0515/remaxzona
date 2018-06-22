@@ -13,7 +13,7 @@
 
       <div class="col-md-2">
         <br>
-        <button class="btn btn-success btn-tn" (click)="createProperty(propertyAddForm)"> <i class="fa fa-save"></i>  Actualizar</button>
+        <button class="btn btn-success btn-tn" (click)="updateProperty(propertyEditForm)"> <i class="fa fa-save"></i>  Actualizar</button>
       </div>
     </div>
 
@@ -39,7 +39,7 @@
 
             <nb-tab tabTitle="Datos Principales">
 
-              <form #propertyAddForm="ngForm" novalidate>
+              <form #propertyEditForm="ngForm" novalidate>
 
                 <div class="form-group row">
 
@@ -133,7 +133,7 @@
 
                     <!--<pre>Invalid? {{ property_type.invalid }}</pre>-->
 
-                    <small class="form-text error" *ngIf="!property_type.dirty">
+                    <small class="form-text error" *ngIf="property_type.invalid">
                       Campo Requerido
                     </small>
 
@@ -313,7 +313,7 @@
 
                 <div class="form-group row">
 
-                  <nb-checkbox class="col-sm-3" [value]="false" *ngFor="let item of propertyTypeFeatures" (change)="selectPropertyFeatures(item, $event)">{{item.name}}</nb-checkbox>
+                  <nb-checkbox class="col-sm-3" [value]="item.checked" *ngFor="let item of propertyTypeFeatures" (change)="selectPropertyFeatures(item, $event)">{{item.name}}</nb-checkbox>
 
                 </div>
 
@@ -336,7 +336,7 @@
                 <!--<button class="btn btn-success btn-tn pull-right" [disabled]="selectedImageFilePreview.length == 0" (click)="propertyImagesUpload()"> <i class="fa fa-upload"></i>  Subir Imagenes</button>-->
 
               </div>
-              
+
               <div style="margin: 8px; display: inline-block; position: relative"  *ngFor="let url of selectedImageFilePreview; let i = index">
                 <img  [src]="url" class="rounded mb-3" width="360" height="250">
 
@@ -345,10 +345,10 @@
 
               <hr>
 
-              <div style="margin: 8px; display: inline-block; position: relative"  *ngFor="let item of property.images">
+              <div style="margin: 8px; display: inline-block; position: relative"  *ngFor="let item of propertyData.images; let i = index">
                 <img  [src]="item.src" class="rounded mb-3" width="360" height="250">
 
-                <button class="btn btn-danger btn-tn del_photo" (click)="deletePropertyImage(item.id)"><i class="fa fa-trash"></i></button>
+                <button class="btn btn-danger btn-tn del_photo" (click)="deletePropertyImage(item.id, i)"><i class="fa fa-trash"></i></button>
               </div>
 
             </nb-tab>
@@ -485,11 +485,11 @@
                 <ul>
                   <li *ngFor="let item of selectedAttachFilePreview; let i = index"><p>{{item.name}}  &nbsp;&nbsp;&nbsp; <i class="fa fa-trash" (click)="deleteAttachFilePreview(i)"></i></p></li>
                 </ul>
-                
+
                 <hr>
-                
+
                 <ul>
-                  <li *ngFor="let item of propertyData.files"><p>{{item.file_name}}  &nbsp;&nbsp;&nbsp; <i class="fa fa-trash" (click)="deleteAttachFile(item.id)"></i></p></li>
+                  <li *ngFor="let item of propertyData.files; let i = index"><p>{{item.file_name}}  &nbsp;&nbsp;&nbsp; <i class="fa fa-trash" (click)="deleteAttachFile(item.id, i)"></i></p></li>
                 </ul>
 
                 <br>

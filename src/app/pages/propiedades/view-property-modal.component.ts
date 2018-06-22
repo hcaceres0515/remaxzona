@@ -5,6 +5,7 @@ import {Property} from "./property";
 
 @Component({
   selector: 'view-property-modal',
+  styleUrls: ['./subir-propiedad/subir-propiedad.scss'],
   templateUrl: './view-property-modal.component.html'
 })
 
@@ -28,7 +29,7 @@ export class ViewPropertyModalComponent implements  OnInit{
       () => {}
     );
   }
-  
+
   closeModal() {
     this.activeModal.close();
   }

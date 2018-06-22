@@ -27,7 +27,7 @@ const routes: Routes = [{
     component: PropiedadesDesactivadasComponent,
   },
   {
-    path: 'editar-propiedad',
+    path: 'editar-propiedad/:property_id',
     component: EditPropertyComponent,
   }
   ]
