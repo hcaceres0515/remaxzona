@@ -42,7 +42,7 @@ export class SubirPropiedadComponent implements OnInit {
   PROPERTY_TYPE = PROPERTY_TYPE;
 
   propertyData: Property = new Property();
-  propertyId: number = 2;
+  propertyId: number;
 
   departments: any[];
   provinces: any[];
@@ -349,7 +349,7 @@ export class SubirPropiedadComponent implements OnInit {
 
   observableSource = (keyword: any): Observable<any[]> => {
     let url: string =
-      PATHS.API + '&c=customer&m=get_customer_by_keyword&user_id=' + 2 + '&keyword=' + keyword
+      PATHS.API + '&c=customer&m=get_customer_by_keyword&user_id=' + this.authService.getUserId() + '&keyword=' + keyword
     if (keyword) {
       let json;
       return this._http.get(url)

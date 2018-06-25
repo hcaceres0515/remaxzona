@@ -60,7 +60,7 @@ export class ActionsPropiedadesTable implements ViewCell, OnInit {
 
       return true;
 
-    } else if (this.authService.getRolId() == ROLES.REVISOR && this.rowData.office_id && this.authService.getOfficeId()) {
+    } else if ((this.authService.getRolId() == ROLES.REVISOR || this.authService.getRolId() == ROLES.ADMIN) && this.rowData.office_id && this.authService.getOfficeId()) {
 
       return true;
 

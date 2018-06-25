@@ -14,6 +14,7 @@ import {AddClientesModalComponent} from "../clientes/mis-clientes/add-clientes-m
 import {ActivatedRoute, Router} from "@angular/router";
 import {NotificationMessageService} from "../../@theme/components/message-notification/notification.service";
 import {ConfirmationModalComponent} from "../../@theme/components/confirmation-modal/confirmation-modal.component";
+import {ROLES} from "../../@core/config/rolesdb";
 /**
  * Created by harold on 6/13/18.
  */
@@ -103,7 +104,7 @@ export class EditPropertyComponent {
 
         console.log(this.propertyData);
 
-        if (this.propertyData.user_id != this.authService.getUserId()) {
+        if (!this.editPermission()) {
 
           this.router.navigate(['/pages/propiedades']);
 
@@ -163,6 +164,22 @@ export class EditPropertyComponent {
         });
       });
     });
+  }
+
+  editPermission() {
+
+    if (this.propertyData.user_id == this.authService.getUserId()) {
+
+      return true;
+
+    } else if ((this.authService.getRolId() == ROLES.REVISOR || this.authService.getRolId() == ROLES.ADMIN) && this.propertyData.office_id && this.authService.getOfficeId()) {
+
+      return true;
+
+    } else {
+
+      return false;
+    }
   }
 
   getDepartments() {
@@ -403,7 +420,7 @@ export class EditPropertyComponent {
 
   observableSource = (keyword: any): Observable<any[]> => {
     let url: string =
-      PATHS.API + '&c=customer&m=get_customer_by_keyword&user_id=' + 2 + '&keyword=' + keyword
+      PATHS.API + '&c=customer&m=get_customer_by_keyword&user_id=' + this.authService.getUserId() + '&keyword=' + keyword
     if (keyword) {
       let json;
       return this._http.get(url)
