@@ -19,7 +19,7 @@ export class UsuariosService {
     return this.http.get(PATHS.API + '&c=user&m=get_all_users');
   }
 
-  getUsersByOffice(office_id): Observable<any> {
+  getUsersByOffice(office_id): Observable<ServerResponse> {
     return this.http.get(PATHS.API + '&c=user&m=get_users_by_office&office_id=' + office_id);
   }
 

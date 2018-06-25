@@ -2,7 +2,7 @@
  * Created by harold on 6/4/18.
  */
 import {Component, ElementRef, OnInit, ViewChild, NgZone} from "@angular/core";
-import {PROPERTY_TYPE, PropertyService} from "../propiedades.service";
+import {PROPERTY_CONTRACT_TYPE, PROPERTY_TYPE, PropertyService} from "../propiedades.service";
 import {PATHS} from "../../../@core/config/constanst";
 import {Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
@@ -32,7 +32,7 @@ export class SubirPropiedadComponent implements OnInit {
   public lng: number;
   public searchControl: FormControl;
   public zoom: number;
-  public marker: string = PATHS.SERVER + 'resources_dev/tools/marker_map.png';
+  public marker: string = PATHS.MAP_ICON;
 
   @ViewChild("search")
   public searchElementRef: ElementRef;
@@ -50,7 +50,6 @@ export class SubirPropiedadComponent implements OnInit {
   propertyType: any[];
   propertySubType: any[];
   propertyStatus: any[];
-  propertyContract: any[];
   propertyCoin: any[];
   propertyTypeFeatures: any[];
   areaType: any[];
@@ -84,7 +83,7 @@ export class SubirPropiedadComponent implements OnInit {
     this.getDepartments();
     this.getPropertyType();
     this.getPropertyStatus();
-    this.getPropertyContract();
+    // this.getPropertyContract();
     this.getPropertyCoin();
 
     this.areaType = this.propertyService.getAreaMeasurement();
@@ -194,16 +193,6 @@ export class SubirPropiedadComponent implements OnInit {
     );
   }
 
-  getPropertyContract() {
-    this.propertyService.getPropertyContract().subscribe(
-      response => {this.propertyContract = response.data},
-      error => {},
-      () => {
-
-      }
-    );
-  }
-
   onChangePropertyType(value) {
 
     this.getPropertyTypeFeatures(value.id);
@@ -271,7 +260,7 @@ export class SubirPropiedadComponent implements OnInit {
       this.propertyData.title = this.propertyData.title.toUpperCase();
       this.propertyData.property_type_id = this.selectedPropertyType.id;
       this.propertyData.property_status_id = this.selectedPropertyStatus.id;
-      this.propertyData.property_contract_id = this.selectedPropertyContract.id;
+      this.propertyData.property_contract_id = +PROPERTY_CONTRACT_TYPE.ACTIVO;
       this.propertyData.department_id = this.selectedDepartment.id;
       this.propertyData.province_id = this.selectedProvince.id;
       this.propertyData.district_id = this.selectedDistrict.id;

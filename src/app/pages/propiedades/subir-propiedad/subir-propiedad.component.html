@@ -9,11 +9,12 @@
 
     <div class="row">
 
-      <div class="col-md-10"></div>
+      <div class="col-md-9"></div>
 
-      <div class="col-md-2">
+      <div class="col-md-3">
         <br>
         <button class="btn btn-success btn-tn" (click)="createProperty(propertyAddForm)"> <i class="fa fa-save"></i>  Guardar</button>
+        <button class="btn btn-danger btn-tn" [routerLink]="['/pages/propiedades/mis-propiedades']"> <i class="fa fa-times-circle"></i>  Cancelar</button>
       </div>
     </div>
 
@@ -45,14 +46,7 @@
 
                   <label class="col-sm-2 col-form-label">Situación *</label>
                   <div class="col-sm-2">
-                    <select class="form-control" id="propertyContract" name="propertyContract" [(ngModel)]="selectedPropertyContract" required #property_contract="ngModel">
-                      <option *ngFor="let item of propertyContract" [ngValue]="item">{{item.name}}</option>
-                    </select>
-
-                    <small class="form-text error" *ngIf="property_contract.invalid">
-                      Campo Requerido
-                    </small>
-
+                    <input type="text" class="form-control" value="ACTIVO" disabled>
                   </div>
 
                   <label class="col-sm-1 col-form-label">Exclusiva</label>
@@ -244,16 +238,21 @@
                   </div>
 
 
-                  <label class="col-sm-2 col-form-label offset-md-3">Antiguedad</label>
+                  <label class="col-sm-2 col-form-label">Antiguedad</label>
                   <div class="col-sm-2">
                     <input type="text" class="form-control" name="antiquity" placeholder="Antiguedad" [(ngModel)]="propertyData.antiquity">
+                  </div>
+
+                  <label class="col-sm-2 col-form-label">Fecha Entrega</label>
+                  <div class="col-sm-2">
+                    <input type="date" class="form-control" name="deliveryDate" [(ngModel)]="propertyData.delivery_date">
                   </div>
 
                 </div>
 
                 <div class="form-group row">
 
-                  <label class="col-sm-2 col-form-label">Habitaciones</label>
+                  <label class="col-sm-2 col-form-label">Dormitorios</label>
                   <div class="col-sm-1">
                     <input type="number" class="form-control" name="bedrooms" min="0" [(ngModel)]="propertyData.bedrooms" [disabled]="selectedPropertyType.id == PROPERTY_TYPE.TERRENO">
                   </div>
@@ -348,6 +347,8 @@
             <nb-tab tabTitle="Propietario">
 
               <div class="row">
+
+                <label class="col-md-12 form-control-label font-weight-bold">** Esta información es totalmente reservada y visible para el que registra la propiedad. Debe llenar la información.</label>
 
                 <div class="col-sm-6">
 
@@ -462,11 +463,14 @@
 
             <nb-tab tabTitle="Archivos">
 
+
               <div class="form-group">
+
+                <label class="col-md-12 form-control-label font-weight-bold">** Usted podrá adjuntar archivos Word, PDF, Excel, que podrán ser descargados por el usuario final que ve la propiedad publicada en la web</label>
 
                 <input style="display: none" type="file" (change)="onAttachFileSelected($event)" #fileInputAttach multiple>
 
-                <button class="btn btn-info btn-tn" (click)="fileInputAttach.click()"><i class="fa fa-file"></i> Seleccionar Archivo</button>
+                <button class="btn btn-info btn-tn" (click)="fileInputAttach.click()"><i class="fa fa-file"></i> Seleccionar Archivos</button>
 
                 <!--<button class="btn btn-success btn-tn pull-right" [disabled]="selectedAttachFilePreview.length == 0" (click)="propertyFilesUpload()"> <i class="fa fa-upload"></i>  Subir Archivos</button>-->
 

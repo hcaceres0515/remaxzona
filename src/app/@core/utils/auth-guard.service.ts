@@ -33,7 +33,7 @@ export class AuthGuardService implements CanActivate {
       return true;
     }
 
-    if (state.url === '/pages/propiedades/editar-propiedad') {
+    if (state.url.includes('editar-propiedad')) {
       return true;
     }
 

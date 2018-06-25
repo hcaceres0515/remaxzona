@@ -6,13 +6,14 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {FormControl} from "@angular/forms";
 import {MapsAPILoader} from "@agm/core";
 import {} from "googlemaps";
-import {Property} from "./property";
-import {PROPERTY_TYPE, PropertyService} from "./propiedades.service";
+import {Property, PropertyContractHistory} from "./property";
+import {PROPERTY_TYPE, PROPERTY_CONTRACT_TYPE, PropertyService} from "./propiedades.service";
 import {NbAuthService} from "../../@theme/auth/services/auth.service";
 import {PATHS} from "../../@core/config/constanst";
 import {AddClientesModalComponent} from "../clientes/mis-clientes/add-clientes-modal.component";
 import {ActivatedRoute, Router} from "@angular/router";
 import {NotificationMessageService} from "../../@theme/components/message-notification/notification.service";
+import {ConfirmationModalComponent} from "../../@theme/components/confirmation-modal/confirmation-modal.component";
 /**
  * Created by harold on 6/13/18.
  */
@@ -31,6 +32,7 @@ export class EditPropertyComponent {
   public lng: number;
   public searchControl: FormControl;
   public zoom: number;
+  public marker: string = PATHS.MAP_ICON;
 
   @ViewChild("search")
   public searchElementRef: ElementRef;
@@ -40,6 +42,7 @@ export class EditPropertyComponent {
   public validationMessages:any = [];
 
   PROPERTY_TYPE = PROPERTY_TYPE;
+  PROPERTY_CONTRACT_TYPE = PROPERTY_CONTRACT_TYPE;
 
   // propertyData: Property = new Property();
   public sub;
@@ -71,8 +74,11 @@ export class EditPropertyComponent {
 
   selectedPropertyType: any = {name: ''};
   selectedPropertyStatus: any;
-  selectedPropertyContract: any;
+  selectedPropertyContract: any = {id: 0};
   selectedPropertyCoin: any;
+
+  changeContractType: any;
+  contractHistory = new PropertyContractHistory();
 
   notificationsConfig: boolean = false;
 
@@ -99,8 +105,7 @@ export class EditPropertyComponent {
 
         if (this.propertyData.user_id != this.authService.getUserId()) {
 
-          // this.router.navigate(['/pages/properties']);
-          alert('Diferent');
+          this.router.navigate(['/pages/propiedades']);
 
         } else {
 
@@ -112,6 +117,8 @@ export class EditPropertyComponent {
           this.longitude = +this.propertyData.lng;
           this.lat = this.latitude;
           this.lng = this.longitude;
+
+          this.contractHistory.last_contract_id = this.propertyData.property_contract_id;
 
           this.getDepartments();
           this.getPropertyType();
@@ -126,9 +133,10 @@ export class EditPropertyComponent {
     this.areaType = this.propertyService.getAreaMeasurement();
     this.areaBuiltType = this.propertyService.getAreaMeasurement();
 
-    this.zoom = 4;
-    this.latitude = 39.8282;
-    this.longitude = -98.5795;
+    this.changeContractType = this.propertyService.getChangeContractType();
+    this.contractHistory.type = this.changeContractType[0].id;
+
+    this.zoom = 12;
 
     //create search FormControl
     this.searchControl = new FormControl();
@@ -237,6 +245,18 @@ export class EditPropertyComponent {
     );
   }
 
+  onChangeContract(contract) {
+
+    if (contract.id == PROPERTY_CONTRACT_TYPE.VENDIDO || contract.id == PROPERTY_CONTRACT_TYPE.ALQUILADO) {
+      this.contractHistory.price = this.propertyData.price;
+      this.contractHistory.commission_percentage = this.propertyData.commission_percentage;
+    } else {
+      this.contractHistory.price = null;
+      this.contractHistory.commission_percentage = null;
+    }
+
+  }
+
   onChangePropertyType(value) {
 
     this.getPropertyTypeFeatures(value.id);
@@ -321,6 +341,16 @@ export class EditPropertyComponent {
     }
 
     if (this.validationMessages.length == 0) {
+
+      if (this.selectedPropertyContract.id != this.propertyData.property_contract_id) {
+
+        this.contractHistory.property_id = this.propertyId;
+        this.contractHistory.new_contract_id = this.selectedPropertyContract.id;
+        this.contractHistory.office_id = this.authService.getOfficeId();
+        this.contractHistory.user_id = this.authService.getUserId();
+        this.propertyData.contract_history = this.contractHistory;
+
+      }
 
       this.propertyData.user_id = this.authService.getUserId();
       this.propertyData.office_id = this.authService.getOfficeId();
@@ -414,8 +444,6 @@ export class EditPropertyComponent {
     }
   }
 
-
-
   onImageFileSelected(event): void {
     let files = event.target.files;
 
@@ -452,16 +480,24 @@ export class EditPropertyComponent {
 
   deletePropertyImage(imageId, index) {
 
-    console.log(index);
+    const activeModal = this.modalService.open(ConfirmationModalComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static'});
 
-    this.propertyService.propertyImageDelete(imageId).subscribe(
-      response => {},
-      error => {},
+    activeModal.componentInstance.modalHeader = 'Confirmación';
+    activeModal.componentInstance.modalBodyMessage = 'eliminar esta imagen';
+
+    activeModal.componentInstance.clickConfirm.subscribe(
       () => {
-        this.propertyData.images.splice(index, 1);
+
+        this.propertyService.propertyImageDelete(imageId).subscribe(
+          response => {},
+          error => {},
+          () => {
+            this.propertyData.images.splice(index, 1);
+          }
+        );
+
       }
     );
-
   }
 
   deletePropertyImagePreview(index) {
@@ -470,11 +506,22 @@ export class EditPropertyComponent {
 
   deleteAttachFile(fileId, index) {
 
-    this.propertyService.propertyFileDelete(fileId).subscribe(
-      response => {},
-      error => {},
+    const activeModal = this.modalService.open(ConfirmationModalComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static'});
+
+    activeModal.componentInstance.modalHeader = 'Confirmación';
+    activeModal.componentInstance.modalBodyMessage = 'eliminar este archivo';
+
+    activeModal.componentInstance.clickConfirm.subscribe(
       () => {
-        this.propertyData.files.splice(index, 1);
+
+        this.propertyService.propertyFileDelete(fileId).subscribe(
+          response => {},
+          error => {},
+          () => {
+            this.propertyData.files.splice(index, 1);
+          }
+        );
+
       }
     );
 

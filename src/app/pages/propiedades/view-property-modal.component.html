@@ -19,13 +19,23 @@
 
             <div class="form-group row ">
 
+              <label class="col-sm-2 col-form-label font-weight-bold">Agente: </label>
+              <label class="col-sm-2 col-form-label">{{propertyData.username}}</label>
+
+              <label class="col-sm-2 col-form-label font-weight-bold">Oficina: </label>
+              <label class="col-sm-6 col-form-label">{{propertyData.office_name}}</label>
+
+            </div>
+
+            <div class="form-group row ">
+
               <label class="col-sm-2 col-form-label font-weight-bold">Situación: </label>
               <label class="col-sm-2 col-form-label">{{propertyData.property_contract_name}}</label>
 
               <label class="col-sm-1 col-form-label font-weight-bold">Exclusiva: </label>
               <label class="col-sm-2 col-form-label">{{propertyData.exclusivity_name}}</label>
 
-              <label class="col-sm-2 col-form-label">Termino Contrato: </label>
+              <label class="col-sm-2 col-form-label font-weight-bold">Termino Contrato: </label>
               <label class="col-sm-3 col-form-label">{{propertyData.expirationAt}}</label>
 
             </div>
@@ -36,7 +46,7 @@
               <label class="col-sm-2 col-form-label">{{propertyData.department_name}}</label>
 
               <label class="col-sm-1 col-form-label font-weight-bold">Provincia: </label>
-              <label class="col-sm-3 col-form-label">{{propertyData.department_name}}</label>
+              <label class="col-sm-3 col-form-label">{{propertyData.province_name}}</label>
 
               <label class="col-sm-1 col-form-label font-weight-bold">Distrito: </label>
               <label class="col-sm-3 col-form-label">{{propertyData.district_name}}</label>
@@ -67,7 +77,7 @@
               <label class="col-sm-3 col-form-label">{{propertyData.property_coin_symbol}} {{propertyData.price}}</label>
 
               <label class="col-sm-2 col-form-label offset-md-1">Comisión (%): </label>
-              <label class="col-sm-2 col-form-label">{{propertyData.percentage}}</label>
+              <label class="col-sm-2 col-form-label">{{propertyData.commission_percentage}}</label>
 
             </div>
 
@@ -130,7 +140,7 @@
             <hr>
 
             <div class="form-group text-center">
-              <h5>Caracteristicas de la propiedad</h5>
+              <h5>Caracteristicas de la propiedad - {{propertyData.property_type_name}}</h5>
             </div>
 
             <div class="form-group row">
@@ -146,15 +156,12 @@
         <nb-tab tabTitle="Imagenes">
 
           <br>
-          <!--<div style="margin: 15px; display: inline-block; position: relative"  *ngFor="let item of property.images; let i = index">-->
 
-            <img  [src]="item.src_thumb" class="rounded mb-3" width="180" height="180" *ngFor="let item of propertyData.images">
-
-          <!--</div>-->
+          <ngx-gallery [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
 
         </nb-tab>
 
-        <nb-tab tabTitle="Propietario">
+        <nb-tab tabTitle="Propietario" *ngIf="userId == propertyData.user_id">
 
           <br>
           <div class="row">
@@ -203,9 +210,9 @@
 
         <nb-tab tabTitle="Mapa">
 
-          <!--<agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">-->
-          <!--<agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>-->
-          <!--</agm-map>-->
+          <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
+            <agm-marker [latitude]="latitude" [longitude]="longitude"[iconUrl]="icon" ></agm-marker>
+          </agm-map>
 
         </nb-tab>
 
@@ -213,10 +220,9 @@
 
           <div class="form-group">
           <br>
-          <ul>
-          <li *ngFor="let item of propertyData.files"><p>{{item.file_name}}</p></li>
-          </ul>
-          <br>
+            <ul>
+              <li *ngFor="let item of propertyData.files"><a style="padding: 2px;" target="_blank" href="{{item.src}}">{{item.file_name}}</a></li><br>
+            </ul>
           </div>
 
         </nb-tab>
@@ -226,12 +232,12 @@
 
           <div class="form-group row">
             <label class="col-sm-2 col-form-label">Dirección URL</label>
-            <label class="col-sm-10 col-form-label">{{propertyData.video_url}}</label>
+            <label class="col-sm-10 col-form-label" *ngIf="propertyData.video_url !== 'null'"><a href="{{propertyData.video_url}}" target="_blank">{{propertyData.video_url}}</a></label>
           </div>
 
-          <div class="col-sm-12">
+          <div class="col-sm-12" *ngIf="propertyData.video_url !== 'null'">
 
-            <!--<iframe width="680" height="480" src="{{propertyData.video_url}}" allowfullscreen></iframe>-->
+            <iframe width="680" height="480" [src]="videoUrl" allowfullscreen></iframe>
 
           </div>
 

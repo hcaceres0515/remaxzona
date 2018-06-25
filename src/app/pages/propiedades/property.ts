@@ -53,6 +53,7 @@ export class Property {
   public report_days: string;
   public report_date: string;
   public video_url: string;
+  public delivery_date: string;
   public status: number;
   public images: PropertyImage[];
   public files: PropertyFile[];
@@ -94,4 +95,23 @@ export class PropertyFile {
   public status: number;
 
   constructor() {}
+}
+
+
+export class PropertyContractHistory {
+
+  public id: number;
+  public office_id: number;
+  public user_id: number;
+  public property_id: number;
+  public last_contract_id: number;
+  public new_contract_id: number;
+  public type: number;
+  public comment: string;
+  public price: number;
+  public commission_percentage: number;
+  public created_at: string;
+
+  constructor() {}
+
 }

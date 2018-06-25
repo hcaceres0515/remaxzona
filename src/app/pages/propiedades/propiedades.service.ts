@@ -76,6 +76,18 @@ export class PropertyService {
     return this.http.get(PATHS.API + '&c=property&m=get_properties_by_user&user_id=' + userId);
   }
 
+  getPropertiesByOffice(officeId): Observable<ServerResponse> {
+    return this.http.get(PATHS.API + '&c=property&m=get_properties_by_office&office_id=' + officeId);
+  }
+
+  getPropertyInfoById(propertyId): Observable<ServerResponse> {
+    return this.http.get(PATHS.API + '&c=property&m=get_property_info_by_id&property_id=' + propertyId);
+  }
+
+  getPropertyNotActive(userId): Observable<ServerResponse> {
+    return this.http.get(PATHS.API + '&c=property&m=get_property_not_active&user_id=' + userId);
+  }
+
   getPropertyDetail(propertyId): Observable<ServerResponse> {
     return this.http.get(PATHS.API + '&c=property&m=get_property_by_id&property_id=' + propertyId);
   }
@@ -131,6 +143,26 @@ export class PropertyService {
 
     return obj;
   }
+
+  getChangeContractType() {
+
+    let obj = [
+      {
+        id: '1',
+        name: 'AGENTE'
+      },
+      {
+        id: '2',
+        name: 'OTROS MEDIOS'
+      },
+      {
+        id: '3',
+        name: 'COMPARTIDO'
+      }
+    ];
+
+    return obj;
+  }
 }
 
 
@@ -141,3 +173,33 @@ export const PROPERTY_TYPE = {
   TERRENO: '3'
 
 }
+
+export const PROPERTY_CONTRACT_TYPE = {
+
+  ACTIVO: '1',
+  DESACTIVO: '2',
+  VENDIDO: '3',
+  ALQUILADO: '4',
+  RESERVADO: '5'
+
+}
+
+export const CHANGE_CONTRACT_TYPE = [
+
+  {
+    id: '1',
+    name: 'AGENTE'
+  },
+  {
+    id: '2',
+    name: 'OTROS MEDIOS'
+  },
+  {
+    id: '3',
+    name: 'COMPARTIDO'
+  }
+
+]
+
+
+

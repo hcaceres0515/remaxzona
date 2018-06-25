@@ -19,6 +19,7 @@ import {ViewPropertyModalComponent} from "./view-property-modal.component";
 import {EditPropertyComponent} from "./edit-property.component";
 import {AddVisitasModalComponent} from "./visitas/add-visitas-modal.component";
 import {VisitasComponent} from "./visitas/visitas.component";
+import {NgxGalleryModule} from "ngx-gallery";
 /**
  * Created by harold on 6/3/18.
  */
@@ -34,7 +35,8 @@ import {VisitasComponent} from "./visitas/visitas.component";
       libraries: ["places"]
     }),
     PropiedadesRoutingModule,
-    NguiAutoCompleteModule
+    NguiAutoCompleteModule,
+    NgxGalleryModule
   ],
   declarations: [
     PropiedadesComponent,
