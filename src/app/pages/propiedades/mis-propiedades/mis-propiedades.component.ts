@@ -8,6 +8,8 @@ import {ROLES} from "../../../@core/config/rolesdb";
 import {ViewPropertyModalComponent} from "../view-property-modal.component";
 import {OficinaService} from "../../configuracion/oficinas/oficina.service";
 import {UsuariosService} from "../../usuarios/usuarios.service";
+import {NbSpinnerService} from "@nebular/theme";
+import {reject, resolve} from "q";
 /**
  * Created by harold on 6/5/18.
  */
@@ -186,7 +188,8 @@ export class MisPropiedadesComponent implements OnInit {
   source: LocalDataSource = new LocalDataSource();
 
 	constructor(private propertyService: PropertyService, private authService: NbAuthService,
-              private officeService: OficinaService, private userService: UsuariosService){}
+              private officeService: OficinaService, private userService: UsuariosService,
+              private spinner: NbSpinnerService){}
 
   ngOnInit() {
 

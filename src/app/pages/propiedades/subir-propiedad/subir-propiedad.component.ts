@@ -71,6 +71,7 @@ export class SubirPropiedadComponent implements OnInit {
   selectedPropertyContract: any;
   selectedPropertyCoin: any;
 
+  selectedLocation: boolean = false;
   notificationsConfig: boolean = false;
 
   constructor(private propertyService: PropertyService, private _http: HttpClient, private modalService: NgbModal,
@@ -139,6 +140,8 @@ export class SubirPropiedadComponent implements OnInit {
     this.lng = event.coords.lng;
     this.propertyData.lat = (this.lat) + '';
     this.propertyData.lng = (this.lng) + '';
+
+    this.selectedLocation = true;
   }
 
   getDepartments() {
@@ -197,6 +200,11 @@ export class SubirPropiedadComponent implements OnInit {
 
     this.getPropertyTypeFeatures(value.id);
     this.getPropertySubType(value.id);
+
+    this.propertyData.bedrooms = '';
+    this.propertyData.bathrooms = '';
+    this.propertyData.floors = '';
+    this.propertyData.parkings = '';
   }
 
   getPropertyTypeFeatures(typeId) {
@@ -249,7 +257,7 @@ export class SubirPropiedadComponent implements OnInit {
       this.validationMessages.push('Ingrese el propietario');
     }
 
-    if (this.latitude == this.lat) {
+    if (!this.selectedLocation) {
       this.validationMessages.push('Seleccione una ubicación de referencia en el mapa');
     }
 

@@ -278,6 +278,11 @@ export class EditPropertyComponent {
 
     this.getPropertyTypeFeatures(value.id);
     this.getPropertySubType(value.id);
+
+    this.propertyData.bedrooms = '';
+    this.propertyData.bathrooms = '';
+    this.propertyData.floors = '';
+    this.propertyData.parkings = '';
   }
 
   getPropertyTypeFeatures(typeId) {
@@ -367,6 +372,9 @@ export class EditPropertyComponent {
         this.contractHistory.user_id = this.authService.getUserId();
         this.propertyData.contract_history = this.contractHistory;
 
+        this.propertyData.price = this.contractHistory.price;
+        this.propertyData.commission_percentage = this.contractHistory.commission_percentage;
+
       }
 
       this.propertyData.user_id = this.authService.getUserId();
@@ -412,10 +420,12 @@ export class EditPropertyComponent {
   }
 
   mapClick(event) {
+
     this.lat = event.coords.lat;
     this.lng = event.coords.lng;
     this.propertyData.lat = (this.lat) + '';
     this.propertyData.lng = (this.lng) + '';
+
   }
 
   observableSource = (keyword: any): Observable<any[]> => {

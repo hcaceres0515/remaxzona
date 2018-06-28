@@ -6,6 +6,7 @@ import {SubirPropiedadComponent} from "./subir-propiedad/subir-propiedad.compone
 import {MisPropiedadesComponent} from "./mis-propiedades/mis-propiedades.component";
 import {PropiedadesDesactivadasComponent} from "./desactivadas/propiedades-desactivadas.component";
 import {EditPropertyComponent} from "./edit-property.component";
+import {VisitasComponent} from "./visitas/visitas.component";
 /**
  * Created by harold on 6/3/18.
  */
@@ -29,6 +30,10 @@ const routes: Routes = [{
   {
     path: 'editar-propiedad/:property_id',
     component: EditPropertyComponent,
+  },
+  {
+    path: 'visitas',
+    component: VisitasComponent,
   }
   ]
 

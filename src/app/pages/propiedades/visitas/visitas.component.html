@@ -9,6 +9,12 @@
     <div class="row">
       <div class="col-md-12">
 
+        <button class="btn btn-success btn-with-icon btn-tn" (click)="showAddVisitModal()" *ngIf="sessionRolId === ROLES.AGENTE">
+          <i class="ion-plus-round"></i>
+          <span>Agregar Visita</span>
+        </button>
+
+
       </div>
     </div>
     <br>
