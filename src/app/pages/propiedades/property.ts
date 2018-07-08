@@ -115,3 +115,20 @@ export class PropertyContractHistory {
   constructor() {}
 
 }
+
+
+export class PropertyVisit {
+
+  public id: number;
+  public user_id: number;
+  public property_id: number;
+  public office_id: number;
+  public customer_id: number;
+  public offer: number;
+  public coin_type_id: number;
+  public offer_amount: number;
+  public rating: number;
+  public comments: string;
+  public created_at: Date;
+  public status: number;
+}

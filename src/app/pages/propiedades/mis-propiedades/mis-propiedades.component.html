@@ -15,8 +15,8 @@
           <label class="col-sm-1 col-form-label font-weight-bold">Oficina</label>
           <div class="col-sm-2">
 
-            <select class="form-control" name='offices' [(ngModel)]="selectedOffice" (ngModelChange)="onChangeOffice($event)">
-              <option *ngFor="let item of offices"  [ngValue]="item"> {{item.name}} </option>
+            <select class="form-control" name='offices' [(ngModel)]="propertyFields.office_id" (ngModelChange)="onChangeOffice($event)">
+              <option *ngFor="let item of offices"  [ngValue]="item.id"> {{item.name}} </option>
             </select>
 
           </div>
@@ -24,13 +24,13 @@
           <label class="col-sm-1 col-form-label font-weight-bold">Agente</label>
           <div class="col-sm-3">
 
-            <select class="form-control" name='users' [(ngModel)]="selectedUser" (ngModelChange)="onChangeUser($event)">
-              <option *ngFor="let item of users"  [ngValue]="item"> {{item.name}} </option>
+            <select class="form-control" name='users' [(ngModel)]="propertyFields.user_id" (ngModelChange)="onChangeUser($event)">
+              <option *ngFor="let item of users"  [ngValue]="item.id"> {{item.name}} </option>
             </select>
 
           </div>
 
-          <label class="col-sm-2 col-form-label font-weight-bold">Codigo de Propiedad</label>
+          <label class="col-sm-2 col-form-label font-weight-bold">Código de Propiedad</label>
           <div class="col-sm-2">
 
             <div class="input-group mail-btn-group">
@@ -63,10 +63,10 @@
         <div class="form-group row">
 
           <label class="col-sm-2 col-form-label font-weight-bold">Departamento</label>
-          <div class="col-sm-2">
+          <div class="col-sm-3">
 
-            <select class="form-control" name='department' id="department" [(ngModel)]="selectedDepartment" (ngModelChange)="onChangeDepartment($event)">
-              <option *ngFor="let item of departments"  [ngValue]="item"> {{item.name}} </option>
+            <select class="form-control" name='department' id="department" [(ngModel)]="propertyFields.department_id" (ngModelChange)="onChangeDepartment($event)">
+              <option *ngFor="let item of departments"  [ngValue]="item.id"> {{item.name}} </option>
             </select>
 
           </div>
@@ -74,8 +74,8 @@
           <label class="col-sm-1 col-form-label font-weight-bold">Provincia</label>
           <div class="col-sm-2">
 
-            <select class="form-control" name="province" id="province" [(ngModel)]="selectedProvince" (ngModelChange)="onChangeProvince($event)">
-              <option *ngFor="let item of provinces" [ngValue]="item">{{item.name}}</option>
+            <select class="form-control" name="province" id="province" [(ngModel)]="propertyFields.province_id" (ngModelChange)="onChangeProvince($event)">
+              <option *ngFor="let item of provinces" [ngValue]="item.id">{{item.name}}</option>
             </select>
 
           </div>
@@ -83,35 +83,35 @@
           <label class="col-sm-1 col-form-label font-weight-bold">Distrito</label>
           <div class="col-sm-3">
 
-            <select class="form-control" name="district"  id="district" [(ngModel)]="selectedDistrict" required #district="ngModel">
-              <option *ngFor="let item of districts" [ngValue]="item">{{item.name}}</option>
+            <select class="form-control" name="district"  id="district" [(ngModel)]="propertyFields.district_id" required #district="ngModel">
+              <option *ngFor="let item of districts" [ngValue]="item.id">{{item.name}}</option>
             </select>
 
           </div>
 
-          <div class="col-sm-1">
+          <!--<div class="col-sm-1">-->
 
-              <button class="btn btn-info btn-icon" title="Buscar por ubicacion" (click)="locationFilter()">
-                <i class="ion-ios-search"></i>
-              </button>
+              <!--<button class="btn btn-info btn-icon" title="Buscar por ubicacion" (click)="locationFilter()">-->
+                <!--<i class="ion-ios-search"></i>-->
+              <!--</button>-->
 
-          </div>
+          <!--</div>-->
 
         </div>
 
         <div class="form-group row">
 
           <label for="property_type" class="col-sm-2 form-control-label font-weight-bold">Tipo</label>
-          <div class="col-sm-4">
-            <select class="form-control" id="property_type" [(ngModel)]="selectedPropertyType" (ngModelChange)="onChangeFilterProperty()">
-              <option *ngFor="let item of propertyType"  [ngValue]="item"> {{item.name}} </option>
+          <div class="col-sm-3">
+            <select class="form-control" id="property_type" [(ngModel)]="propertyFields.property_type_id">
+              <option *ngFor="let item of propertyType"  [ngValue]="item.id"> {{item.name}} </option>
             </select>
           </div>
 
-          <label for="property_status" class="col-sm-2 form-control-label font-weight-bold">Estado</label>
-          <div class="col-sm-4">
-            <select class="form-control" id="property_status" [(ngModel)]="selectedPropertyStatus" (ngModelChange)="onChangeFilterProperty()">
-              <option *ngFor="let item of propertyStatus" [ngValue]="item">{{item.name}}</option>
+          <label for="property_status" class="col-sm-2 form-control-label font-weight-bold offset-2">Estado</label>
+          <div class="col-sm-3">
+            <select class="form-control" id="property_status" [(ngModel)]="propertyFields.property_status_id">
+              <option *ngFor="let item of propertyStatus" [ngValue]="item.id">{{item.name}}</option>
             </select>
           </div>
 
@@ -119,29 +119,87 @@
 
         <div class="form-group row">
 
-          <label class="col-sm-1 form-control-label font-weight-bold">Rango de precios</label>
+          <label class="col-sm-2 form-control-label font-weight-bold">Rango de precios</label>
 
           <label for="coin" class="col-sm-1 form-control-label">Moneda</label>
           <div class="col-sm-2">
-            <select class="form-control" name="coin" id="coin" [(ngModel)]="selectedPropertyCoin">
-              <option *ngFor="let item of propertyCoin" [ngValue]="item"> {{item.symbol}}    {{item.name}} </option>
+            <select class="form-control" name="coin" id="coin" [(ngModel)]="propertyFields.property_coin_id">
+              <option *ngFor="let item of propertyCoin" [ngValue]="item.id"> {{item.symbol}}    {{item.name}} </option>
             </select>
           </div>
 
           <label for="minimum" class="col-sm-1 form-control-label">Desde</label>
 
           <div class="col-sm-2">
-            <input type="number" name="minimum"  id="minimum" class="form-control" [(ngModel)]="minimumPrice" min="0">
+            <input type="number" name="minimum"  id="minimum" class="form-control" [(ngModel)]="propertyFields.minimumPrice" min="0">
           </div>
 
           <label for="maximum" class="col-sm-1 form-control-label">Hasta</label>
 
           <div class="col-sm-2">
-            <input type="number" name="maximum"  id="maximum" class="form-control" [(ngModel)]="maximumPrice" min="0">
+            <input type="number" name="maximum"  id="maximum" class="form-control" [(ngModel)]="propertyFields.maximumPrice" min="0">
+          </div>
+
+        </div>
+
+        <div class="form-group row">
+
+          <label class="col-sm-1 form-control-label font-weight-bold">Habitaciones</label>
+
+          <div class="col-sm-3">
+            <label class="custom-control custom-radio radio-inline">
+              <input type="radio" class="custom-control-input" name="bedroomsRadio" [value]="'='" [(ngModel)]="propertyFields.bedrooms_operator">
+              <span class="custom-control-indicator"></span>
+              <span class="custom-control-description">=</span>
+            </label>
+
+            <label class="custom-control custom-radio radio-inline">
+              <input type="radio" class="custom-control-input" name="bedroomsRadio" [value]="'>'" [(ngModel)]="propertyFields.bedrooms_operator">
+              <span class="custom-control-indicator"></span>
+              <span class="custom-control-description"> Mayor </span>
+            </label>
+
+            <label class="custom-control custom-radio radio-inline">
+              <input type="radio" class="custom-control-input" name="bedroomsRadio" [value]="'<'" [(ngModel)]="propertyFields.bedrooms_operator">
+              <span class="custom-control-indicator"></span>
+              <span class="custom-control-description"> Menor </span>
+            </label>
+
           </div>
 
           <div class="col-sm-1">
-            <button class="btn btn-success" (click)="priceFilter()"> <i class="ion-funnel"></i> Filtrar</button>
+            <input type="number" name="bedrooms" class="form-control" [(ngModel)]="propertyFields.bedrooms" min="0">
+          </div>
+
+          <label class="col-sm-2 form-control-label font-weight-bold">Estacionamientos</label>
+
+          <div class="col-sm-3">
+            <label class="custom-control custom-radio radio-inline">
+              <input type="radio" class="custom-control-input" name="parkingsRadio" [value]="'='" [(ngModel)]="propertyFields.parkings_operator">
+              <span class="custom-control-indicator"></span>
+              <span class="custom-control-description">=</span>
+            </label>
+
+            <label class="custom-control custom-radio radio-inline">
+              <input type="radio" class="custom-control-input" name="parkingsRadio" [value]="'>'" [(ngModel)]="propertyFields.parkings_operator">
+              <span class="custom-control-indicator"></span>
+              <span class="custom-control-description"> Mayor </span>
+            </label>
+
+            <label class="custom-control custom-radio radio-inline">
+              <input type="radio" class="custom-control-input" name="parkingsRadio" [value]="'<'" [(ngModel)]="propertyFields.parkings_operator">
+              <span class="custom-control-indicator"></span>
+              <span class="custom-control-description"> Menor </span>
+            </label>
+
+          </div>
+
+          <div class="col-sm-1">
+            <input type="number" name="parkings" class="form-control" [(ngModel)]="propertyFields.parkings" min="0">
+          </div>
+
+          <div class="col-sm-1">
+            <button class="btn btn-info btn-icon" (click)="searchProperties()"> <i class="ion-ios-search"></i> </button>
           </div>
 
         </div>

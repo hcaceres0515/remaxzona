@@ -35,6 +35,9 @@ export class EditPropertyComponent {
   public zoom: number;
   public marker: string = PATHS.MAP_ICON;
 
+  public ROLES = ROLES;
+  public userId: any;
+
   @ViewChild("search")
   public searchElementRef: ElementRef;
 
@@ -89,6 +92,8 @@ export class EditPropertyComponent {
               private ngZone: NgZone, private router: Router) {}
 
   ngOnInit() {
+
+    this.userId = this.authService.getUserId();
 
     this.sub = this.activeRoute.params.subscribe(params => {
       this.propertyId = +params['property_id']; // (+) converts string 'id' to a number

@@ -72,6 +72,10 @@ export class PropertyService {
     return this.http.post(PATHS.API + '&c=property&m=upload_file', files);
   }
 
+  getPropertiesByFilters(filters): Observable<ServerResponse> {
+    return this.http.post(PATHS.API + '&c=property&m=get_properties_by_filters', JSON.stringify({'query': filters}));
+  }
+
   getPropertiesByUser(userId): Observable<ServerResponse> {
     return this.http.get(PATHS.API + '&c=property&m=get_properties_by_user&user_id=' + userId);
   }
@@ -92,12 +96,20 @@ export class PropertyService {
     return this.http.get(PATHS.API + '&c=property&m=get_property_by_id&property_id=' + propertyId);
   }
 
-  getPropertyVisitsByUser(propertyId, userId): Observable<ServerResponse> {
-    return this.http.get(PATHS.API + '&c=property&m=get_properties_by_user&property_id=' + propertyId);
+  getPropertiesVisitsByUser(userId): Observable<ServerResponse> {
+    return this.http.get(PATHS.API + '&c=property&m=get_property_visits_by_user&user_id=' + userId);
   }
 
-  propertyVisitCreate() {
+  getPropertyVisitDetail(visitId): Observable<ServerResponse> {
+    return this.http.get(PATHS.API + '&c=property&m=get_property_visit_by_id&visit_id=' + visitId);
+  }
 
+  propertyVisitCreate(visit) {
+    return this.http.post(PATHS.API + '&c=property&m=property_visit_create', JSON.stringify(visit));
+  }
+
+  propertyVisitUpdate(visit) {
+    return this.http.post(PATHS.API + '&c=property&m=property_visit_update', JSON.stringify(visit));
   }
 
   getAreaMeasurement() {
@@ -120,7 +132,7 @@ export class PropertyService {
     return obj;
   }
 
-  getVisitCalification() {
+  getVisitRating() {
 
     let obj = [
       {

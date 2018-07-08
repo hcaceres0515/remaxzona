@@ -18,7 +18,7 @@ import {PropiedadesDesactivadasComponent} from "./desactivadas/propiedades-desac
 import {ViewPropertyModalComponent} from "./view-property-modal.component";
 import {EditPropertyComponent} from "./edit-property.component";
 import {AddVisitasModalComponent} from "./visitas/add-visitas-modal.component";
-import {VisitasComponent} from "./visitas/visitas.component";
+import {ActionsVisitasTable, VisitasComponent} from "./visitas/visitas.component";
 import {NgxGalleryModule} from "ngx-gallery";
 /**
  * Created by harold on 6/3/18.
@@ -47,12 +47,14 @@ import {NgxGalleryModule} from "ngx-gallery";
     ActionsPropiedadesTable,
     ViewPropertyModalComponent,
     VisitasComponent,
-    AddVisitasModalComponent
+    AddVisitasModalComponent,
+    ActionsVisitasTable
   ],
   entryComponents: [
     ActionsPropiedadesTable,
     ViewPropertyModalComponent,
-    AddVisitasModalComponent
+    AddVisitasModalComponent,
+    ActionsVisitasTable
   ],
   providers: [
     OficinaService,

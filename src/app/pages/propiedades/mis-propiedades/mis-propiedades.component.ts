@@ -83,6 +83,8 @@ export class MisPropiedadesComponent implements OnInit {
 	private userId;
 	private officeId;
 
+	propertyFields: any = { bedrooms_operator: '=', parkings_operator: '=' };
+
 	propertyId: any;
 
 	offices: any[];
@@ -94,9 +96,9 @@ export class MisPropiedadesComponent implements OnInit {
   propertyType: any[];
   propertyCoin: any[];
 
-  selectedDepartment: any;
-  selectedProvince: any;
-  selectedDistrict: any;
+  // selectedDepartment: any;
+  // selectedProvince: any;
+  // selectedDistrict: any;
 
   selectedPropertyStatus: any = {id: ''};
   selectedPropertyType: any = {id: ''};
@@ -188,8 +190,7 @@ export class MisPropiedadesComponent implements OnInit {
   source: LocalDataSource = new LocalDataSource();
 
 	constructor(private propertyService: PropertyService, private authService: NbAuthService,
-              private officeService: OficinaService, private userService: UsuariosService,
-              private spinner: NbSpinnerService){}
+              private officeService: OficinaService, private userService: UsuariosService){}
 
   ngOnInit() {
 
@@ -205,11 +206,11 @@ export class MisPropiedadesComponent implements OnInit {
   }
 
   onChangeUser(user) {
-    this.getPropertiesByUser(user.id);
+    this.getPropertiesByUser(user);
   }
 
   onChangeOffice(office) {
-    this.userService.getUsersByOffice(office.id).subscribe(
+    this.userService.getUsersByOffice(office).subscribe(
       response => {
         this.users = response.data;
       },
@@ -219,16 +220,16 @@ export class MisPropiedadesComponent implements OnInit {
       }
     );
 
-    this.propertyService.getPropertiesByOffice(this.officeId).subscribe(
-      response => {
-        this.properties = response.data;
-      },
-      error => {},
-      () => {
-        console.log(this.properties);
-        this.source.load(this.properties);
-      }
-    );
+    // this.propertyService.getPropertiesByOffice(this.officeId).subscribe(
+    //   response => {
+    //     this.properties = response.data;
+    //   },
+    //   error => {},
+    //   () => {
+    //     console.log(this.properties);
+    //     this.source.load(this.properties);
+    //   }
+    // );
   }
 
   searchProperty() {
@@ -267,113 +268,104 @@ export class MisPropiedadesComponent implements OnInit {
 
   locationFilter() {
 
-    let propertiesFilter;
-
-    if ((this.selectedDepartment.id !== 0) && (this.selectedProvince.id !== 0) && (this.selectedDistrict.id !== 0)) {
-
-      propertiesFilter = this.properties.filter(
-        property => (property.department_id === this.selectedDepartment.id
-        && property.province_id === this.selectedProvince.id
-        && property.district_id === this.selectedDistrict.id));
-
-    } else if ((this.selectedDepartment.id !== 0) && (this.selectedProvince.id !== 0)) {
-
-      propertiesFilter = this.properties.filter(
-        property => (property.department_id === this.selectedDepartment.id
-        && property.province_id === this.selectedProvince.id));
-
-    } else if ((this.selectedDepartment.id !== 0)) {
-
-      propertiesFilter = this.properties.filter(
-        property => (property.department_id === this.selectedDepartment.id));
-
-    } else {
-      propertiesFilter = this.properties;
-    }
-
-    this.source.load(propertiesFilter);
-
-    this.propertiesByLocationFilter = propertiesFilter;
+    // let propertiesFilter;
+    //
+    // if ((this.selectedDepartment.id !== 0) && (this.selectedProvince.id !== 0) && (this.selectedDistrict.id !== 0)) {
+    //
+    //   propertiesFilter = this.properties.filter(
+    //     property => (property.department_id === this.selectedDepartment.id
+    //     && property.province_id === this.selectedProvince.id
+    //     && property.district_id === this.selectedDistrict.id));
+    //
+    // } else if ((this.selectedDepartment.id !== 0) && (this.selectedProvince.id !== 0)) {
+    //
+    //   propertiesFilter = this.properties.filter(
+    //     property => (property.department_id === this.selectedDepartment.id
+    //     && property.province_id === this.selectedProvince.id));
+    //
+    // } else if ((this.selectedDepartment.id !== 0)) {
+    //
+    //   propertiesFilter = this.properties.filter(
+    //     property => (property.department_id === this.selectedDepartment.id));
+    //
+    // } else {
+    //   propertiesFilter = this.properties;
+    // }
+    //
+    // this.source.load(propertiesFilter);
+    //
+    // this.propertiesByLocationFilter = propertiesFilter;
 
   }
 
   priceFilter() {
 
-    let propertiesData = this.propertiesByFeaturesFilter;
-    let propertiesFilter;
+	  let sql = '';
 
-    let coinId = this.selectedPropertyCoin.id;
+    if (this.propertyFields.minimumPrice != null && this.propertyFields.maximumPrice != null) {
 
-    if (this.minimumPrice != null && this.maximumPrice != null) {
+      sql = sql + 'price >= ' + this.propertyFields.minimumPrice  + ' AND price <= ' + this.propertyFields.maximumPrice + ' AND ';
 
-      propertiesFilter = propertiesData.filter(
-        property => (parseFloat(property.price) >= this.minimumPrice && parseFloat(property.price) <= this.maximumPrice) && property.property_coin_id === coinId);
+    } else if (this.propertyFields.minimumPrice != null && this.propertyFields.maximumPrice == null) {
 
-    } else if (this.minimumPrice != null && this.maximumPrice == null) {
+      sql = sql + 'price >= ' + this.propertyFields.minimumPrice  + ' AND ';
 
-      propertiesFilter = propertiesData.filter(
-        property => (parseFloat(property.price) >= this.minimumPrice) && property.property_coin_id === coinId);
+    } else if (this.propertyFields.minimumPrice == null && this.propertyFields.maximumPrice != null) {
 
-    } else if (this.minimumPrice == null && this.maximumPrice != null) {
-
-      propertiesFilter = propertiesData.filter(
-        property => (parseFloat(property.price) <= this.maximumPrice) && property.property_coin_id === coinId);
-
-    } else {
-      propertiesFilter = propertiesData;
-    }
-
-    this.source.load(propertiesFilter);
-  }
-
-  onChangeFilterProperty() {
-
-    let propertiesData = this.propertiesByLocationFilter;
-    let properties;
-
-    if (this.selectedPropertyType.id !== '' && this.selectedPropertyStatus.id !== '') {
-
-      properties = propertiesData.filter(
-        property => (property.property_type_id === this.selectedPropertyType.id
-        && property.property_status_id === this.selectedPropertyStatus.id)
-      );
-
-    } else if (this.selectedPropertyType.id !== '' && this.selectedPropertyStatus.id !== '') {
-
-      properties = propertiesData.filter(
-        property => (property.property_type_id === this.selectedPropertyType.id
-        && property.property_status_id === this.selectedPropertyStatus.id)
-      );
-
-    } else if (this.selectedPropertyStatus.id !== '') {
-
-      properties = propertiesData.filter(
-        property => (property.property_type_id === this.selectedPropertyStatus.id)
-      );
-
-    } else if (this.selectedPropertyType.id !== '') {
-
-      properties = propertiesData.filter(
-        property => (property.property_type_id === this.selectedPropertyType.id)
-      );
-
-    } else if (this.selectedPropertyType.id !== '') {
-
-      properties = propertiesData.filter(
-        property => (property.property_type_id === this.selectedPropertyType.id)
-      );
-
-    } else if (this.selectedPropertyStatus.id !== '') {
-
-      properties = propertiesData.filter(
-        property => (property.property_status_id === this.selectedPropertyStatus.id)
-      );
+      sql = sql + 'price <= ' + this.propertyFields.minimumPrice  + ' AND ';
 
     }
-
-    this.propertiesByFeaturesFilter = properties;
-    this.source.load(properties);
+    return sql;
   }
+
+  // onChangeFilterProperty() {
+  //
+  //   let propertiesData = this.propertiesByLocationFilter;
+  //   let properties;
+  //
+  //   if (this.selectedPropertyType.id !== '' && this.selectedPropertyStatus.id !== '') {
+  //
+  //     properties = propertiesData.filter(
+  //       property => (property.property_type_id === this.selectedPropertyType.id
+  //       && property.property_status_id === this.selectedPropertyStatus.id)
+  //     );
+  //
+  //   } else if (this.selectedPropertyType.id !== '' && this.selectedPropertyStatus.id !== '') {
+  //
+  //     properties = propertiesData.filter(
+  //       property => (property.property_type_id === this.selectedPropertyType.id
+  //       && property.property_status_id === this.selectedPropertyStatus.id)
+  //     );
+  //
+  //   } else if (this.selectedPropertyStatus.id !== '') {
+  //
+  //     properties = propertiesData.filter(
+  //       property => (property.property_type_id === this.selectedPropertyStatus.id)
+  //     );
+  //
+  //   } else if (this.selectedPropertyType.id !== '') {
+  //
+  //     properties = propertiesData.filter(
+  //       property => (property.property_type_id === this.selectedPropertyType.id)
+  //     );
+  //
+  //   } else if (this.selectedPropertyType.id !== '') {
+  //
+  //     properties = propertiesData.filter(
+  //       property => (property.property_type_id === this.selectedPropertyType.id)
+  //     );
+  //
+  //   } else if (this.selectedPropertyStatus.id !== '') {
+  //
+  //     properties = propertiesData.filter(
+  //       property => (property.property_status_id === this.selectedPropertyStatus.id)
+  //     );
+  //
+  //   }
+  //
+  //   this.propertiesByFeaturesFilter = properties;
+  //   this.source.load(properties);
+  // }
 
   getAllOffices() {
 	  this.officeService.getAllOffices().subscribe(
@@ -405,38 +397,38 @@ export class MisPropiedadesComponent implements OnInit {
       error => {},
       () => {
         this.departments.unshift({id: 0, name: 'TODOS'});
-        this.selectedDepartment = this.departments[0];
+        this.propertyFields.department_id = 0;
 
         this.provinces = [];
         this.provinces.push({id: 0, name: 'TODOS'});
-        this.selectedProvince = this.provinces[0];
+        this.propertyFields.province_id = 0;
 
         this.districts = [];
         this.districts.push({id: 0, name: 'TODOS'});
-        this.selectedDistrict = this.districts[0];
+        this.propertyFields.district_id = 0;
       }
     );
   }
 
   onChangeDepartment(department) {
     console.log(department);
-    this.propertyService.getProvinceByDepartment(department.id).subscribe(
+    this.propertyService.getProvinceByDepartment(department).subscribe(
       response => {this.provinces = response.data},
       error => {},
       () => {
         this.provinces.unshift({id: 0, name: 'TODOS'});
-        this.selectedProvince = this.provinces[0];
+        // this.selectedProvince = this.provinces[0];
       }
     );
   }
 
   onChangeProvince(province) {
-    this.propertyService.getDistrictByProvince(province.id).subscribe(
+    this.propertyService.getDistrictByProvince(province).subscribe(
       response => {this.districts = response.data},
       error => {},
       () => {
         this.districts.unshift({id: 0, name: 'TODOS'});
-        this.selectedDistrict = this.districts[0];
+        // this.selectedDistrict = this.districts[0];
       }
     );
   }
@@ -464,9 +456,50 @@ export class MisPropiedadesComponent implements OnInit {
       (response) => {this.propertyCoin = response.data},
       (error) => {},
       () => {
-        this.selectedPropertyCoin = this.propertyCoin[0];
+
       }
     );
+  }
+
+
+  searchProperties() {
+	  console.log(this.propertyFields);
+
+	  let query = '';
+
+	  query = this.priceFilter();
+
+    Object.keys(this.propertyFields).forEach((key) => {
+      
+      if (key == 'bedrooms_operator' || key == 'parkings_operator' || key == 'minimumPrice' || key == 'maximumPrice') {
+
+      }
+      else if (this.propertyFields[key] == null) {
+
+      }
+      else if (key == 'bedrooms') {
+        query += key + this.propertyFields['bedrooms_operator'] + this.propertyFields[key] + ' AND ';
+      }
+
+      else if (key == 'parkings') {
+        query += key + this.propertyFields['parkings_operator'] + this.propertyFields[key] + ' AND ';
+      }
+
+      else if (this.propertyFields[key] != 0) {
+        query += key + '=' + this.propertyFields[key] + ' AND ';
+      }
+    });
+
+    this.propertyService.getPropertiesByFilters(query).subscribe(
+      response => {
+        this.source.load(response.data);
+      },
+      error => {},
+      () => {}
+    );
+
+    console.log(query);
+
   }
 
 
@@ -478,19 +511,20 @@ export class MisPropiedadesComponent implements OnInit {
 
   resetFilters() {
     this.getPropertiesByUser(this.userId);
-    this.selectedOffice = null;
-    this.selectedUser = null;
+    // this.selectedOffice = null;
+    // this.selectedUser = null;
     this.getDepartments();
     // this.getCoinType();
     // this.filterOption = '1'; // Select first option
-    this.selectedPropertyType = {id: ''}; //Ya no se consume el servicio, solo se deselecciona la opcion
-    this.selectedPropertyStatus = {id: ''};
+    // this.selectedPropertyType = {id: ''}; //Ya no se consume el servicio, solo se deselecciona la opcion
+    // this.selectedPropertyStatus = {id: ''};
     // this.selectedPropertyContract = {id: ''};
-    this.selectedUser = null;
+    // this.selectedUser = null;
     // this.loadingIcon = false;
-    this.maximumPrice = null;
-    this.minimumPrice = null;
+    // this.maximumPrice = null;
+    // this.minimumPrice = null;
     this.propertyId = '';
+    this.propertyFields = {bedrooms_operator: '=', parkings_operator: '='};
   }
 
 }
