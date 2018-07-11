@@ -10,6 +10,7 @@ import {OficinaService} from "../../configuracion/oficinas/oficina.service";
 import {UsuariosService} from "../../usuarios/usuarios.service";
 import {NbSpinnerService} from "@nebular/theme";
 import {reject, resolve} from "q";
+import {SampleLayoutService} from "../../../@theme/layouts/sample/sample.layout.service";
 /**
  * Created by harold on 6/5/18.
  */
@@ -190,7 +191,8 @@ export class MisPropiedadesComponent implements OnInit {
   source: LocalDataSource = new LocalDataSource();
 
 	constructor(private propertyService: PropertyService, private authService: NbAuthService,
-              private officeService: OficinaService, private userService: UsuariosService){}
+              private officeService: OficinaService, private userService: UsuariosService,
+              private  sampleLayoutService: SampleLayoutService){}
 
   ngOnInit() {
 
@@ -212,11 +214,12 @@ export class MisPropiedadesComponent implements OnInit {
   onChangeOffice(office) {
     this.userService.getUsersByOffice(office).subscribe(
       response => {
+
         this.users = response.data;
       },
       error => {},
       () => {
-
+        this.users.unshift({id: 0, name: 'TODOS'});
       }
     );
 
@@ -463,6 +466,9 @@ export class MisPropiedadesComponent implements OnInit {
 
 
   searchProperties() {
+
+    this.sampleLayoutService.onSetLoadingIcon.emit(true);
+
 	  console.log(this.propertyFields);
 
 	  let query = '';
@@ -470,7 +476,7 @@ export class MisPropiedadesComponent implements OnInit {
 	  query = this.priceFilter();
 
     Object.keys(this.propertyFields).forEach((key) => {
-      
+
       if (key == 'bedrooms_operator' || key == 'parkings_operator' || key == 'minimumPrice' || key == 'maximumPrice') {
 
       }
@@ -486,7 +492,7 @@ export class MisPropiedadesComponent implements OnInit {
       }
 
       else if (this.propertyFields[key] != 0) {
-        query += key + '=' + this.propertyFields[key] + ' AND ';
+        query += 'property.' + key + '=' + this.propertyFields[key] + ' AND ';
       }
     });
 
@@ -495,7 +501,9 @@ export class MisPropiedadesComponent implements OnInit {
         this.source.load(response.data);
       },
       error => {},
-      () => {}
+      () => {
+        this.sampleLayoutService.onSetLoadingIcon.emit(false);
+      }
     );
 
     console.log(query);
@@ -514,6 +522,7 @@ export class MisPropiedadesComponent implements OnInit {
     // this.selectedOffice = null;
     // this.selectedUser = null;
     this.getDepartments();
+    this.propertyFields.user_id = null;
     // this.getCoinType();
     // this.filterOption = '1'; // Select first option
     // this.selectedPropertyType = {id: ''}; //Ya no se consume el servicio, solo se deselecciona la opcion

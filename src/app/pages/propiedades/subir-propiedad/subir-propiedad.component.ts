@@ -17,6 +17,7 @@ import {propertyType} from "@angular/language-service/src/html_info";
 import {GeolocationService} from "../../../@core/utils/geolocation/geolocation.service";
 import {NotificationMessageService} from "../../../@theme/components/message-notification/notification.service";
 import {Router} from "@angular/router";
+import {SampleLayoutService} from "../../../@theme/layouts/sample/sample.layout.service";
 
 @Component({
   selector: 'add-property',
@@ -77,7 +78,7 @@ export class SubirPropiedadComponent implements OnInit {
   constructor(private propertyService: PropertyService, private _http: HttpClient, private modalService: NgbModal,
               private mapsAPILoader: MapsAPILoader, private authService: NbAuthService,
               private ngZone: NgZone, private geolocationService: GeolocationService,
-              private notificationService: NotificationMessageService, private router: Router) {}
+              private notificationService: NotificationMessageService, private router: Router, private  sampleLayoutService: SampleLayoutService) {}
 
   ngOnInit() {
 
@@ -263,6 +264,8 @@ export class SubirPropiedadComponent implements OnInit {
 
     if (this.validationMessages.length == 0) {
 
+      this.sampleLayoutService.onSetLoadingIcon.emit(true);
+
       this.propertyData.user_id = this.authService.getUserId();
       this.propertyData.office_id = this.authService.getOfficeId();
       this.propertyData.title = this.propertyData.title.toUpperCase();
@@ -297,6 +300,7 @@ export class SubirPropiedadComponent implements OnInit {
         error => {},
         () => {
           this.notificationService.showToast('success', 'Confirmación', 'La propiedad ha sido creada exitosamente');
+          this.sampleLayoutService.onSetLoadingIcon.emit(false);
           this.router.navigate(['/pages/propiedades/mis-propiedades']);
         }
       );

@@ -6,6 +6,7 @@ import {HttpClient} from "@angular/common/http";
 import {PATHS} from "../../../@core/config/constanst";
 import {NbAuthService} from "../../../@theme/auth/services/auth.service";
 import {PropertyVisit} from "../property";
+import {SampleLayoutService} from "../../../@theme/layouts/sample/sample.layout.service";
 
 @Component({
 	selector: 'add-visitas-modal',
@@ -31,7 +32,7 @@ import {PropertyVisit} from "../property";
         <div class="form-group row">
           <label for="inputCustomer" class="col-sm-3 col-form-label">Cliente *</label>
           
-          <div class="col-sm-9">
+          <div class="col-sm-9" *ngIf="!isView">
 
             <input ngui-auto-complete type="text" class="form-control" placeholder="Buscar Cliente" 
                    name="customer" 
@@ -46,6 +47,8 @@ import {PropertyVisit} from "../property";
             </small>
             
           </div>
+
+          <label class="col-sm-9 col-form-label" *ngIf="isView">{{customerName}}</label>
           
         </div>
 
@@ -55,9 +58,9 @@ import {PropertyVisit} from "../property";
 
             <div class="input-group mail-btn-group">
 
-              <input type="text" class="form-control" name='propertyId' placeholder="1101" [(ngModel)]="propertyId" (keypress)="onlyNumberKey($event)">
+              <input type="text" class="form-control" name='propertyId' placeholder="1101" [(ngModel)]="propertyId" (keypress)="onlyNumberKey($event)" [disabled]="isView">
               <span class="input-group-btn">
-                <button class="btn btn-info btn-icon" title="Buscar por codigo" [disabled]="propertyId == null || propertyId == ''" (click)="searchProperty()">
+                <button class="btn btn-info btn-icon" title="Buscar por codigo" [disabled]="propertyId == null || propertyId == ''" (click)="searchProperty()" [disabled]="isView">
                   <i class="ion-ios-search"></i>
                 </button>
               </span>
@@ -91,13 +94,13 @@ import {PropertyVisit} from "../property";
          
           <div class="col-sm-3">
             <label class="custom-control custom-radio radio-inline">
-              <input type="radio" class="custom-control-input" name="bedroomsRadio" [value]="1" [(ngModel)]="visit.offer">
+              <input type="radio" class="custom-control-input" name="bedroomsRadio" [value]="1" [(ngModel)]="visit.offer" [disabled]="isView">
               <span class="custom-control-indicator"></span>
               <span class="custom-control-description"> SI </span>
             </label>
 
             <label class="custom-control custom-radio radio-inline">
-              <input type="radio" class="custom-control-input" name="bedroomsRadio" [value]="0" [(ngModel)]="visit.offer">
+              <input type="radio" class="custom-control-input" name="bedroomsRadio" [value]="0" [(ngModel)]="visit.offer" [disabled]="isView">
               <span class="custom-control-indicator"></span>
               <span class="custom-control-description"> NO </span>
             </label>
@@ -109,7 +112,7 @@ import {PropertyVisit} from "../property";
           <label class="col-sm-6 col-form-label">Propuesta en firme o negociar con los propietarios *</label>
           <div class="col-sm-2">
 
-            <select name="coin" id="coin" class="form-control" [(ngModel)]="visit.coin_type_id">
+            <select name="coin" id="coin" class="form-control" [(ngModel)]="visit.coin_type_id" [disabled]="isView">
               <option *ngFor="let item of propertyCoin" [ngValue]="item.id">{{item.symbol}}</option>
             </select>
 
@@ -118,7 +121,7 @@ import {PropertyVisit} from "../property";
           <div class="col-sm-3">
             
             <input type="text" class="form-control" name="offerAmount" [(ngModel)]="visit.offer_amount" 
-                   required #offerAmount="ngModel">
+                   required #offerAmount="ngModel" [disabled]="isView">
             
             <small class="form-text error" *ngIf="offerAmount.invalid && offerAmount.touched">
               Campo Requerido
@@ -133,7 +136,7 @@ import {PropertyVisit} from "../property";
           <div class="col-sm-4">
 
             <select name="rating" class="form-control" [(ngModel)]="visit.rating" required 
-              #rating="ngModel">
+              #rating="ngModel" [disabled]="isView">
               <option *ngFor="let item of visitRating" [ngValue]="item.id">{{item.name}}</option>
             </select>
 
@@ -149,7 +152,7 @@ import {PropertyVisit} from "../property";
           <label for="observations" class="col-sm-3 col-form-label">Observaciones </label>
           <div class="col-sm-9">
 
-            <textarea name="observation" class="form-control" cols="30" rows="4" [(ngModel)]="visit.comments"></textarea>
+            <textarea name="observation" class="form-control" cols="30" rows="4" [(ngModel)]="visit.comments" [disabled]="isView"></textarea>
 
           </div>
         </div>           
@@ -181,8 +184,8 @@ export class AddVisitasModalComponent implements OnInit{
   propertyCoin: any[];
   visitRating: any[];
 
-
   propertyId: any;
+  customerName: string;
   invalidProperty: boolean = false;
   invalidPropertyMessage: string = '';
 
@@ -192,9 +195,7 @@ export class AddVisitasModalComponent implements OnInit{
   @Output() clickUpdate: EventEmitter<any> = new EventEmitter();
 
   constructor(private activeModal: NgbActiveModal, private propertyService: PropertyService,
-              private http: HttpClient, private authService: NbAuthService){}
-
-  ngOnInit() {
+              private http: HttpClient, private authService: NbAuthService, private sampleLayoutService: SampleLayoutService){
 
     this.getVisitRating();
     this.getPropertyCoin();
@@ -202,6 +203,12 @@ export class AddVisitasModalComponent implements OnInit{
     this.visit.created_at = new Date();
     this.visit.customer_id = 0;
     this.visit.property_id = 0;
+
+  }
+
+  ngOnInit() {
+
+    // console.log('init visit modal');
   }
 
   getPropertyCoin() {
@@ -228,16 +235,31 @@ export class AddVisitasModalComponent implements OnInit{
     this.visit.status = 1;
     console.log(this.visit);
 
+    this.sampleLayoutService.onSetLoadingIcon.emit(true);
+
     this.propertyService.propertyVisitCreate(this.visit).subscribe(
       response => {
       },
       error => {},
-      () => {}
+      () => {
+        this.clickSave.emit();
+        this.closeModal();
+        this.sampleLayoutService.onSetLoadingIcon.emit(false);
+      }
     );
 
   }
 
   updateVisit() {
+
+    this.propertyService.propertyVisitUpdate(this.visit).subscribe(
+      response => {},
+      error => {},
+      () => {
+        this.clickUpdate.emit();
+        this.closeModal();
+      }
+    );
 
   }
 
@@ -294,7 +316,24 @@ export class AddVisitasModalComponent implements OnInit{
   }
 
   loadNgModel(data) {
-    //this.visit = data;
+
+    if (this.isEdit) {
+      this.visit.id = data.id;
+    }
+
+    // this.visit.offer = 0;
+    // this.visit = data;
+    this.visit.customer_id = data.customer_id;
+    this.visit.comments = data.comments;
+    this.visit.coin_type_id = +data.coin_type_id;
+    this.visit.offer_amount = data.offer_amount;
+    this.visit.offer = +data.offer;
+    this.visit.property_id = +data.property_id;
+    this.visit.rating = data.rating;
+    this.propertyData.title = data.title;
+    this.propertyId = data.property_id;
+    this.customerName = data.customer_name;
+
     console.log(this.visit, data);
   }
 

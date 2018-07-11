@@ -112,6 +112,10 @@ export class PropertyService {
     return this.http.post(PATHS.API + '&c=property&m=property_visit_update', JSON.stringify(visit));
   }
 
+  propertyVisitDelete(visit) {
+    return this.http.post(PATHS.API + '&c=property&m=property_visit_update', JSON.stringify(visit));
+  }
+
   getAreaMeasurement() {
 
     let obj = [

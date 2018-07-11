@@ -13,6 +13,7 @@ import { StateService } from '../../../@core/data/state.service';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/withLatestFrom';
 import 'rxjs/add/operator/delay';
+import {SampleLayoutService} from "./sample.layout.service";
 
 
 // TODO: move layouts into the framework
@@ -36,6 +37,11 @@ import 'rxjs/add/operator/delay';
       <nb-layout-column class="main-content">
         
         <ngx-messages-notifications></ngx-messages-notifications>
+
+        <div class="overlayDiv" *ngIf="loadingIcon">
+          <i class="fa fa-circle-o-notch fa-spin fa-4x fa-fw"></i>
+          <span class="sr-only">Loading...</span>
+        </div>
         
         <ng-content select="router-outlet"></ng-content>
       </nb-layout-column>
@@ -63,6 +69,8 @@ import 'rxjs/add/operator/delay';
   `,
 })
 export class SampleLayoutComponent  implements OnDestroy {
+
+  loadingIcon: boolean = false;
 
   subMenu: NbMenuItem[] = [
     {
@@ -116,7 +124,8 @@ export class SampleLayoutComponent  implements OnDestroy {
               protected menuService: NbMenuService,
               protected themeService: NbThemeService,
               protected bpService: NbMediaBreakpointsService,
-              protected sidebarService: NbSidebarService) {
+              protected sidebarService: NbSidebarService,
+              protected  sampleLayoutService: SampleLayoutService) {
     this.layoutState$ = this.stateService.onLayoutState()
       .subscribe((layout: string) => this.layout = layout);
 
@@ -135,6 +144,13 @@ export class SampleLayoutComponent  implements OnDestroy {
           this.sidebarService.collapse('menu-sidebar');
         }
       });
+
+    sampleLayoutService.onSetLoadingIcon.subscribe(
+      (value) => {
+        this.loadingIcon = value;
+      }
+    );
+
   }
 
   ngOnDestroy() {

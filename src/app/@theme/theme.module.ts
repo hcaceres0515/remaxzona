@@ -40,6 +40,7 @@ import {  NotificationsMessagesComponent } from "./components/message-notificati
 import {ConfirmationModalComponent} from "./components/confirmation-modal/confirmation-modal.component";
 import {ProfileModal} from "./components/profile/profile-modal.component";
 import {AddClientesModalComponent} from "../pages/clientes/mis-clientes/add-clientes-modal.component";
+import {SampleLayoutService} from "./layouts/sample/sample.layout.service";
 // import {ImageUploadModule} from "angular2-image-upload";
 
 const BASE_MODULES = [CommonModule, FormsModule, ReactiveFormsModule];
@@ -102,7 +103,7 @@ export class ThemeModule {
   static forRoot(): ModuleWithProviders {
     return <ModuleWithProviders>{
       ngModule: ThemeModule,
-      providers: [...NB_THEME_PROVIDERS, NotificationMessageService],
+      providers: [...NB_THEME_PROVIDERS, NotificationMessageService, SampleLayoutService],
     };
   }
 }

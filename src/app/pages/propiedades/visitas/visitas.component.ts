@@ -6,6 +6,7 @@ import {NbAuthService} from "../../../@theme/auth/services/auth.service";
 import {LocalDataSource, ViewCell} from "ng2-smart-table";
 import {PropertyService} from "../propiedades.service";
 import {NotificationMessageService} from "../../../@theme/components/message-notification/notification.service";
+import {ConfirmationModalComponent} from "../../../@theme/components/confirmation-modal/confirmation-modal.component";
 
 
 @Component({
@@ -38,19 +39,20 @@ export class ActionsVisitasTable implements ViewCell, OnInit {
 
   showEditModal() {
 
+    const activeModal = this.modalService.open(AddVisitasModalComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static'});
+
+    activeModal.componentInstance.modalHeader = 'Editar Visita';
+    activeModal.componentInstance.isEdit = true;
+    activeModal.componentInstance.loadNgModel(this.rowData);
+
+    activeModal.componentInstance.clickUpdate.subscribe(() => {
+      this.updateVisits();
+      this.notificationService.showToast('success', 'Confirmación', 'La visita ha sido actualizada exitosamente');
+    });
+
   }
 
   showViewModal() {
-
-    // this.propertyService.getPropertyVisitDetail(this.rowData.id).subscribe(
-    //   response => {
-    //     console.log(response.data);
-    //   },
-    //   error => {},
-    //   () => {
-    //
-    //   }
-    // );
 
     const activeModal = this.modalService.open(AddVisitasModalComponent, { size: 'lg', container: 'nb-layout'});
 
@@ -62,13 +64,55 @@ export class ActionsVisitasTable implements ViewCell, OnInit {
 
   showDeleteModal() {
 
+    const activeModal = this.modalService.open(ConfirmationModalComponent, { size: 'sm', container: 'nb-layout' });
+
+    activeModal.componentInstance.modalHeader = 'Confirmación';
+    activeModal.componentInstance.modalBodyMessage = 'eliminar esta visita';
+
+    activeModal.componentInstance.clickConfirm.subscribe(
+      () => {
+
+        let data = {id: this.rowData.id, status: -1};
+        this.propertyService.propertyVisitUpdate(data).subscribe(
+          data => {},
+          error => {},
+          () => {
+            this.updateVisits();
+            this.notificationService.showToast('success', 'Confirmación', 'La visita ha sido eliminada exitosamente');
+          }
+        )
+
+      }
+    );
+
+  }
+
+  updateVisits() {
+    this.reloadPropertyVisitTable.emit();
   }
 
 }
 
 @Component({
 	selector: 'visitas',
-	templateUrl: './visitas.component.html'
+	templateUrl: './visitas.component.html',
+  // styles: [
+  //   `.overlayDiv {
+  //     position: fixed;
+  //     width: 100%;
+  //     height: 100%;
+  //     left: 0;
+  //     top: 0;
+  //     background: #e3e9ee9c;
+  //     z-index: 10;
+  //   }
+  //   .overlayDiv > i {
+  //     position: absolute;
+  //     left: 48%;
+  //     top: 50%;
+  //     color: #40dc7e;
+  //   }`
+  // ]
 })
 
 export class VisitasComponent implements  OnInit{
@@ -128,7 +172,8 @@ export class VisitasComponent implements  OnInit{
 
   source: LocalDataSource = new LocalDataSource();
 
-	constructor(private modalService: NgbModal, private authService: NbAuthService, private propertyService: PropertyService) {}
+	constructor(private modalService: NgbModal, private authService: NbAuthService, private propertyService: PropertyService,
+              private notificationService: NotificationMessageService) {}
 
   ngOnInit() {
 
@@ -156,10 +201,10 @@ export class VisitasComponent implements  OnInit{
 
     activeModal.componentInstance.modalHeader = 'Agregar Visita';
 
-    // activeModal.componentInstance.clickSave.subscribe(() => {
-    //   this.loadTable();
-    //   this.notificationService.showToast('success', 'Confirmación', 'El cliente ha sido creado exitosamente');
-    // });
+    activeModal.componentInstance.clickSave.subscribe(() => {
+      this.loadTable();
+      this.notificationService.showToast('success', 'Confirmación', 'La visita ha sido creada exitosamente');
+    });
 
   }
 
