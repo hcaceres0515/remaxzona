@@ -28,6 +28,10 @@ const routes: Routes = [{
     path: 'propiedades',
     loadChildren: './propiedades/propiedades.module#PropiedadesModule',
   },
+  {
+    path: 'blog',
+    loadChildren: './blog/blog.module#BlogModule',
+  },
     {
     path: 'ui-features',
     loadChildren: './ui-features/ui-features.module#UiFeaturesModule',

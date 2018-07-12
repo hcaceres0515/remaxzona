@@ -9,7 +9,19 @@ import {NbAuthService} from "../../../@theme/auth/services/auth.service";
 
 @Component({
 	selector: 'ngx-propiedades-desactivadas',
-  	templateUrl: './propiedades-desactivadas.component.html'
+  templateUrl: './propiedades-desactivadas.component.html',
+  styles: [
+      `
+      :host /deep/ th.ng2-smart-th {
+        padding: 10px 5px !important;
+      }
+
+      :host /deep/ td {
+        padding: 2px 10px !important;
+      }
+
+    `
+  ]
 })
 
 export class PropiedadesDesactivadasComponent implements OnInit {

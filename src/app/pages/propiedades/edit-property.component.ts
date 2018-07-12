@@ -15,6 +15,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {NotificationMessageService} from "../../@theme/components/message-notification/notification.service";
 import {ConfirmationModalComponent} from "../../@theme/components/confirmation-modal/confirmation-modal.component";
 import {ROLES} from "../../@core/config/rolesdb";
+import {SampleLayoutService} from "../../@theme/layouts/sample/sample.layout.service";
 /**
  * Created by harold on 6/13/18.
  */
@@ -86,10 +87,12 @@ export class EditPropertyComponent {
 
   notificationsConfig: boolean = false;
 
+  floorsLabel: string = 'Pisos';
+
   constructor(private authService: NbAuthService, private activeRoute: ActivatedRoute,
               private propertyService: PropertyService, private _http: HttpClient, private modalService: NgbModal,
               private mapsAPILoader: MapsAPILoader, private notificationService: NotificationMessageService,
-              private ngZone: NgZone, private router: Router) {}
+              private ngZone: NgZone, private router: Router, private sampleLayoutService: SampleLayoutService) {}
 
   ngOnInit() {
 
@@ -99,6 +102,7 @@ export class EditPropertyComponent {
       this.propertyId = +params['property_id']; // (+) converts string 'id' to a number
     });
 
+    this.sampleLayoutService.onSetLoadingIcon.emit(true);
 
     this.propertyService.getPropertyDetail(this.propertyId).subscribe(
       response => {
@@ -131,6 +135,8 @@ export class EditPropertyComponent {
           this.getPropertyStatus();
           this.getPropertyContract();
           this.getPropertyCoin();
+
+          this.sampleLayoutService.onSetLoadingIcon.emit(false);
 
         }
       }
@@ -288,6 +294,13 @@ export class EditPropertyComponent {
     this.propertyData.bathrooms = '';
     this.propertyData.floors = '';
     this.propertyData.parkings = '';
+
+    if (value.id == PROPERTY_TYPE.DEPARTAMENTO) {
+      this.floorsLabel = 'N - Piso';
+    } else {
+      this.floorsLabel = 'Pisos';
+    }
+
   }
 
   getPropertyTypeFeatures(typeId) {
@@ -369,6 +382,8 @@ export class EditPropertyComponent {
 
     if (this.validationMessages.length == 0) {
 
+      this.sampleLayoutService.onSetLoadingIcon.emit(true);
+
       if (this.selectedPropertyContract.id != this.propertyData.property_contract_id) {
 
         this.contractHistory.property_id = this.propertyId;
@@ -415,6 +430,8 @@ export class EditPropertyComponent {
         response => {},
         error => {},
         () => {
+
+          this.sampleLayoutService.onSetLoadingIcon.emit(false);
           this.notificationService.showToast('success', 'Confirmación', 'La propiedad ha sido actualizada exitosamente');
           this.router.navigate(['/pages/propiedades/mis-propiedades']);
         }

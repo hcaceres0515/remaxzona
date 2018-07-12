@@ -75,6 +75,8 @@ export class SubirPropiedadComponent implements OnInit {
   selectedLocation: boolean = false;
   notificationsConfig: boolean = false;
 
+  floorsLabel: string = 'Pisos';
+
   constructor(private propertyService: PropertyService, private _http: HttpClient, private modalService: NgbModal,
               private mapsAPILoader: MapsAPILoader, private authService: NbAuthService,
               private ngZone: NgZone, private geolocationService: GeolocationService,
@@ -206,6 +208,12 @@ export class SubirPropiedadComponent implements OnInit {
     this.propertyData.bathrooms = '';
     this.propertyData.floors = '';
     this.propertyData.parkings = '';
+
+    if (value.id == PROPERTY_TYPE.DEPARTAMENTO) {
+      this.floorsLabel = 'N - Piso';
+    } else {
+      this.floorsLabel = 'Pisos';
+    }
   }
 
   getPropertyTypeFeatures(typeId) {

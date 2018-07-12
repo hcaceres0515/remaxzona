@@ -9,6 +9,7 @@ import {ToasterService} from "angular2-toaster";
 import {NbAuthService} from "../../../@theme/auth/services/auth.service";
 import {NotificationMessageService} from "../../../@theme/components/message-notification/notification.service";
 import {ConfirmationModalComponent} from "../../../@theme/components/confirmation-modal/confirmation-modal.component";
+import {SampleLayoutService} from "../../../@theme/layouts/sample/sample.layout.service";
 /**
  * Created by harold on 5/12/18.
  */
@@ -146,7 +147,8 @@ export class AddUsuarioModalComponent implements OnInit{
               private officeService: OficinaService,
               private rolesService: RolesService,
               private modalService: NgbModal,
-              private notificationService: NotificationMessageService
+              private notificationService: NotificationMessageService,
+              private sampleLayoutService: SampleLayoutService
               ) {
 
   }
@@ -221,13 +223,14 @@ export class AddUsuarioModalComponent implements OnInit{
     this.user.roles = this.generateUserRol(this.user.rol_id);
     this.user.facebook = '';
 
-    console.log('user', this.user);
+    this.sampleLayoutService.onSetLoadingIcon.emit(true);
 
     this.userService.createUser(this.user).subscribe(
       data => {},
       error => {},
       () => {
         this.closeModal();
+        this.sampleLayoutService.onSetLoadingIcon.emit(false);
         this.clickSave.emit();
       }
     )
@@ -264,9 +267,15 @@ export class AddUsuarioModalComponent implements OnInit{
 
     activeModal.componentInstance.clickConfirm.subscribe(
       () => {
+
+        this.sampleLayoutService.onSetLoadingIcon.emit(true);
+
         this.userService.resetPassword(this.userId).subscribe(
           () => {
+
+            this.sampleLayoutService.onSetLoadingIcon.emit(false);
             this.notificationService.showToast('success', 'Confirmación', 'La contraseña ha sido generada exitosamente');
+            this.closeModal();
           }
         );
 

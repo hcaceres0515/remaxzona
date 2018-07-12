@@ -75,7 +75,19 @@ export class ActionsPropiedadesTable implements ViewCell, OnInit {
 
 @Component({
 	selector: 'ngx-mis-propiedades',
-  	templateUrl: './mis-propiedades.component.html'
+  templateUrl: './mis-propiedades.component.html',
+  styles: [
+    `
+      :host /deep/ th.ng2-smart-th {
+        padding: 10px 5px !important;
+      }
+
+      :host /deep/ td {
+        padding: 2px 10px !important;
+      }
+      
+    `
+  ]
 })
 
 export class MisPropiedadesComponent implements OnInit {

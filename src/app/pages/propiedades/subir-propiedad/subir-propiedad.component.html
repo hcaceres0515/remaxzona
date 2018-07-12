@@ -262,7 +262,7 @@
                     <input type="number" class="form-control" name="bathrooms" min="0" [(ngModel)]="propertyData.bathrooms" [disabled]="selectedPropertyType.id == PROPERTY_TYPE.TERRENO">
                   </div>
 
-                  <label class="col-sm-1 col-form-label">Pisos</label>
+                  <label class="col-sm-1 col-form-label">{{floorsLabel}}</label>
                   <div class="col-sm-1">
                     <input type="number" class="form-control" name="floors" min="0" [(ngModel)]="propertyData.floors" [disabled]="selectedPropertyType.id == PROPERTY_TYPE.TERRENO">
                   </div>
@@ -452,7 +452,7 @@
             <nb-tab tabTitle="Mapa de Ubicación">
 
               <div class="form-group">
-                <input placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search [formControl]="searchControl">
+                <input placeholder="Buscar ubicación" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search [formControl]="searchControl">
               </div>
 
               <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" (mapClick)="mapClick($event)">

@@ -12,6 +12,7 @@ import {NotificationMessageService} from "../message-notification/notification.s
 import {PATHS} from "../../../@core/config/constanst";
 import { FileUploader } from 'ng2-file-upload';
 import {HttpClient, HttpHeaders, HttpEventType} from "@angular/common/http";
+import {SampleLayoutService} from "../../layouts/sample/sample.layout.service";
 
 @Component({
   selector: 'profile-modal',
@@ -31,7 +32,9 @@ export class ProfileModal implements  OnInit {
 
   selectChangePassword: boolean = false;
 
-  constructor(private activeModal: NgbActiveModal, private userService: UsuariosService, private AuthService: NbAuthService, private notificationService: NotificationMessageService, private http: HttpClient){}
+  constructor(private activeModal: NgbActiveModal, private userService: UsuariosService,
+              private AuthService: NbAuthService, private notificationService: NotificationMessageService,
+              private http: HttpClient, private sampleLayoutService: SampleLayoutService){}
 
   ngOnInit() {
 
@@ -61,10 +64,13 @@ export class ProfileModal implements  OnInit {
     this.user.rol_id = -1;
     let data: any = {id: this.userId, data: this.user};
 
+    this.sampleLayoutService.onSetLoadingIcon.emit(true);
+
     this.userService.updateUser(data).subscribe(
       response => {},
       error => {},
       () => {
+        this.sampleLayoutService.onSetLoadingIcon.emit(false);
         this.closeModal();
         this.notificationService.showToast('success', 'Confirmación', 'Su perfil ha sido actualizado exitosamente');
       }
@@ -92,9 +98,9 @@ export class ProfileModal implements  OnInit {
     fd.append('file', this.selectedFile, this.selectedFile.name);
     fd.append('user_id', this.userId);
 
-    console.log(fd);
-
     // let headers = new HttpHeaders({'Content-Type': undefined });
+
+    this.sampleLayoutService.onSetLoadingIcon.emit(true);
 
     this.http.post(this.url,fd,{
       reportProgress: true,
@@ -103,9 +109,11 @@ export class ProfileModal implements  OnInit {
       response => {
         console.log(response);
         if (response.type === HttpEventType.UploadProgress) {
-          console.log('Upload Progress: ' + Math.round(response.loaded / response.total) * 100);
+          // console.log('Upload Progress: ' + Math.round(response.loaded / response.total) * 100);
         } else if (response.type === HttpEventType.Response) {
-          console.log('Response');
+          // console.log('Response');
+          this.closeModal();
+          this.sampleLayoutService.onSetLoadingIcon.emit(false);
         }
       },
       error => {
