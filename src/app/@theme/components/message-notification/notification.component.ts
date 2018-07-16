@@ -27,7 +27,6 @@ export class NotificationsMessagesComponent{
   isCloseButton = true;
 
   constructor(private toasterService: ToasterService, private notificationService: NotificationMessageService){
-    console.log("init Messages Notifications");
 
     this.config = new ToasterConfig({
       positionClass: this.position,

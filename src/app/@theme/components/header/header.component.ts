@@ -15,7 +15,6 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 })
 export class HeaderComponent implements OnInit {
 
-
   @Input() position = 'normal';
 
   user: any;
@@ -87,7 +86,7 @@ export class HeaderComponent implements OnInit {
   }
 
   goTo($event) {
-    console.log($event);
+
     if ($event.slug === 'logout') {
 
       this.AuthService.logoutApp();

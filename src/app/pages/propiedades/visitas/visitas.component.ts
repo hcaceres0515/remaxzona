@@ -95,24 +95,7 @@ export class ActionsVisitasTable implements ViewCell, OnInit {
 
 @Component({
 	selector: 'visitas',
-	templateUrl: './visitas.component.html',
-  // styles: [
-  //   `.overlayDiv {
-  //     position: fixed;
-  //     width: 100%;
-  //     height: 100%;
-  //     left: 0;
-  //     top: 0;
-  //     background: #e3e9ee9c;
-  //     z-index: 10;
-  //   }
-  //   .overlayDiv > i {
-  //     position: absolute;
-  //     left: 48%;
-  //     top: 50%;
-  //     color: #40dc7e;
-  //   }`
-  // ]
+	templateUrl: './visitas.component.html'
 })
 
 export class VisitasComponent implements  OnInit{

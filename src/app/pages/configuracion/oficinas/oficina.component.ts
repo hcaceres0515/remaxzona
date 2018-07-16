@@ -171,7 +171,6 @@ export class OficinaComponent{
       () => {
         offices = offices.data;
         this.source.load(offices);
-        console.log(offices);
       }
     );
   }
@@ -186,8 +185,5 @@ export class OficinaComponent{
       this.notificationService.showToast('success', 'Confirmación', 'La oficina ha sido creado exitosamente');
     });
   }
-
-
-
 
 }

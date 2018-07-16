@@ -48,7 +48,6 @@ export class ProfileModal implements  OnInit {
         this.user.phone = data.phone;
         this.user.facebook = data.facebook;
         this.user.profile_photo = data.path_user_photo;
-        console.log(this.user);
       },
       error => {},
       () => {
@@ -89,7 +88,6 @@ export class ProfileModal implements  OnInit {
 
     reader.readAsDataURL(event.target.files[0]);
 
-    console.log(event);
   }
 
   onUpload() {
@@ -107,7 +105,7 @@ export class ProfileModal implements  OnInit {
       observe: 'events'
     }).subscribe(
       response => {
-        console.log(response);
+
         if (response.type === HttpEventType.UploadProgress) {
           // console.log('Upload Progress: ' + Math.round(response.loaded / response.total) * 100);
         } else if (response.type === HttpEventType.Response) {

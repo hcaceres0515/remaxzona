@@ -12,6 +12,5 @@ import {Component} from "@angular/core";
 export class PropiedadesComponent {
 
   constructor() {
-    console.log('Propiedades Components');
   }
 }

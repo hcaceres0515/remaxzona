@@ -99,12 +99,6 @@ export class RolesComponent {
       error => {},
       () => {
         roles = roles.data;
-
-        // Object(roles).forEach((value) => {
-        //   // value.item = { id: value.id, name: value.name };
-        //   value.item = 'BUTTON 2';
-        // });
-
         this.source.load(roles);
 
       }
@@ -113,7 +107,6 @@ export class RolesComponent {
   }
 
   showEditModal() {
-    console.log("Edit modal");
   }
 
   onDeleteConfirm(event): void {

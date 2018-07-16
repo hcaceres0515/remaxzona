@@ -7,7 +7,7 @@ import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 
 
 @Component({
-  selector: 'add-user-modal',
+  selector: 'confirmation-modal',
   styles: [`
     .modal-header, .modal-body, .modal-footer  { 
       background: #ebeff5 ;

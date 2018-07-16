@@ -111,8 +111,6 @@ export class EditPropertyComponent {
       error => {},
       () => {
 
-        console.log(this.propertyData);
-
         if (!this.editPermission()) {
 
           this.router.navigate(['/pages/propiedades']);
@@ -198,7 +196,6 @@ export class EditPropertyComponent {
       response => {this.departments = response.data},
       error => {},
       () => {
-        console.log(this.departments);
         let index = this.departments.map(function(e) { return e.id; }).indexOf(this.propertyData.department_id);
         this.selectedDepartment = this.departments[index];
         this.onChangeDepartment(this.selectedDepartment);
@@ -323,10 +320,7 @@ export class EditPropertyComponent {
             }
 
           });
-          console.log('PropertyFeatures', this.propertyTypeFeatures);
-
         }
-
       }
     );
   }
@@ -337,7 +331,6 @@ export class EditPropertyComponent {
       response => {this.propertySubType = response.data},
       error => {},
       () => {
-        console.log(this.propertySubType);
       }
     );
   }
@@ -360,8 +353,6 @@ export class EditPropertyComponent {
       let i = this.propertyData.features.indexOf(value);
       this.propertyData.features.splice(i, 1);
     }
-
-    console.log(this.propertyData.features);
   }
 
   updateProperty(form) {
@@ -423,8 +414,6 @@ export class EditPropertyComponent {
       }
 
       fd.append('property_data', JSON.stringify(this.propertyData));
-
-      console.log(this.propertyData, fd);
 
       this.propertyService.propertyUpdate(fd).subscribe(
         response => {},
@@ -517,8 +506,6 @@ export class EditPropertyComponent {
     let files = event.target.files;
     this.selectedAttachFile = event.target.files;
 
-    console.log(event.target.files);
-
     if (files) {
       for (let file of files) {
         this.selectedAttachFilePreview.push(file);
@@ -579,7 +566,5 @@ export class EditPropertyComponent {
   deleteAttachFilePreview(index) {
     this.selectedAttachFilePreview.splice(index, 1);
   }
-
-
 
 }

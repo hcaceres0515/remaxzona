@@ -39,8 +39,6 @@ export class HttpClientInterceptor implements HttpInterceptor {
       });
     }
 
-    console.log(request.headers);
-
     return next.handle(request).do((event: HttpEvent<any>) => {
       if (event instanceof HttpResponse){
 

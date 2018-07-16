@@ -14,6 +14,5 @@ import { Component } from '@angular/core';
 export class UsuariosComponent {
 
   constructor() {
-    console.log('Usuarios Components');
   }
 }

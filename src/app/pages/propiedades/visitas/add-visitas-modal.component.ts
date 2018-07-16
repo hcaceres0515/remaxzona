@@ -333,8 +333,6 @@ export class AddVisitasModalComponent implements OnInit{
     this.propertyData.title = data.title;
     this.propertyId = data.property_id;
     this.customerName = data.customer_name;
-
-    console.log(this.visit, data);
   }
 
 	closeModal() {

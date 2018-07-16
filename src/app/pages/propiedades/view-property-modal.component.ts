@@ -38,8 +38,6 @@ export class ViewPropertyModalComponent implements  OnInit{
 
     this.userId = this.authService.getUserId();
 
-    console.log(this.propertyId);
-
     this.galleryOptions = [
       {
         width: '727px',
@@ -55,7 +53,6 @@ export class ViewPropertyModalComponent implements  OnInit{
 
     this.propertyService.getPropertyDetail(this.propertyId).subscribe(
       response => {
-        console.log(response);
         this.propertyData = response.data;
       },
       error => {},
@@ -93,7 +90,6 @@ export class ViewPropertyModalComponent implements  OnInit{
       this.galleryImages.push(image);
     });
   }
-
 
   closeModal() {
     this.activeModal.close();

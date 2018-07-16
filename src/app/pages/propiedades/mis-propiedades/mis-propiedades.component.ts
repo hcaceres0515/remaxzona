@@ -43,7 +43,6 @@ export class ActionsPropiedadesTable implements ViewCell, OnInit {
   ngOnInit() {
 
     this.sessionRolId = this.authService.getRolId();
-    console.log(this.rowData);
 
   }
 

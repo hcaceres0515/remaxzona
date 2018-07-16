@@ -19,10 +19,6 @@ export class AuthGuardService implements CanActivate {
     | boolean {
 
     let menu = JSON.parse(localStorage.getItem('menu'));
-    // console.log('canActivate',menu);
-    // console.log(state.url);
-
-    console.log('AuthGuardService', state);
 
     if (!this.AuthService.isLogged()) {
       this.router.navigateByUrl('/auth/login');
@@ -44,7 +40,5 @@ export class AuthGuardService implements CanActivate {
 
     return true;
   }
-
-
 
 }

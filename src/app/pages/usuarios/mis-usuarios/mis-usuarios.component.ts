@@ -59,8 +59,6 @@ export class ActionsMisUsuariosTable implements ViewCell, OnInit {
     activeModal.componentInstance.isView = true;
     activeModal.componentInstance.loadNgModel(this.rowData);
 
-    console.log(this.rowData);
-
   }
 
   showDeleteModal() {
@@ -173,13 +171,11 @@ export class MisUsuariosComponent implements OnInit{
 
     } else if (this.sessionRolId === ROLES.ADMIN) {
 
-      console.log('user by office');
 
       this.userService.getUsersByOffice(this.authService.getOfficeId()).subscribe(
         data => {
           users = data;
           users = users.data;
-          console.log(data);
           this.source.load(users);
         }
       );

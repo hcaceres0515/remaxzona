@@ -13,6 +13,5 @@ import { Component } from '@angular/core';
 export class ConfiguracionComponent {
 
   constructor() {
-    console.log('Configuracion Component is loaded');
   }
 }
