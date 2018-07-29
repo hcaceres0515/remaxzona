@@ -150,8 +150,11 @@
 
             <select class="form-control" name="bedrooms_operator" [(ngModel)]="propertyFields.bedrooms_operator">
               <option value="="> Igual (=) </option>
-              <option value=">"> Mayor (>) </option>
+              <option value="!="> Diferente (!=) </option>
               <option value="<"> Menor (<) </option>
+              <option value="<="> Menor igual (<=) </option>
+              <option value=">"> Mayor (>) </option>
+              <option value=">="> Mayor igual (>=) </option>
             </select>
 
           </div>
@@ -166,8 +169,11 @@
 
             <select class="form-control" name="bedrooms_operator" [(ngModel)]="propertyFields.parkings_operator">
               <option value="="> Igual (=) </option>
-              <option value=">"> Mayor (>) </option>
+              <option value="!="> Diferente (!=) </option>
               <option value="<"> Menor (<) </option>
+              <option value="<="> Menor igual (<=) </option>
+              <option value=">"> Mayor (>) </option>
+              <option value=">="> Mayor igual (>=) </option>
             </select>
 
           </div>
@@ -177,7 +183,7 @@
           </div>
 
           <div class="col-sm-1">
-            <button class="btn btn-info btn-icon" (click)="searchProperties()"> <i class="ion-ios-search"></i> </button>
+            <button class="btn btn-info btn-icon" (click)="searchProperties()"> <i class="ion-ios-search"></i>  Buscar</button>
           </div>
 
         </div>

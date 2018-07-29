@@ -10,6 +10,7 @@ import {NbAuthService} from "../../../@theme/auth/services/auth.service";
 import {NotificationMessageService} from "../../../@theme/components/message-notification/notification.service";
 import {ConfirmationModalComponent} from "../../../@theme/components/confirmation-modal/confirmation-modal.component";
 import {SampleLayoutService} from "../../../@theme/layouts/sample/sample.layout.service";
+import {UserService} from "../../../@core/data/users.service";
 /**
  * Created by harold on 5/12/18.
  */
@@ -27,6 +28,20 @@ import {SampleLayoutService} from "../../../@theme/layouts/sample/sample.layout.
 
 
       <form #userAddForm="ngForm" novalidate>
+
+        <div class="form-group text-center" *ngIf="isView || isEdit">
+          <img [src]="user.profile_photo" *ngIf="user.profile_photo != ''" class="img-thumbnail img-center" width="304" height="236">
+        </div>
+
+        <div class="form-group text-center" *ngIf="isEdit">
+
+          <input style="display: none" type="file" (change)="onFileSelected($event)" #fileInput>
+
+          <button class="btn btn-default btn-tn" (click)="fileInput.click()">Seleccionar Imagen</button>
+
+          <button class="btn btn-info btn-tn" (click)="onUpload()"> <i class="fa fa-upload"></i>  Subir</button>
+
+        </div>
         
         <div class="form-group row">
           <label for="inputName" class="col-sm-3 col-form-label">Nombre y Apellidos *</label>
@@ -135,6 +150,8 @@ export class AddUsuarioModalComponent implements OnInit{
   user: User = new User();
   userId: any;
 
+  selectedFile: File = null;
+
   sessionRolId: any;
   ROLES = ROLES;
 
@@ -148,7 +165,7 @@ export class AddUsuarioModalComponent implements OnInit{
               private rolesService: RolesService,
               private modalService: NgbModal,
               private notificationService: NotificationMessageService,
-              private sampleLayoutService: SampleLayoutService
+              private sampleLayoutService: SampleLayoutService,
               ) {
 
   }
@@ -295,6 +312,40 @@ export class AddUsuarioModalComponent implements OnInit{
     this.user.phone = data.phone;
     this.user.email = data.email;
     this.user.office_id = data.office_id;
+    this.user.profile_photo = data.profile_photo;
+
+  }
+
+  onFileSelected(event): void {
+    this.selectedFile = <File>event.target.files[0];
+
+    let reader = new FileReader();
+
+    reader.onload = (event: any) => {
+      this.user.profile_photo = event.target.result;
+    }
+
+    reader.readAsDataURL(event.target.files[0]);
+
+  }
+
+  onUpload() {
+
+    let fd: FormData = new FormData();
+    fd.append('file', this.selectedFile, this.selectedFile.name);
+    fd.append('user_id', this.userId);
+
+    this.sampleLayoutService.onSetLoadingIcon.emit(true);
+
+    this.userService.uploadProfileImage(fd).subscribe(
+      (response) => {},
+      (error) => {},
+      () => {
+        this.sampleLayoutService.onSetLoadingIcon.emit(false);
+        this.closeModal();
+        this.clickUpdate.emit();
+      }
+    );
 
   }
 

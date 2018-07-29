@@ -135,7 +135,7 @@
 
                   <label class="col-sm-2 col-form-label">Tipo de {{selectedPropertyType.name}}</label>
                   <div class="col-sm-2">
-                    <select class="form-control" id="propertySubType" name="propertySubType">
+                    <select class="form-control" id="propertySubType" name="propertySubType" [disabled]="propertySubType.length == 0">
                       <option *ngFor="let item of propertySubType" [ngValue]="item">{{item.name}}</option>
                     </select>
                   </div>

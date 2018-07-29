@@ -114,7 +114,7 @@ export class AddBlogPublicacionesComponent {
   blogPostData: BlogPost;
   blogCategories: any = [];
 
-  imageUrl: string = '/assets/images/image-default.jpg';
+  imageUrl: string = 'assets/images/image-default.jpg';
   selectedImage: any;
 
   @Output() clickSave: EventEmitter<any> = new EventEmitter();

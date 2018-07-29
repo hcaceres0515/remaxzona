@@ -46,5 +46,9 @@ export class UsuariosService {
   getUserInfo(userId): Observable<ServerResponse> {
     return this.http.get(PATHS.API + '&c=user&m=get_user_info&user_id=' + userId);
   }
+
+  uploadProfileImage(data) {
+    return this.http.post(PATHS.API + '&c=user&m=upload_image', data);
+  }
 }
 

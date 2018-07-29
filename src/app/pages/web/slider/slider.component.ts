@@ -17,7 +17,7 @@ export class SliderComponent {
   public sliderSelected: any = {id: null, property_id: null, title: '', message: '', img_src: '', button_link: '', priority: 0, status: 1};
 
   public selectedImage: any;
-  public imageUrl: string = '/assets/images/image-default.jpg';
+  public imageUrl: string = 'assets/images/image-default.jpg';
 
   public sizeImageValid: boolean = true;
 

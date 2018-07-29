@@ -49,7 +49,7 @@ export class SubirPropiedadComponent implements OnInit {
   provinces: any[];
   districts: any[];
   propertyType: any[];
-  propertySubType: any[];
+  propertySubType: any[] = [];
   propertyStatus: any[];
   propertyCoin: any[];
   propertyTypeFeatures: any[];

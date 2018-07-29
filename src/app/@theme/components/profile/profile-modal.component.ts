@@ -54,9 +54,6 @@ export class ProfileModal implements  OnInit {
       () => {
       }
     );
-
-
-
   }
 
   updateUser() {
