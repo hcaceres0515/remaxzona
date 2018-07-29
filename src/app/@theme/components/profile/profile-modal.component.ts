@@ -48,6 +48,7 @@ export class ProfileModal implements  OnInit {
         this.user.phone = data.phone;
         this.user.facebook = data.facebook;
         this.user.profile_photo = data.path_user_photo;
+
       },
       error => {},
       () => {

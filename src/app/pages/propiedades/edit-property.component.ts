@@ -272,9 +272,12 @@ export class EditPropertyComponent {
 
   onChangeContract(contract) {
 
-    if (contract.id == PROPERTY_CONTRACT_TYPE.VENDIDO || contract.id == PROPERTY_CONTRACT_TYPE.ALQUILADO) {
+    if (contract.id == PROPERTY_CONTRACT_TYPE.VENDIDO || contract.id == PROPERTY_CONTRACT_TYPE.ALQUILADO ||
+      contract.id == PROPERTY_CONTRACT_TYPE.ACTIVO) {
+
       this.contractHistory.price = this.propertyData.price;
       this.contractHistory.commission_percentage = this.propertyData.commission_percentage;
+
     } else {
       this.contractHistory.price = null;
       this.contractHistory.commission_percentage = null;
@@ -498,7 +501,6 @@ export class EditPropertyComponent {
         reader.readAsDataURL(file);
       }
     }
-    console.log(event);
   }
 
   onAttachFileSelected(event) {

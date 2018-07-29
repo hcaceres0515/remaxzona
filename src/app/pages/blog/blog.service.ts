@@ -48,15 +48,13 @@ export class BlogService {
 
   createBlogPost(post): Observable<ServerResponse> {
 
-    let blogPost = JSON.stringify(post);
-    return this.http.post(PATHS.API + '&c=blog&m=blog_post_create', blogPost);
+    return this.http.post(PATHS.API + '&c=blog&m=blog_post_create', post);
 
   }
 
   updateBlogPost(post): Observable<ServerResponse> {
 
-    let blogPost = JSON.stringify(post);
-    return this.http.post(PATHS.API + '&c=blog&m=blog_post_update', blogPost);
+    return this.http.post(PATHS.API + '&c=blog&m=blog_post_update', post);
 
   }
 

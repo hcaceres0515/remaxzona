@@ -41,7 +41,7 @@ export class ActionsClientesTable implements ViewCell, OnInit {
   showEditModal() {
     const activeModal = this.modalService.open(AddClientesModalComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
 
-    activeModal.componentInstance.modalHeader = 'Editar Usuario';
+    activeModal.componentInstance.modalHeader = 'Editar Cliente';
     activeModal.componentInstance.isEdit = true;
     activeModal.componentInstance.loadNgModel(this.rowData);
 

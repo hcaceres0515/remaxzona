@@ -1,0 +1,158 @@
+<nb-card *ngIf="showEditSliderBox">
+
+  <nb-card-header>
+    Editar Slider
+  </nb-card-header>
+
+  <nb-card-body>
+
+    <form class="form-horizontal row">
+
+      <div class="col-md-8">
+
+        <div class="form-group row col-md-12">
+          <div class="checkbox" style="padding-left: 15px;">
+            <nb-checkbox [value]="false" [(ngModel)]="isProperty" name="isproperty">Propiedad</nb-checkbox>
+          </div>
+        </div>
+
+
+        <div class="form-group row col-md-12">
+          <label for="priority" class="col-sm-2 form-control-label">Prioridad</label>
+          <div class="col-sm-2">
+            <input type="number" class="form-control" id="priority" name="priority" [(ngModel)]="sliderSelected.priority" >
+          </div>
+        </div>
+
+        <div class="form-group row col-md-12">
+          <label for="status" class="col-sm-2 form-control-label">Estado</label>
+          <div class="col-sm-3">
+            <select class="form-control" name="status" id="status" [(ngModel)]="sliderSelected.status">
+              <option value="1">Activo</option>
+              <option value="-1">Desactivo</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group row col-md-12" *ngIf="isProperty">
+          <label for="propertyId" class="col-sm-2 form-control-label">Cod. propiedad</label>
+          <div class="col-sm-2">
+            <input type="text" class="form-control" id="propertyId" name="propertyId" [(ngModel)]="sliderSelected.property_id">
+          </div>
+        </div>
+
+        <div  class="col-md-12" *ngIf="!isProperty">
+          <div class="form-group row">
+            <label for="title" class="col-sm-2 form-control-label">Titulo</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="title" placeholder="Titulo del slider" name="title" [(ngModel)]="sliderSelected.title" [maxlength]="45">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="message" class="col-sm-2 form-control-label">Mensaje</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="message" placeholder="Mensaje del slider" name="message" [(ngModel)]="sliderSelected.message" [maxlength]="200">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="buttonLink" class="col-sm-2 form-control-label">Link del boton</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="buttonLink" placeholder="https://www.remaxzona.com/propiedad/1" name="buttonLink" [(ngModel)]="sliderSelected.button_link">
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="col-md-4">
+
+        <div class="form-group" *ngIf="!isView">
+          <input style="display: none" type="file" (change)="onImageFileSelected($event)" #fileInputImage>
+
+          <button class="btn btn-info btn-tn" (click)="fileInputImage.click()"><i class="fa fa-image"></i> Seleccionar Imagen</button>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+
+            <div style="margin: 8px; display: inline-block; position: relative" *ngIf="!isView">
+
+              <img  [src]="imageUrl" class="rounded mb-3" width="360" height="250">
+
+            </div>
+
+            <br>
+            <div class="alert alert-info">
+              <strong>Recuerde!</strong> La imagen debe ser minimo de 1900 * 830.
+            </div>
+
+            <div class="alert alert-danger" *ngIf="!sizeImageValid">
+              <strong>Advertencia!</strong> La imagen no cumple con el tamaño mínimo.
+            </div>
+
+            <div class="form-group">
+              <button class="btn btn-success btn-tn" (click)="editSlider()"> <i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar</button>
+              <button class="btn btn-danger btn-with-icon btn-tn" (click)="close()"> <i class="fa fa-times-circle"></i> Cancelar</button>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </form>
+
+  </nb-card-body>
+</nb-card>
+
+<nb-card>
+
+  <nb-card-header>
+    Sliders
+  </nb-card-header>
+
+  <nb-card-body>
+
+    <div class="table-responsive">
+      <table class="table">
+        <tr>
+          <th>Cod. Propiedad</th>
+          <th>Título</th>
+          <th>Mensaje</th>
+          <th>Botón</th>
+          <th>Prioridad</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+        <tr *ngFor="let slider of sliderData">
+          <td>{{slider.property_id}}</td>
+          <td>{{slider.title}}</td>
+          <td>{{slider.message}}</td>
+          <td>{{slider.button_link}}</td>
+          <td>{{slider.priority}}</td>
+
+          <td>
+            <code *ngIf="slider.status == 1"> Activo</code>
+            <code *ngIf="slider.status == -1"> Desactivo</code>
+          </td>
+
+          <td>
+
+            <button class="btn btn-info btn-icon btn-tn" type="button" tooltip="Editar" (click)="selectEditSlider(slider)">
+              <i class="ion-edit"></i>
+            </button>
+
+          </td>
+        </tr>
+
+      </table>
+    </div>
+
+  </nb-card-body>
+
+</nb-card>
+
+

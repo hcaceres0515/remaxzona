@@ -33,6 +33,10 @@ const routes: Routes = [{
     loadChildren: './blog/blog.module#BlogModule',
   },
   {
+    path: 'web',
+    loadChildren: './web/web.module#WebModule',
+  },
+  {
     path: '',
     redirectTo: 'dashboard',
     pathMatch: 'full',

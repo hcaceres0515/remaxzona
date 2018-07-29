@@ -18,23 +18,28 @@ import {ROLES} from "../../../@core/config/rolesdb";
   template: `
     <div style="display: flex">
       <button class="btn btn-info btn-icon btn-tn"  title="Ver" (click)="showViewModal()"><i class="ion-eye"></i></button>
-      <button class="btn btn-success btn-icon btn-tn"  title="Editar" (click)="showEditModal()"><i class="ion-edit"></i></button>
+      <button class="btn btn-success btn-icon btn-tn"  title="Editar" *ngIf="user_rol_id < rowData.rol_id || user_id == rowData.id" (click)="showEditModal()"><i class="ion-edit"></i></button>
       <button class="btn btn-danger btn-icon btn-tn" title="Eliminar" (click)="showDeleteModal()"><i class="ion-trash-a"></i></button>
     </div>
   `,
 })
 export class ActionsMisUsuariosTable implements ViewCell, OnInit {
   renderValue: string;
+  user_rol_id: any;
+  user_id: any;
 
   @Input() value: string | number;
   @Input() rowData: any;
 
   @Output() reloadUserTable: EventEmitter<any> = new EventEmitter();
 
-  constructor(private modalService: NgbModal, private userService: UsuariosService, private notificationService: NotificationMessageService){}
+  constructor(private modalService: NgbModal, private userService: UsuariosService,
+              private notificationService: NotificationMessageService, private authService: NbAuthService){}
 
   ngOnInit() {
     this.renderValue = this.value.toString().toUpperCase();
+    this.user_rol_id = this.authService.getRolId();
+    this.user_id = this.authService.getUserId();
   }
 
   showEditModal() {
@@ -120,6 +125,10 @@ export class MisUsuariosComponent implements OnInit{
       office_name: {
         title: 'Oficina',
         type: 'string',
+      },
+      rol_name: {
+        title: 'Rol',
+        type: 'string'
       },
       last_login: {
         title: 'Ultimo Ingreso',

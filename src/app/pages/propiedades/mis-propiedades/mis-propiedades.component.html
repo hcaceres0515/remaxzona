@@ -146,24 +146,13 @@
 
           <label class="col-sm-1 form-control-label font-weight-bold">Dormitorios</label>
 
-          <div class="col-sm-3">
-            <label class="custom-control custom-radio radio-inline">
-              <input type="radio" class="custom-control-input" name="bedroomsRadio" [value]="'='" [(ngModel)]="propertyFields.bedrooms_operator">
-              <span class="custom-control-indicator"></span>
-              <span class="custom-control-description">=</span>
-            </label>
+          <div class="col-sm-2">
 
-            <label class="custom-control custom-radio radio-inline">
-              <input type="radio" class="custom-control-input" name="bedroomsRadio" [value]="'>'" [(ngModel)]="propertyFields.bedrooms_operator">
-              <span class="custom-control-indicator"></span>
-              <span class="custom-control-description"> Mayor </span>
-            </label>
-
-            <label class="custom-control custom-radio radio-inline">
-              <input type="radio" class="custom-control-input" name="bedroomsRadio" [value]="'<'" [(ngModel)]="propertyFields.bedrooms_operator">
-              <span class="custom-control-indicator"></span>
-              <span class="custom-control-description"> Menor </span>
-            </label>
+            <select class="form-control" name="bedrooms_operator" [(ngModel)]="propertyFields.bedrooms_operator">
+              <option value="="> Igual (=) </option>
+              <option value=">"> Mayor (>) </option>
+              <option value="<"> Menor (<) </option>
+            </select>
 
           </div>
 
@@ -173,24 +162,13 @@
 
           <label class="col-sm-2 form-control-label font-weight-bold">Estacionamientos</label>
 
-          <div class="col-sm-3">
-            <label class="custom-control custom-radio radio-inline">
-              <input type="radio" class="custom-control-input" name="parkingsRadio" [value]="'='" [(ngModel)]="propertyFields.parkings_operator">
-              <span class="custom-control-indicator"></span>
-              <span class="custom-control-description">=</span>
-            </label>
+          <div class="col-sm-2">
 
-            <label class="custom-control custom-radio radio-inline">
-              <input type="radio" class="custom-control-input" name="parkingsRadio" [value]="'>'" [(ngModel)]="propertyFields.parkings_operator">
-              <span class="custom-control-indicator"></span>
-              <span class="custom-control-description"> Mayor </span>
-            </label>
-
-            <label class="custom-control custom-radio radio-inline">
-              <input type="radio" class="custom-control-input" name="parkingsRadio" [value]="'<'" [(ngModel)]="propertyFields.parkings_operator">
-              <span class="custom-control-indicator"></span>
-              <span class="custom-control-description"> Menor </span>
-            </label>
+            <select class="form-control" name="bedrooms_operator" [(ngModel)]="propertyFields.parkings_operator">
+              <option value="="> Igual (=) </option>
+              <option value=">"> Mayor (>) </option>
+              <option value="<"> Menor (<) </option>
+            </select>
 
           </div>
 

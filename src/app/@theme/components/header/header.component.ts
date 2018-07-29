@@ -106,7 +106,7 @@ export class HeaderComponent implements OnInit {
 
       const activeModal = this.modalService.open(ProfileModal, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
 
-      activeModal.componentInstance.modalHeader = 'Editar Perfil';
+      activeModal.componentInstance.modalHeader = 'Editar Perfil - ' + this.user.rol_description;
 
     }
   }

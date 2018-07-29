@@ -233,7 +233,6 @@ export class AddVisitasModalComponent implements OnInit{
     this.visit.user_id = this.authService.getUserId();
     this.visit.office_id = this.authService.getOfficeId();
     this.visit.status = 1;
-    console.log(this.visit);
 
     this.sampleLayoutService.onSetLoadingIcon.emit(true);
 

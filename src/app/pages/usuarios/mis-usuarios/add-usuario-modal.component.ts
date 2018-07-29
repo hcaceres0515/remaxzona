@@ -183,6 +183,8 @@ export class AddUsuarioModalComponent implements OnInit{
         if (this.sessionRolId == ROLES.ADMIN) {
           let index = this.roles.map(function(e) { return e.id; }).indexOf(ROLES.SUPERADMIN);
           this.roles.splice(index, 1);
+          index = this.roles.map(function(e) { return e.id; }).indexOf(ROLES.ADMIN);
+          this.roles.splice(index, 1);
         }
 
         // Solo cuando se crea uno nuevo se preselecciona la primera opcio
