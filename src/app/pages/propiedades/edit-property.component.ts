@@ -360,6 +360,8 @@ export class EditPropertyComponent {
 
   updateProperty(form) {
 
+    let route_str = '/pages/propiedades/mis-propiedades';
+
     this.validationMessages = [];
 
     if (!form.valid) {
@@ -386,8 +388,10 @@ export class EditPropertyComponent {
         this.contractHistory.user_id = this.authService.getUserId();
         this.propertyData.contract_history = this.contractHistory;
 
-        this.propertyData.price = this.contractHistory.price;
-        this.propertyData.commission_percentage = this.contractHistory.commission_percentage;
+        if (this.selectedPropertyContract.id != this.PROPERTY_CONTRACT_TYPE.ACTIVO) {
+          this.propertyData.price = this.contractHistory.price;
+          this.propertyData.commission_percentage = this.contractHistory.commission_percentage;
+        }
 
       }
 
@@ -425,7 +429,9 @@ export class EditPropertyComponent {
 
           this.sampleLayoutService.onSetLoadingIcon.emit(false);
           this.notificationService.showToast('success', 'Confirmación', 'La propiedad ha sido actualizada exitosamente');
-          this.router.navigate(['/pages/propiedades/mis-propiedades']);
+
+          this.router.navigate([route_str]);
+
         }
       );
 

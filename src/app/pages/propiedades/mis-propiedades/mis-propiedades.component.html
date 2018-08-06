@@ -60,55 +60,53 @@
 
         </div>
 
+        <fieldset>
+
+          <legend>Ubicacion</legend>
+
+          <div class="form-group row">
+
+              <label class="col-sm-2 col-form-label font-weight-bold">Departamento</label>
+              <div class="col-sm-3">
+
+                <select class="form-control" name='department' id="department" [(ngModel)]="propertyFields.department_id" (ngModelChange)="onChangeDepartment($event)">
+                  <option *ngFor="let item of departments"  [ngValue]="item.id"> {{item.name}} </option>
+                </select>
+
+              </div>
+
+              <label class="col-sm-1 col-form-label font-weight-bold">Provincia</label>
+              <div class="col-sm-2">
+
+                <select class="form-control" name="province" id="province" [(ngModel)]="propertyFields.province_id" (ngModelChange)="onChangeProvince($event)">
+                  <option *ngFor="let item of provinces" [ngValue]="item.id">{{item.name}}</option>
+                </select>
+
+              </div>
+
+              <label class="col-sm-1 col-form-label font-weight-bold">Distrito</label>
+              <div class="col-sm-3">
+
+                <select class="form-control" name="district"  id="district" [(ngModel)]="propertyFields.district_id" required #district="ngModel">
+                  <option *ngFor="let item of districts" [ngValue]="item.id">{{item.name}}</option>
+                </select>
+
+              </div>
+
+          </div>
+
+        </fieldset>
+
         <div class="form-group row">
 
-          <label class="col-sm-2 col-form-label font-weight-bold">Departamento</label>
-          <div class="col-sm-3">
-
-            <select class="form-control" name='department' id="department" [(ngModel)]="propertyFields.department_id" (ngModelChange)="onChangeDepartment($event)">
-              <option *ngFor="let item of departments"  [ngValue]="item.id"> {{item.name}} </option>
-            </select>
-
-          </div>
-
-          <label class="col-sm-1 col-form-label font-weight-bold">Provincia</label>
-          <div class="col-sm-2">
-
-            <select class="form-control" name="province" id="province" [(ngModel)]="propertyFields.province_id" (ngModelChange)="onChangeProvince($event)">
-              <option *ngFor="let item of provinces" [ngValue]="item.id">{{item.name}}</option>
-            </select>
-
-          </div>
-
-          <label class="col-sm-1 col-form-label font-weight-bold">Distrito</label>
-          <div class="col-sm-3">
-
-            <select class="form-control" name="district"  id="district" [(ngModel)]="propertyFields.district_id" required #district="ngModel">
-              <option *ngFor="let item of districts" [ngValue]="item.id">{{item.name}}</option>
-            </select>
-
-          </div>
-
-          <!--<div class="col-sm-1">-->
-
-              <!--<button class="btn btn-info btn-icon" title="Buscar por ubicacion" (click)="locationFilter()">-->
-                <!--<i class="ion-ios-search"></i>-->
-              <!--</button>-->
-
-          <!--</div>-->
-
-        </div>
-
-        <div class="form-group row">
-
-          <label for="property_type" class="col-sm-2 form-control-label font-weight-bold">Tipo</label>
+          <label for="property_type" class="col-sm-2 form-control-label font-weight-bold">Tipo de propiedad</label>
           <div class="col-sm-3">
             <select class="form-control" id="property_type" [(ngModel)]="propertyFields.property_type_id">
               <option *ngFor="let item of propertyType"  [ngValue]="item.id"> {{item.name}} </option>
             </select>
           </div>
 
-          <label for="property_status" class="col-sm-2 form-control-label font-weight-bold offset-2">Estado</label>
+          <label for="property_status" class="col-sm-2 form-control-label font-weight-bold offset-2">Estado de propiedad</label>
           <div class="col-sm-3">
             <select class="form-control" id="property_status" [(ngModel)]="propertyFields.property_status_id">
               <option *ngFor="let item of propertyStatus" [ngValue]="item.id">{{item.name}}</option>

@@ -46,3 +46,18 @@ html {
   top: 50%;
   color: #40dc7e;
 }
+
+
+fieldset {
+  border: 2px solid #dadfe6;
+  padding: 14px;
+  border-radius: 5px;
+  margin: 20px 0px;
+
+  legend {
+    width: auto;
+    font-size: 12px;
+    padding: 0 15px;
+    font-weight: bold;
+  }
+}

@@ -170,7 +170,6 @@ export class VisitasComponent implements  OnInit{
 	  this.propertyService.getPropertiesVisitsByUser(this.userId).subscribe(
 	    response => {
 	      this.propertiesVisits = response.data;
-	      console.log(this.propertiesVisits);
 	      this.source.load(this.propertiesVisits);
       },
       error => {},

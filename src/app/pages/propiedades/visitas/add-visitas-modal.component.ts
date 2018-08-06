@@ -99,7 +99,7 @@ import {SampleLayoutService} from "../../../@theme/layouts/sample/sample.layout.
           <div class="col-sm-3">
             <label class="custom-control custom-radio radio-inline">
               <input type="radio" class="custom-control-input" name="bedroomsRadio" [value]="1"
-                     [(ngModel)]="visit.offer" [disabled]="isView">
+                     [(ngModel)]="visit.offer">
               <span class="custom-control-indicator"></span>
               <span class="custom-control-description"> SI </span>
             </label>
@@ -217,12 +217,10 @@ export class AddVisitasModalComponent implements OnInit{
     this.visit.created_at = new Date();
     this.visit.customer_id = 0;
     this.visit.property_id = 0;
-
   }
 
   ngOnInit() {
 
-    // console.log('init visit modal');
   }
 
   getPropertyCoin() {

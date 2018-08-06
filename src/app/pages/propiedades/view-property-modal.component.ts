@@ -6,6 +6,7 @@ import {PATHS} from "../../@core/config/constanst";
 import { DomSanitizer } from '@angular/platform-browser';
 import {NgxGalleryAnimation, NgxGalleryImage, NgxGalleryOptions} from "ngx-gallery";
 import {NbAuthService} from "../../@theme/auth/services/auth.service";
+import {ROLES} from "../../@core/config/rolesdb";
 
 @Component({
   selector: 'view-property-modal',
@@ -16,6 +17,8 @@ import {NbAuthService} from "../../@theme/auth/services/auth.service";
 export class ViewPropertyModalComponent implements  OnInit{
 
   modalHeader: string;
+
+  ROLES = ROLES;
 
   public latitude: number;
   public longitude: number;
@@ -30,6 +33,7 @@ export class ViewPropertyModalComponent implements  OnInit{
   videoUrl: any;
 
   userId: any;
+  rolId: any;
 
   constructor(private activeModal: NgbActiveModal, private propertyService: PropertyService,
               private sanitizer: DomSanitizer, private authService: NbAuthService) {}
@@ -37,6 +41,7 @@ export class ViewPropertyModalComponent implements  OnInit{
   ngOnInit(): void {
 
     this.userId = this.authService.getUserId();
+    this.rolId = this.authService.getRolId();
 
     this.galleryOptions = [
       {

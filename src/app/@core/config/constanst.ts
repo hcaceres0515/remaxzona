@@ -12,6 +12,7 @@
 //
 // }
 
+
 export const PATHS = {
 
   SERVER: 'http://54.94.212.147/remaxzona/',
@@ -20,3 +21,4 @@ export const PATHS = {
   MAP_ICON: 'http://54.94.212.147/remaxzona/resources_dev/tools/marker_map.png',
 
 }
+
