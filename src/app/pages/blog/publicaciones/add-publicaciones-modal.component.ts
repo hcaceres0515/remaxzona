@@ -56,13 +56,12 @@ import {NbAuthService} from "../../../@theme/auth/services/auth.service";
           <label for="content">Descripción: *</label>
 
           <ckeditor [config]="{ extraPlugins: 'divarea', height: '150' }" name="content" 
-                    [(ngModel)]="blogPostData.content"></ckeditor>
+                    [(ngModel)]="blogPostData.content" *ngIf="!isView"></ckeditor>
 
           <!--<ckeditor [(ngModel)]="blogPostData.content" [config]="config" name="content" id="content" required #content="ngModel"></ckeditor>-->
-
-          <!--<div *ngIf="!content.valid" class="alert alert-danger">-->
-            <!--* Contenido es requerido-->
-          <!--</div>-->
+          
+          <div *ngIf="isView" [innerHTML]="blogPostData.content">
+          </div>
 
         </div>
 
@@ -160,7 +159,9 @@ export class AddBlogPublicacionesComponent {
 
     let fd: FormData = new FormData();
 
-    fd.append('image', this.selectedImage, this.selectedImage.name);
+    if (this.selectedImage) {
+      fd.append('image', this.selectedImage, this.selectedImage.name);
+    }
     fd.append('blog_post_data', JSON.stringify(this.blogPostData));
 
     this.blogService.updateBlogPost(fd).subscribe(
@@ -177,7 +178,6 @@ export class AddBlogPublicacionesComponent {
   loadNgModel(data) {
 
     this.blogPostData = data;
-    console.log(this.blogPostData);
 
     if (this.isEdit){
       this.imageUrl = this.blogPostData.img_src;

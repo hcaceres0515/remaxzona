@@ -2,7 +2,7 @@
  * Created by harold on 4/29/18.
  */
 
-//
+
 // export const PATHS = {
 //
 //   SERVER: 'http://localhost/remaxzona/',
@@ -13,12 +13,21 @@
 // }
 
 
+// export const PATHS = {
+//
+//   SERVER: 'http://54.94.212.147/remaxzona/',
+//   API: 'http://54.94.212.147/remaxzona/index.php?d=api',
+//   BASE_URL: 'http://54.94.212.147/remax/',
+//   MAP_ICON: 'http://54.94.212.147/remaxzona/resources_dev/tools/marker_map.png',
+//
+// }
+
 export const PATHS = {
 
-  SERVER: 'http://54.94.212.147/remaxzona/',
-  API: 'http://54.94.212.147/remaxzona/index.php?d=api',
-  BASE_URL: 'http://54.94.212.147/remax/',
-  MAP_ICON: 'http://54.94.212.147/remaxzona/resources_dev/tools/marker_map.png',
+  SERVER: 'https://www.remaxzona.com/',
+  API: 'https://www.remaxzona.com/index.php?d=api',
+  BASE_URL: 'https://www.remaxzona.com/remax/',
+  MAP_ICON: 'https://www.remaxzona.com/resources_dev/tools/marker_map.png',
 
 }
 
