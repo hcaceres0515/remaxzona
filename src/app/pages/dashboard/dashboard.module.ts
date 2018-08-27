@@ -19,12 +19,22 @@ import { SolarComponent } from './solar/solar.component';
 import { PlayerComponent } from './rooms/player/player.component';
 import { TrafficComponent } from './traffic/traffic.component';
 import { TrafficChartComponent } from './traffic/traffic-chart.component';
+import { DashboardService } from "./dashboard.service";
+import { ViewPropertyModalComponent } from "../propiedades/view-property-modal.component";
+import { NgxGalleryModule } from "ngx-gallery";
+import { AgmCoreModule } from "@agm/core";
+import { PropertyService } from "../propiedades/propiedades.service";
 
 
 @NgModule({
   imports: [
     ThemeModule,
     AngularEchartsModule,
+    NgxGalleryModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyDkjHH-qFd7miP6TMmw3fqsvzt7S0MkFio',
+      libraries: ["places"]
+    }),
   ],
   declarations: [
     DashboardComponent,
@@ -44,6 +54,14 @@ import { TrafficChartComponent } from './traffic/traffic-chart.component';
     SolarComponent,
     TrafficComponent,
     TrafficChartComponent,
+    // ViewPropertyModalComponent
   ],
+  providers: [
+    DashboardService,
+    PropertyService
+  ],
+  entryComponents: [
+    // ViewPropertyModalComponent
+  ]
 })
 export class DashboardModule { }
